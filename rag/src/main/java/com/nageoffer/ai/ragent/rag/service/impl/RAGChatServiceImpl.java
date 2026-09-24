@@ -47,6 +47,17 @@ public class RAGChatServiceImpl implements RAGChatService {
     private final StreamChatTraceRunner traceRunner;
     private final StreamTaskManager taskManager;
 
+    /**
+     * 创建会话与任务上下文，并将问答请求提交到限流队列。
+     *
+     * <p>请求获得执行资格后，会在 Trace 上下文中构造 {@link StreamChatContext}，再交给
+     * {@link StreamChatPipeline} 执行完整的 RAG 流程。回调对象负责把中间事件和模型输出写入 SSE。
+     *
+     * @param question 用户原始问题
+     * @param conversationId 已有会话 ID；为空时自动生成
+     * @param deepThinking 是否启用模型的深度思考能力
+     * @param emitter 当前 HTTP 请求对应的 SSE 发射器
+     */
     @Override
     public void streamChat(String question, String conversationId, Boolean deepThinking, SseEmitter emitter) {
         String actualConversationId = StrUtil.isBlank(conversationId) ? IdUtil.getSnowflakeNextIdStr() : conversationId;
@@ -67,6 +78,13 @@ public class RAGChatServiceImpl implements RAGChatService {
                 }));
     }
 
+    /**
+     * 请求取消指定的流式问答任务。
+     *
+     * <p>任务管理器会校验任务归属，并调用流水线绑定的模型取消句柄。
+     *
+     * @param taskId 待取消的任务 ID
+     */
     @Override
     public void stopTask(String taskId) {
         taskManager.cancelByUser(taskId);

@@ -42,7 +42,15 @@ public class RAGChatController {
     private final RAGDefaultProperties ragDefaultProperties;
 
     /**
-     * 发起 SSE 流式对话
+     * 创建 SSE 长连接并发起一次流式问答。
+     *
+     * <p>控制器只负责接收和校验请求、创建 SSE 发射器；排队、检索、模型生成等流程交给
+     * {@link RAGChatService}。同一用户已有问答正在执行时，幂等注解会拒绝重复提交。
+     *
+     * @param question 用户输入的问题
+     * @param conversationId 会话 ID；为空时由服务层创建新会话
+     * @param deepThinking 是否启用模型的深度思考能力
+     * @return 用于持续向浏览器推送回答事件的 SSE 发射器
      */
     @IdempotentSubmit(
             key = "T(com.nageoffer.ai.ragent.framework.context.UserContext).getUserId()",
@@ -58,7 +66,10 @@ public class RAGChatController {
     }
 
     /**
-     * 停止指定任务
+     * 停止当前用户发起的指定流式问答任务。
+     *
+     * @param taskId 开始问答时生成并通过 SSE 返回给前端的任务 ID
+     * @return 统一的成功响应
      */
     @IdempotentSubmit
     @PostMapping(value = "/rag/v3/stop")
