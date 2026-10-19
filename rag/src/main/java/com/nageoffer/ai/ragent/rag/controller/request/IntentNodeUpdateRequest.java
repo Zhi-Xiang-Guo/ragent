@@ -17,6 +17,8 @@
 
 package com.nageoffer.ai.ragent.rag.controller.request;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -33,6 +35,8 @@ public class IntentNodeUpdateRequest {
     private String name;
     private Integer level;
     private String parentCode;
+    @JsonIgnore
+    private boolean parentCodeProvided;
     private String description;
     private List<String> examples;
     private String mcpToolId;
@@ -45,4 +49,18 @@ public class IntentNodeUpdateRequest {
     private Integer enabled;
     private String promptSnippet;
     private String promptTemplate;
+
+    @JsonSetter("parentCode")
+    public void setParentCode(String parentCode) {
+        this.parentCode = parentCode;
+        this.parentCodeProvided = true;
+    }
+
+    /**
+     * 显式 null 表示移至根节点；未提供字段时保留原父节点。
+     */
+    @JsonIgnore
+    public boolean hasParentCode() {
+        return parentCodeProvided || parentCode != null;
+    }
 }

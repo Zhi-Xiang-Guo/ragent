@@ -202,7 +202,7 @@ public class IntentTreeServiceImpl implements IntentTreeService {
         if (req.getLevel() != null) {
             node.setLevel(req.getLevel());
         }
-        if (req.getParentCode() != null) {
+        if (req.hasParentCode()) {
             node.setParentCode(req.getParentCode());
         }
         if (req.getDescription() != null) {

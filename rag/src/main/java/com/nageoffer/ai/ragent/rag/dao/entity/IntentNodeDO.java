@@ -67,6 +67,7 @@ public class IntentNodeDO {
     /**
      * 父节点的 intent_code
      */
+    @TableField(updateStrategy = FieldStrategy.ALWAYS)
     private String parentCode;
 
     /**
