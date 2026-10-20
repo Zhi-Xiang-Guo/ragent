@@ -21,7 +21,6 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.google.gson.Gson;
 import com.mzt.logapi.starter.annotation.LogRecord;
 import com.nageoffer.ai.ragent.audit.constant.BizChangeBizType;
@@ -45,8 +44,6 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.TransactionSynchronization;
-import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -113,7 +110,6 @@ public class IntentTreeServiceImpl implements IntentTreeService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
     @LogRecord(
             success = "创建意图节点：{{#requestParam.name}}",
             fail = "创建意图节点失败：{{#_errorMsg}}",
@@ -131,6 +127,7 @@ public class IntentTreeServiceImpl implements IntentTreeService {
         if (count > 0) {
             throw new ClientException("意图标识已存在: " + requestParam.getIntentCode());
         }
+
         validateParentAssignment(requestParam.getIntentCode(), requestParam.getParentCode());
 
         int kind = requestParam.getKind() == null ? IntentKind.KB.getCode() : requestParam.getKind();
@@ -178,14 +175,14 @@ public class IntentTreeServiceImpl implements IntentTreeService {
 
         intentNodeMapper.insert(node);
 
-        clearIntentTreeCacheAfterCommit();
+        // 清除Redis缓存，下次读取时会重新从数据库加载
+        intentTreeCacheManager.clearIntentTreeCache();
 
         bizChangeLogContext.put(String.valueOf(node.getId()), null, node);
         return String.valueOf(node.getId());
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
     @LogRecord(
             success = "更新意图节点：{{#id}}",
             fail = "更新意图节点失败：{{#_errorMsg}}",
@@ -201,16 +198,16 @@ public class IntentTreeServiceImpl implements IntentTreeService {
             throw new ServiceException("节点不存在或已删除: id=" + id);
         }
         IntentNodeDO before = BeanUtil.copyProperties(node, IntentNodeDO.class);
-        if (req.getParentCode() != null) {
-            validateParentAssignment(node.getIntentCode(), req.getParentCode());
-            node.setParentCode(req.getParentCode());
-        }
 
         if (req.getName() != null) {
             node.setName(req.getName());
         }
         if (req.getLevel() != null) {
             node.setLevel(req.getLevel());
+        }
+        if (req.getParentCode() != null) {
+            validateParentAssignment(node.getIntentCode(), req.getParentCode());
+            node.setParentCode(req.getParentCode());
         }
         if (req.getDescription() != null) {
             node.setDescription(req.getDescription());
@@ -271,11 +268,10 @@ public class IntentTreeServiceImpl implements IntentTreeService {
             }
         }
         node.setUpdateBy(UserContext.getUsername());
-        intentNodeMapper.update(node, new LambdaUpdateWrapper<IntentNodeDO>()
-                .eq(IntentNodeDO::getId, id)
-                .set(req.getParentCode() != null, IntentNodeDO::getParentCode, req.getParentCode()));
+        intentNodeMapper.updateById(node);
 
-        clearIntentTreeCacheAfterCommit();
+        // 清除Redis缓存，下次读取时会重新从数据库加载
+        intentTreeCacheManager.clearIntentTreeCache();
         bizChangeLogContext.put(id, before, intentNodeMapper.selectById(id));
     }
 
@@ -417,20 +413,6 @@ public class IntentTreeServiceImpl implements IntentTreeService {
         bizChangeLogContext.put("BATCH", before, null);
     }
 
-    private void clearIntentTreeCacheAfterCommit() {
-        if (!TransactionSynchronizationManager.isSynchronizationActive()) {
-            intentTreeCacheManager.clearIntentTreeCache();
-            return;
-        }
-        // 提交成功后再失效缓存，回滚时保留原缓存。
-        TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
-            @Override
-            public void afterCommit() {
-                intentTreeCacheManager.clearIntentTreeCache();
-            }
-        });
-    }
-
     /**
      * 新建和改挂父节点共用校验：目标的祖先链必须存在、无环，且不能经过当前节点。
      * 新建根节点时 parentCode 为 null，无需检查父节点。
@@ -446,11 +428,8 @@ public class IntentTreeServiceImpl implements IntentTreeService {
             throw new ClientException("父节点不能是当前节点自身");
         }
 
-        // 按固定顺序锁定节点，避免两个并发请求各自校验通过后把节点互相挂载。
         Map<String, IntentNodeDO> nodesByCode = intentNodeMapper.selectList(new LambdaQueryWrapper<IntentNodeDO>()
-                        .eq(IntentNodeDO::getDeleted, 0)
-                        .orderByAsc(IntentNodeDO::getId)
-                        .last("FOR UPDATE"))
+                        .eq(IntentNodeDO::getDeleted, 0))
                 .stream().collect(Collectors.toMap(IntentNodeDO::getIntentCode, node -> node));
 
         Set<String> visited = new HashSet<>();

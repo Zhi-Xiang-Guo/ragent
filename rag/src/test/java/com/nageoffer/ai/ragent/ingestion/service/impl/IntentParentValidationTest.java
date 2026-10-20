@@ -18,8 +18,6 @@
 package com.nageoffer.ai.ragent.ingestion.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.baomidou.mybatisplus.core.MybatisConfiguration;
-import com.baomidou.mybatisplus.core.MybatisSqlSessionFactoryBuilder;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.nageoffer.ai.ragent.audit.support.BizChangeLogContext;
 import com.nageoffer.ai.ragent.framework.exception.ClientException;
@@ -29,11 +27,7 @@ import com.nageoffer.ai.ragent.rag.controller.request.IntentNodeUpdateRequest;
 import com.nageoffer.ai.ragent.rag.core.intent.IntentTreeCacheManager;
 import com.nageoffer.ai.ragent.rag.dao.entity.IntentNodeDO;
 import com.nageoffer.ai.ragent.rag.dao.mapper.IntentNodeMapper;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
-import org.springframework.transaction.support.TransactionSynchronization;
-import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -49,17 +43,9 @@ import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 class IntentParentValidationTest {
-
-    @BeforeAll
-    static void registerMapperMetadata() {
-        MybatisConfiguration configuration = new MybatisConfiguration();
-        new MybatisSqlSessionFactoryBuilder().build(configuration);
-        configuration.addMapper(IntentNodeMapper.class);
-    }
 
     private final IntentNodeMapper mapper = mock(IntentNodeMapper.class);
     private final IntentTreeCacheManager cache = mock(IntentTreeCacheManager.class);
@@ -79,7 +65,7 @@ class IntentParentValidationTest {
             IntentNodeDO node = invocation.getArgument(0);
             storedNodes.put(node.getId(), copy(node));
             return 1;
-        }).when(mapper).update(any(IntentNodeDO.class), any(Wrapper.class));
+        }).when(mapper).updateById(any(IntentNodeDO.class));
         doAnswer(invocation -> {
             IntentNodeDO node = invocation.getArgument(0);
             node.setId(node.getIntentCode());
@@ -150,32 +136,6 @@ class IntentParentValidationTest {
     }
 
     @Test
-    @SuppressWarnings("unchecked")
-    void locksParentRelationshipsInStableOrder() {
-        service.updateNode("child", IntentNodeUpdateRequest.builder().parentCode("other").build());
-
-        ArgumentCaptor<Wrapper<IntentNodeDO>> query = ArgumentCaptor.forClass(Wrapper.class);
-        verify(mapper).selectList(query.capture());
-        String sql = query.getValue().getSqlSegment();
-        assertTrue(sql.contains("ORDER BY id ASC"), sql);
-        assertTrue(sql.endsWith("FOR UPDATE"), sql);
-    }
-
-    @Test
-    void clearsCacheOnlyAfterTransactionCommits() {
-        TransactionSynchronizationManager.initSynchronization();
-        try {
-            service.updateNode("child", IntentNodeUpdateRequest.builder().parentCode("other").build());
-
-            verifyNoInteractions(cache);
-            TransactionSynchronizationManager.getSynchronizations().forEach(TransactionSynchronization::afterCommit);
-            verify(cache).clearIntentTreeCache();
-        } finally {
-            TransactionSynchronizationManager.clearSynchronization();
-        }
-    }
-
-    @Test
     void creatingNodeRejectsSelfParent() {
         assertRejectedCreate("new-node", "new-node");
     }
@@ -208,7 +168,7 @@ class IntentParentValidationTest {
 
         assertTrue(error.getMessage().contains("父节点"));
         assertEquals(previousParent, storedNodes.get(nodeId).getParentCode());
-        verify(mapper, never()).update(any(IntentNodeDO.class), any(Wrapper.class));
+        verify(mapper, never()).updateById(any(IntentNodeDO.class));
         verify(cache, never()).clearIntentTreeCache();
     }
 
