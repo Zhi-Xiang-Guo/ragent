@@ -67,6 +67,8 @@ public class IntentNodeDO {
     /**
      * 父节点的 intent_code
      */
+    // 父子关系通过显式 SET 更新，普通编辑和批量启停不得回写读取时的旧父节点。
+    @TableField(updateStrategy = FieldStrategy.NEVER)
     private String parentCode;
 
     /**
