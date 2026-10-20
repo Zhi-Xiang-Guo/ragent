@@ -19,7 +19,6 @@ package com.nageoffer.ai.ragent.ingestion.service.impl;
 
 import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import com.baomidou.mybatisplus.core.MybatisSqlSessionFactoryBuilder;
-import tools.jackson.databind.json.JsonMapper;
 import com.nageoffer.ai.ragent.audit.support.BizChangeLogContext;
 import com.nageoffer.ai.ragent.knowledge.dao.mapper.KnowledgeBaseMapper;
 import com.nageoffer.ai.ragent.rag.controller.request.IntentNodeUpdateRequest;
@@ -33,7 +32,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.transaction.SpringManagedTransactionFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-
+import tools.jackson.databind.json.JsonMapper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -43,13 +42,14 @@ import static org.mockito.Mockito.verify;
 
 /**
  * 仅在显式指定独立的 intent_parent_test 数据库时运行，不依赖应用数据库。
+ * 设置 RAGENT_PARENT_TEST_JDBC_URL=jdbc:postgresql://127.0.0.1:端口/intent_parent_test，
+ * 使用专用测试凭据 postgres / intent-parent-test；每个用例会重建测试表。
  */
 @EnabledIfEnvironmentVariable(named = "RAGENT_PARENT_TEST_JDBC_URL", matches = ".+")
 class IntentRootMovePostgresTest {
 
     private final IntentTreeCacheManager cache = mock(IntentTreeCacheManager.class);
     private JdbcTemplate jdbc;
-    private IntentNodeMapper mapper;
     private IntentTreeServiceImpl service;
 
     @BeforeEach
@@ -71,18 +71,17 @@ class IntentRootMovePostgresTest {
                 )
                 """);
         jdbc.update("""
-                INSERT INTO t_intent_node (id, intent_code, name, kind, level, enabled)
-                VALUES ('1', 'a', 'A', 1, 0, 0), ('2', 'b', 'B', 1, 1, 0), ('3', 'c', 'C', 1, 2, 0)
+                INSERT INTO t_intent_node (id, intent_code, name, parent_code, kind, level, enabled)
+                VALUES ('1', 'a', 'A', NULL, 1, 0, 0),
+                       ('2', 'b', 'B', 'a', 1, 1, 0),
+                       ('3', 'c', 'C', 'b', 1, 2, 0)
                 """);
-
-        jdbc.update("UPDATE t_intent_node SET parent_code = 'a' WHERE id = '2'");
-        jdbc.update("UPDATE t_intent_node SET parent_code = 'b' WHERE id = '3'");
 
         MybatisConfiguration configuration = new MybatisConfiguration();
         configuration.setEnvironment(new Environment("test", new SpringManagedTransactionFactory(), dataSource));
         var factory = new MybatisSqlSessionFactoryBuilder().build(configuration);
         configuration.addMapper(IntentNodeMapper.class);
-        mapper = new SqlSessionTemplate(factory).getMapper(IntentNodeMapper.class);
+        var mapper = new SqlSessionTemplate(factory).getMapper(IntentNodeMapper.class);
         service = new IntentTreeServiceImpl(mapper, mock(KnowledgeBaseMapper.class), cache,
                 mock(BizChangeLogContext.class));
     }

@@ -21,7 +21,6 @@ import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import com.baomidou.mybatisplus.core.MybatisSqlSessionFactoryBuilder;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import tools.jackson.databind.json.JsonMapper;
 import com.nageoffer.ai.ragent.audit.support.BizChangeLogContext;
 import com.nageoffer.ai.ragent.knowledge.dao.mapper.KnowledgeBaseMapper;
 import com.nageoffer.ai.ragent.rag.controller.request.IntentNodeUpdateRequest;
@@ -31,9 +30,10 @@ import com.nageoffer.ai.ragent.rag.dao.mapper.IntentNodeMapper;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
+import tools.jackson.databind.json.JsonMapper;
 
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -46,22 +46,23 @@ import static org.mockito.Mockito.when;
 
 class IntentRootMoveTest {
 
+    private static final MybatisConfiguration CONFIGURATION = new MybatisConfiguration();
+
     @BeforeAll
     static void registerMapperMetadata() {
-        MybatisConfiguration configuration = new MybatisConfiguration();
-        new MybatisSqlSessionFactoryBuilder().build(configuration);
-        configuration.addMapper(IntentNodeMapper.class);
+        new MybatisSqlSessionFactoryBuilder().build(CONFIGURATION);
+        CONFIGURATION.addMapper(IntentNodeMapper.class);
     }
 
     @Test
-    void explicitNullParentMovesChildToRoot() throws Exception {
+    void explicitNullParentMovesChildToRoot() {
         IntentNodeDO saved = updateWithJson("{\"parentCode\":null}");
 
         assertNull(saved.getParentCode(), "The ROOT option sends parentCode:null");
     }
 
     @Test
-    void omittedParentPreservesCurrentParent() throws Exception {
+    void omittedParentPreservesCurrentParent() {
         IntentNodeDO saved = updateWithJson("{\"name\":\"renamed\"}");
 
         assertEquals("group", saved.getParentCode());
@@ -69,7 +70,7 @@ class IntentRootMoveTest {
     }
 
     @Test
-    void nonNullParentStillMovesToAnotherBranch() throws Exception {
+    void nonNullParentStillMovesToAnotherBranch() {
         IntentNodeDO saved = updateWithJson("{\"parentCode\":\"other-group\"}");
 
         assertEquals("other-group", saved.getParentCode());
@@ -77,14 +78,11 @@ class IntentRootMoveTest {
 
     @Test
     void explicitParentUpdateIncludesSqlNullAssignment() {
-        MybatisConfiguration configuration = new MybatisConfiguration();
-        new MybatisSqlSessionFactoryBuilder().build(configuration);
-        configuration.addMapper(IntentNodeMapper.class);
         IntentNodeDO root = IntentNodeDO.builder().id("2").intentCode("child").parentCode(null).build();
 
         var update = new LambdaUpdateWrapper<IntentNodeDO>().eq(IntentNodeDO::getId, "2")
                 .set(IntentNodeDO::getParentCode, null);
-        String sql = configuration.getMappedStatement(IntentNodeMapper.class.getName() + ".update")
+        String sql = CONFIGURATION.getMappedStatement(IntentNodeMapper.class.getName() + ".update")
                 .getBoundSql(Map.of("et", root, "ew", update)).getSql();
 
         assertTrue(sql.matches("(?s).*parent_code\\s*=\\s*\\?.*"),
@@ -93,18 +91,15 @@ class IntentRootMoveTest {
 
     @Test
     void ordinaryUpdateByIdDoesNotWriteAStaleParent() {
-        MybatisConfiguration configuration = new MybatisConfiguration();
-        new MybatisSqlSessionFactoryBuilder().build(configuration);
-        configuration.addMapper(IntentNodeMapper.class);
         IntentNodeDO renamed = IntentNodeDO.builder().id("2").name("renamed").parentCode("old-parent").build();
 
-        String sql = configuration.getMappedStatement(IntentNodeMapper.class.getName() + ".updateById")
+        String sql = CONFIGURATION.getMappedStatement(IntentNodeMapper.class.getName() + ".updateById")
                 .getBoundSql(Map.of("et", renamed)).getSql();
 
         assertFalse(sql.contains("parent_code"), "Ordinary updates must preserve the current parent, SQL: " + sql);
     }
 
-    private IntentNodeDO updateWithJson(String json) throws Exception {
+    private IntentNodeDO updateWithJson(String json) {
         IntentNodeMapper mapper = mock(IntentNodeMapper.class);
         IntentNodeDO child = IntentNodeDO.builder().id("2").intentCode("child").name("child")
                 .parentCode("group").level(1).kind(0).deleted(0).build();
