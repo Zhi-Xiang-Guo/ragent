@@ -19,19 +19,24 @@ package com.nageoffer.ai.ragent.ingestion.service.impl;
 
 import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import com.baomidou.mybatisplus.core.MybatisSqlSessionFactoryBuilder;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import tools.jackson.databind.json.JsonMapper;
 import com.nageoffer.ai.ragent.audit.support.BizChangeLogContext;
 import com.nageoffer.ai.ragent.knowledge.dao.mapper.KnowledgeBaseMapper;
 import com.nageoffer.ai.ragent.rag.controller.request.IntentNodeUpdateRequest;
 import com.nageoffer.ai.ragent.rag.core.intent.IntentTreeCacheManager;
 import com.nageoffer.ai.ragent.rag.dao.entity.IntentNodeDO;
 import com.nageoffer.ai.ragent.rag.dao.mapper.IntentNodeMapper;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
 import java.util.Map;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -40,6 +45,13 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 class IntentRootMoveTest {
+
+    @BeforeAll
+    static void registerMapperMetadata() {
+        MybatisConfiguration configuration = new MybatisConfiguration();
+        new MybatisSqlSessionFactoryBuilder().build(configuration);
+        configuration.addMapper(IntentNodeMapper.class);
+    }
 
     @Test
     void explicitNullParentMovesChildToRoot() throws Exception {
@@ -64,17 +76,32 @@ class IntentRootMoveTest {
     }
 
     @Test
-    void updateByIdSqlIncludesNullParentAssignment() {
+    void explicitParentUpdateIncludesSqlNullAssignment() {
         MybatisConfiguration configuration = new MybatisConfiguration();
         new MybatisSqlSessionFactoryBuilder().build(configuration);
         configuration.addMapper(IntentNodeMapper.class);
         IntentNodeDO root = IntentNodeDO.builder().id("2").intentCode("child").parentCode(null).build();
 
-        String sql = configuration.getMappedStatement(IntentNodeMapper.class.getName() + ".updateById")
-                .getBoundSql(Map.of("et", root)).getSql();
+        var update = new LambdaUpdateWrapper<IntentNodeDO>().eq(IntentNodeDO::getId, "2")
+                .set(IntentNodeDO::getParentCode, null);
+        String sql = configuration.getMappedStatement(IntentNodeMapper.class.getName() + ".update")
+                .getBoundSql(Map.of("et", root, "ew", update)).getSql();
 
         assertTrue(sql.matches("(?s).*parent_code\\s*=\\s*\\?.*"),
                 "Moving to ROOT must write SQL NULL, generated SQL: " + sql);
+    }
+
+    @Test
+    void ordinaryUpdateByIdDoesNotWriteAStaleParent() {
+        MybatisConfiguration configuration = new MybatisConfiguration();
+        new MybatisSqlSessionFactoryBuilder().build(configuration);
+        configuration.addMapper(IntentNodeMapper.class);
+        IntentNodeDO renamed = IntentNodeDO.builder().id("2").name("renamed").parentCode("old-parent").build();
+
+        String sql = configuration.getMappedStatement(IntentNodeMapper.class.getName() + ".updateById")
+                .getBoundSql(Map.of("et", renamed)).getSql();
+
+        assertFalse(sql.contains("parent_code"), "Ordinary updates must preserve the current parent, SQL: " + sql);
     }
 
     private IntentNodeDO updateWithJson(String json) throws Exception {
@@ -82,14 +109,18 @@ class IntentRootMoveTest {
         IntentNodeDO child = IntentNodeDO.builder().id("2").intentCode("child").name("child")
                 .parentCode("group").level(1).kind(0).deleted(0).build();
         when(mapper.selectById("2")).thenReturn(child);
+        when(mapper.selectList(any(Wrapper.class))).thenReturn(List.of(
+                IntentNodeDO.builder().id("3").intentCode("other-group").deleted(0).build()));
         IntentTreeServiceImpl service = new IntentTreeServiceImpl(mapper, mock(KnowledgeBaseMapper.class),
                 mock(IntentTreeCacheManager.class), mock(BizChangeLogContext.class));
-        IntentNodeUpdateRequest request = new ObjectMapper().readValue(json, IntentNodeUpdateRequest.class);
+        // 与 Spring Boot 4 HTTP 请求使用的 Jackson 3 保持一致。
+        IntentNodeUpdateRequest request = JsonMapper.builder().build()
+                .readValue(json, IntentNodeUpdateRequest.class);
 
         service.updateNode("2", request);
 
         ArgumentCaptor<IntentNodeDO> updated = ArgumentCaptor.forClass(IntentNodeDO.class);
-        verify(mapper).updateById(updated.capture());
+        verify(mapper).update(updated.capture(), any(Wrapper.class));
         return updated.getValue();
     }
 }

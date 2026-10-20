@@ -21,6 +21,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.google.gson.Gson;
 import com.mzt.logapi.starter.annotation.LogRecord;
 import com.nageoffer.ai.ragent.audit.constant.BizChangeBizType;
@@ -264,7 +265,9 @@ public class IntentTreeServiceImpl implements IntentTreeService {
             }
         }
         node.setUpdateBy(UserContext.getUsername());
-        intentNodeMapper.updateById(node);
+        intentNodeMapper.update(node, new LambdaUpdateWrapper<IntentNodeDO>()
+                .eq(IntentNodeDO::getId, id)
+                .set(req.hasParentCode(), IntentNodeDO::getParentCode, req.getParentCode()));
 
         // 清除Redis缓存，下次读取时会重新从数据库加载
         intentTreeCacheManager.clearIntentTreeCache();

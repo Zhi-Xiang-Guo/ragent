@@ -17,6 +17,7 @@
 
 package com.nageoffer.ai.ragent.rag.controller.request;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import lombok.AllArgsConstructor;
@@ -27,7 +28,8 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Data
-@NoArgsConstructor
+// HTTP 反序列化通过 setter 记录字段是否出现，不能走 Lombok 全参构造器。
+@NoArgsConstructor(onConstructor_ = @JsonCreator)
 @AllArgsConstructor
 @Builder
 public class IntentNodeUpdateRequest {
