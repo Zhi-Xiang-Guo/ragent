@@ -56,3 +56,12 @@ python3 resources/regression/retrieval-evaluation/runner.py compare --baseline a
 ```
 
 重放只读本地响应，不调用服务。对照要求数据集、映射、用例顺序、评测单位、K 和指标口径相同；配置变化保留在对照结果中。报告失败状态、逐题分数变化及丢失的相关文档，不把失败样本当作通过。
+
+## 阶段评测
+
+使用 `--capture-stages` 获取 channel、融合截断前后、重排、证据门槛、元数据富化的快照。
+manifest 文档项可增加 `chunkIds` 数组，在尚无 docId 的早期阶段按 `(collectionName, chunkId)` 归属文档；映射必须来自本次固定索引。
+报告增加 stages.json 与阶段对照表，同时列出完整候选集合 Recall 和固定 K Recall。去重阶段不是融合排名，其 MRR/nDCG 不计分。
+ERROR/TIMEOUT 阶段不计分，EMPTY_OR_DEGRADED 保留不确定性标记。缺少快照表示没有采集或没有执行，不代表阶段成功。
+
+summary.json 单独统计 requestsWithStageWarnings 与 stageWarnings。HTTP 成功和指标可计算不等于模型调用成功；未采集快照时无法推断阶段健康。

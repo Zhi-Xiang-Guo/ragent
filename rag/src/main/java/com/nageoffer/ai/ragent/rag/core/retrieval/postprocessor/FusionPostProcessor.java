@@ -30,6 +30,8 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.function.Consumer;
+import com.nageoffer.ai.ragent.rag.dto.RetrievalStageSnapshot;
 import java.util.Map;
 import java.util.Set;
 
@@ -81,7 +83,15 @@ public class FusionPostProcessor implements SearchResultPostProcessor {
     public List<RetrievedChunk> process(List<RetrievedChunk> chunks,
                                         List<SearchChannelResult> results,
                                         SearchContext context) {
+        return processWithTrace(chunks, results, context, null);
+    }
+
+    @Override
+    public List<RetrievedChunk> processWithTrace(List<RetrievedChunk> chunks, List<SearchChannelResult> results,
+                                                SearchContext context, Consumer<RetrievalStageSnapshot> observer) {
+        long start = System.nanoTime();
         if (chunks.isEmpty()) {
+            RetrievalStageSnapshot.capture(observer, "fusion:ranked", "EMPTY", 0, chunks);
             return chunks;
         }
 
@@ -90,6 +100,8 @@ public class FusionPostProcessor implements SearchResultPostProcessor {
                 ? fuseByRrf(chunks, results)
                 : chunks;
 
+        RetrievalStageSnapshot.capture(observer, "fusion:ranked", "SUCCESS",
+                (System.nanoTime() - start) / 1_000_000, ranked);
         // 截断候选池：仅保留高分前 N 个送入 Rerank，控制其成本与延迟
         return truncateForRerank(ranked, results, context.getBudget().candidateLimit());
     }

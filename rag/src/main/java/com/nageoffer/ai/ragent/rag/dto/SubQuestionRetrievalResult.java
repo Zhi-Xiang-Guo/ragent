@@ -20,8 +20,14 @@ package com.nageoffer.ai.ragent.rag.dto;
 import java.util.List;
 
 /** 单个子问题的后处理结果，发生在意图分组与上下文排版之前，并非最终 LLM 输入。 */
-public record SubQuestionRetrievalResult(String subQuestion, String status, List<RankedChunk> rankedChunks) {
+public record SubQuestionRetrievalResult(String subQuestion, String status, List<RankedChunk> rankedChunks,
+                                         List<RetrievalStageSnapshot> stages) {
+    public SubQuestionRetrievalResult(String subQuestion, String status, List<RankedChunk> rankedChunks) {
+        this(subQuestion, status, rankedChunks, List.of());
+    }
+
     public SubQuestionRetrievalResult {
         rankedChunks = List.copyOf(rankedChunks);
+        stages = List.copyOf(stages);
     }
 }
