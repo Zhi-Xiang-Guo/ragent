@@ -43,6 +43,10 @@ public class RetrievalContext {
      */
     private Map<String, List<RetrievedChunk>> intentChunks;
 
+    /** 按输入子问题顺序保存各自的真实检索排名，禁止从 intentChunks 反推。 */
+    @Builder.Default
+    private List<SubQuestionRetrievalResult> subQuestionResults = List.of();
+
     /**
      * 允许参与模板选择和规则注入的意图 ID
      */

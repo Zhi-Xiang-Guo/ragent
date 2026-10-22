@@ -26,7 +26,8 @@ import com.nageoffer.ai.ragent.rag.core.intent.NodeScore;
 import com.nageoffer.ai.ragent.rag.core.intent.NodeScoreFilters;
 import com.nageoffer.ai.ragent.rag.core.prompt.ContextFormatter;
 import com.nageoffer.ai.ragent.rag.core.prompt.PromptTemplateLoader;
-import com.nageoffer.ai.ragent.rag.dto.KbResult;
+import com.nageoffer.ai.ragent.rag.dto.RankedChunk;
+import com.nageoffer.ai.ragent.rag.dto.SubQuestionRetrievalResult;
 import com.nageoffer.ai.ragent.rag.dto.RetrievalContext;
 import com.nageoffer.ai.ragent.rag.dto.SubQuestionIntent;
 import lombok.RequiredArgsConstructor;
@@ -85,7 +86,8 @@ public class RetrievalEngine {
                                 return new SubQuestionContext(
                                         intent.subQuestion(), "", Map.of(),
                                         KnowledgeRetrievalResult.empty().eligibleIntentIds(
-                                                NodeScoreFilters.kb(intent.nodeScores())));
+                                                NodeScoreFilters.kb(intent.nodeScores())),
+                                        new SubQuestionRetrievalResult(intent.subQuestion(), "ERROR", List.of()));
                             }
                         },
                         ragContextExecutor
@@ -128,14 +130,13 @@ public class RetrievalEngine {
                 .kbContext(kbContext)
                 .intentChunks(mergedIntentChunks)
                 .eligibleIntentIds(Set.copyOf(eligibleIntentIds))
+                .subQuestionResults(contexts.stream().map(SubQuestionContext::retrievalResult).toList())
                 .build();
     }
 
     private SubQuestionContext buildSubQuestionContext(SubQuestionIntent intent, RetrievalBudget budget) {
         List<NodeScore> kbIntents = NodeScoreFilters.kb(intent.nodeScores());
-        KbResult kbResult = retrieveAndRerank(intent, kbIntents, budget);
-        return new SubQuestionContext(intent.subQuestion(), kbResult.groupedContext(),
-                kbResult.intentChunks(), kbResult.eligibleIntentIds());
+        return retrieveAndRerank(intent, kbIntents, budget);
     }
 
     private void appendSection(StringBuilder builder, int index, String question, String context) {
@@ -149,23 +150,26 @@ public class RetrievalEngine {
         )));
     }
 
-    private KbResult retrieveAndRerank(SubQuestionIntent intent, List<NodeScore> kbIntents, RetrievalBudget budget) {
+    private SubQuestionContext retrieveAndRerank(SubQuestionIntent intent, List<NodeScore> kbIntents, RetrievalBudget budget) {
         KnowledgeRetrievalResult retrievalResult = multiChannelRetrievalEngine.retrieveKnowledgeChannels(intent, budget);
         List<RetrievedChunk> chunks = retrievalResult.chunks();
         Set<String> eligibleIntentIds = retrievalResult.eligibleIntentIds(kbIntents);
+        SubQuestionRetrievalResult rankedResult = new SubQuestionRetrievalResult(
+                intent.subQuestion(), "SUCCESS", RankedChunk.snapshot(chunks));
         if (CollUtil.isEmpty(chunks)) {
-            return new KbResult("", Map.of(), eligibleIntentIds);
+            return new SubQuestionContext(intent.subQuestion(), "", Map.of(), eligibleIntentIds, rankedResult);
         }
 
         Map<String, List<RetrievedChunk>> intentChunks = retrievalResult.groupByIntent(MULTI_CHANNEL_KEY);
         String groupedContext = contextFormatter.formatKbContext(
                 kbIntents, eligibleIntentIds, chunks, budget.contextTopK());
-        return new KbResult(groupedContext, intentChunks, eligibleIntentIds);
+        return new SubQuestionContext(intent.subQuestion(), groupedContext, intentChunks, eligibleIntentIds, rankedResult);
     }
 
     private record SubQuestionContext(String question,
                                       String kbContext,
                                       Map<String, List<RetrievedChunk>> intentChunks,
-                                      Set<String> eligibleIntentIds) {
+                                      Set<String> eligibleIntentIds,
+                                      SubQuestionRetrievalResult retrievalResult) {
     }
 }
