@@ -59,13 +59,18 @@ public class EvalController {
     private final KnowledgeChunkMapper knowledgeChunkMapper;
     private final KnowledgeDocumentMapper knowledgeDocumentMapper;
 
+    public Result<EvalResponse> chat(String question) {
+        return chat(question, false);
+    }
+
     @GetMapping("/rag/eval")
-    public Result<EvalResponse> chat(@RequestParam String question) {
+    public Result<EvalResponse> chat(@RequestParam String question,
+                                     @RequestParam(defaultValue = "false") boolean captureStages) {
         long start = System.currentTimeMillis();
 
         RewriteResult rewriteResult = queryRewriteService.rewriteWithSplit(question, List.of());
         List<SubQuestionIntent> subIntents = intentResolver.resolve(rewriteResult);
-        RetrievalContext rc = retrievalEngine.retrieve(subIntents);
+        RetrievalContext rc = captureStages ? retrievalEngine.retrieve(subIntents, true) : retrievalEngine.retrieve(subIntents);
 
         return Results.success(buildResponse(rc, subIntents, System.currentTimeMillis() - start));
     }

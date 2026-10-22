@@ -25,3 +25,20 @@
 旧 retrievedDocIds 是文件名去扩展名后的业务标识，与新候选的内部 docId 不同。跨环境评测需要显式文档映射与语料版本。
 
 失败子问题保留位置并标记 ERROR。通道内部的部分降级不在此版本的 status 中体现，不能把 SUCCESS 解释为所有后端均正常。
+
+## 阶段采集（可选）
+
+添加 `captureStages=true` 后，每个子问题的 `stages` 包含：
+
+- `channel:VECTOR/KEYWORD/GRAPH/WEB_SEARCH`：各通道返回的原始顺序和分数。
+- `post:Deduplication`：去重后的候选集合；拼接顺序不代表融合排名。
+- `fusion:ranked`：RRF 排序后、候选截断前。
+- `post:Fusion`：融合截断后，即 Rerank 输入。
+- `post:Rerank`、`post:EvidenceGate`、`post:MetadataEnrichment`：相应处理器输出。
+
+仅记录实际执行的通道和处理器。无采集参数时 stages 为空；不开启额外检索或模型请求。
+快照包含 stage、status、latencyMs、rankedChunks。原始候选的 docId 可能尚未富化，阶段评测需用 manifest 的 chunkIds 映射回文档。
+状态包括 SUCCESS、EMPTY、ERROR、TIMEOUT、UNSCORED。通道内部可能捕获错误并返回空集合，因此无法确认原因的通道空结果明确标记 EMPTY_OR_DEGRADED；不伪装成确定无命中。
+UNSCORED 表示重排结果中没有精排分，可能是 noop 降级。失败处理器快照中的候选是降级后继续流转的集合，不应计为该处理器成功执行。
+
+收集器按请求及子问题显式传递；阶段数据立即复制为不可变值，通道超时后迟到任务不会写入快照。

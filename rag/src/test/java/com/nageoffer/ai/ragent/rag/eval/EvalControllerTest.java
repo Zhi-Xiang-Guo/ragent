@@ -79,6 +79,24 @@ class EvalControllerTest {
     }
 
     @Test
+    void captureFlagUsesTracedRetrievalAndReturnsSnapshots() {
+        var rewrite = mock(QueryRewriteService.class);
+        var resolver = mock(IntentResolver.class);
+        var engine = mock(RetrievalEngine.class);
+        when(rewrite.rewriteWithSplit("Q", List.of())).thenReturn(new RewriteResult("Q", List.of("Q")));
+        when(resolver.resolve(any())).thenReturn(List.of(new SubQuestionIntent("Q", List.of())));
+        var stages = List.of(new RetrievalStageSnapshot("channel:VECTOR_GLOBAL", "SUCCESS", 1,
+                RankedChunk.snapshot(List.of(chunk("c", "d")))));
+        when(engine.retrieve(any(), eq(true))).thenReturn(RetrievalContext.builder()
+                .subQuestionResults(List.of(new SubQuestionRetrievalResult("Q", "SUCCESS", List.of(), stages))).build());
+        var controller = new EvalController(rewrite, resolver, engine,
+                mock(KnowledgeChunkMapper.class), mock(KnowledgeDocumentMapper.class));
+        assertEquals(stages, controller.chat("Q", true).getData().getSubQuestionResults().get(0).stages());
+        verify(engine).retrieve(any(), eq(true));
+        verify(engine, never()).retrieve(any());
+    }
+
+    @Test
     void snapshotDeduplicatesPerCollectionAndKeepsMissingIds() {
         var a = chunk("same", "a");
         var b = chunk("same", "b");

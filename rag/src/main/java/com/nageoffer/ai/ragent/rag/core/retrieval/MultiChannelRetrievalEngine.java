@@ -35,6 +35,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
+import java.util.function.Consumer;
+import com.nageoffer.ai.ragent.rag.dto.RetrievalStageSnapshot;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -79,14 +81,19 @@ public class MultiChannelRetrievalEngine {
     @RagTraceNode(name = "multi-channel-retrieval", type = "RETRIEVE_CHANNEL")
     public KnowledgeRetrievalResult retrieveKnowledgeChannels(SubQuestionIntent subIntent,
                                                                RetrievalBudget budget) {
+        return retrieveKnowledgeChannels(subIntent, budget, null);
+    }
+
+    public KnowledgeRetrievalResult retrieveKnowledgeChannels(SubQuestionIntent subIntent, RetrievalBudget budget,
+                                                               Consumer<RetrievalStageSnapshot> observer) {
         SearchContext context = buildSearchContext(subIntent, budget);
 
-        List<SearchChannelResult> channelResults = executeSearchChannels(context);
+        List<SearchChannelResult> channelResults = executeSearchChannels(context, observer);
         if (CollUtil.isEmpty(channelResults)) {
             return KnowledgeRetrievalResult.empty();
         }
 
-        List<RetrievedChunk> chunks = executePostProcessors(channelResults, context);
+        List<RetrievedChunk> chunks = executePostProcessors(channelResults, context, observer);
         // 异常或超时导致定向证据为空时，保留的定向范围会使其按未命中处理
         return new KnowledgeRetrievalResult(
                 chunks,
@@ -129,7 +136,7 @@ public class MultiChannelRetrievalEngine {
         return intentIdsByChunkKey;
     }
 
-    private List<SearchChannelResult> executeSearchChannels(SearchContext context) {
+    private List<SearchChannelResult> executeSearchChannels(SearchContext context, Consumer<RetrievalStageSnapshot> observer) {
         // 按通道类型枚举序做稳定排序：通道并行执行、下游融合（RRF）与归因均与顺序无关，
         // 这里排序仅为日志/派发顺序稳定可复现，不承载任何检索优先级语义
         List<SearchChannel> enabledChannels = searchChannels.stream()
@@ -156,7 +163,9 @@ public class MultiChannelRetrievalEngine {
                                 return channel.search(context);
                             } catch (Exception e) {
                                 log.error("检索通道 {} 执行失败", channel.getName(), e);
-                                return channel.emptyResult(System.currentTimeMillis() - startTime);
+                                SearchChannelResult failure = channel.emptyResult(System.currentTimeMillis() - startTime);
+                                failure.setExecutionStatus("ERROR");
+                                return failure;
                             }
                         },
                         ragRetrievalExecutor
@@ -173,6 +182,10 @@ public class MultiChannelRetrievalEngine {
                 .toList();
 
         for (SearchChannelResult result : results) {
+            String status = result.getExecutionStatus() != null ? result.getExecutionStatus()
+                    : result.getChunks().isEmpty() ? "EMPTY_OR_DEGRADED" : "SUCCESS";
+            RetrievalStageSnapshot.capture(observer, "channel:" + result.getChannelType().name(), status,
+                    result.getLatencyMs(), result.getChunks());
             int chunkCount = result.getChunks().size();
             totalChunks += chunkCount;
 
@@ -199,7 +212,7 @@ public class MultiChannelRetrievalEngine {
     }
 
     private List<RetrievedChunk> executePostProcessors(List<SearchChannelResult> results,
-                                                       SearchContext context) {
+                                                       SearchContext context, Consumer<RetrievalStageSnapshot> observer) {
         List<SearchResultPostProcessor> enabledProcessors = postProcessors.stream()
                 .filter(processor -> processor.isEnabled(context))
                 .sorted(Comparator.comparingInt(SearchResultPostProcessor::getOrder))
@@ -219,9 +232,18 @@ public class MultiChannelRetrievalEngine {
         int initialSize = chunks.size();
 
         for (SearchResultPostProcessor processor : enabledProcessors) {
+            long start = System.nanoTime();
             try {
                 int beforeSize = chunks.size();
-                chunks = processor.process(chunks, results, context);
+                chunks = observer == null ? processor.process(chunks, results, context)
+                        : processor.processWithTrace(chunks, results, context, observer);
+                String status = chunks.isEmpty() ? "EMPTY" : "SUCCESS";
+                if ("Rerank".equals(processor.getName()) && !chunks.isEmpty()
+                        && chunks.stream().noneMatch(c -> c.getRerankScore() != null)) {
+                    status = "UNSCORED";
+                }
+                RetrievalStageSnapshot.capture(observer, "post:" + processor.getName(), status,
+                        (System.nanoTime() - start) / 1_000_000, chunks);
                 int afterSize = chunks.size();
 
                 log.info("后置处理器 {} 完成 - 输入: {} 个 Chunk, 输出: {} 个 Chunk, 变化: {}",
@@ -232,6 +254,8 @@ public class MultiChannelRetrievalEngine {
                 );
             } catch (Exception e) {
                 log.error("后置处理器 {} 执行失败，跳过该处理器", processor.getName(), e);
+                RetrievalStageSnapshot.capture(observer, "post:" + processor.getName(), "ERROR",
+                        (System.nanoTime() - start) / 1_000_000, chunks);
             }
         }
 
@@ -263,7 +287,9 @@ public class MultiChannelRetrievalEngine {
                     } else {
                         log.error("检索通道 {} 异步执行失败", channel.getName(), cause);
                     }
-                    return channel.emptyResult(latencyMs);
+                    SearchChannelResult failure = channel.emptyResult(latencyMs);
+                    failure.setExecutionStatus(cause instanceof TimeoutException ? "TIMEOUT" : "ERROR");
+                    return failure;
                 });
     }
 

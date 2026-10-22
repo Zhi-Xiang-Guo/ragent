@@ -64,10 +64,22 @@ def validate_manifest(manifest, dataset):
             raise ValueError("manifest source checksum mismatch")
     if not set(dataset["sources"]).issubset(keys):
         raise ValueError("manifest does not map all dataset sources")
+    candidate_mapping(manifest)
     return mapping
 
 
-def ranking_from_response(data, mapping):
+def candidate_mapping(manifest):
+    mapping = {}
+    for item in manifest["documents"]:
+        for chunk_id in item.get("chunkIds", []):
+            identity = (item["collectionName"], chunk_id)
+            if not isinstance(chunk_id, str) or not chunk_id or identity in mapping:
+                raise ValueError("invalid/duplicate chunk identity")
+            mapping[identity] = item["key"]
+    return mapping
+
+
+def ranking_from_response(data, mapping, chunk_mapping=None):
     questions = data.get("subQuestionResults")
     if not isinstance(questions, list) or len(questions) != 1:
         raise ValueError("expected one sub-question; split queries require per-sub-question judgments")
@@ -80,6 +92,8 @@ def ranking_from_response(data, mapping):
             raise ValueError("invalid rank sequence")
         identity = (hit.get("collectionName"), hit.get("docId"))
         key = mapping.get(identity)
+        if key is None and chunk_mapping is not None:
+            key = chunk_mapping.get((hit.get("collectionName"), hit.get("chunkId")))
         if key is None:
             # Keep this position as unjudged; never silently drop an unknown hit.
             key = "unmapped:" + digest([identity, hit.get("chunkId"), hit.get("text")])
@@ -90,6 +104,7 @@ def ranking_from_response(data, mapping):
 
 def score_rows(rows, dataset, manifest, k):
     mapping = validate_manifest(manifest, dataset)
+    chunk_mapping = candidate_mapping(manifest)
     cases = {case["id"]: case for case in dataset["cases"]}
     scored = []
     for row in rows:
@@ -99,9 +114,24 @@ def score_rows(rows, dataset, manifest, k):
         result["answerable"] = case["answerable"]
         if row["status"] == "SUCCESS":
             try:
-                ranking, unmapped = ranking_from_response(row["response"], mapping)
+                ranking, unmapped = ranking_from_response(row["response"], mapping, chunk_mapping)
                 result.update(ranking=ranking, unmapped=unmapped, metrics=evaluate(ranking, case["qrels"], k))
+                result["stages"] = []
+                for stage in row["response"]["subQuestionResults"][0].get("stages", []):
+                    entry = {"stage": stage["stage"], "status": stage["status"], "latencyMs": stage["latencyMs"]}
+                    if stage["status"] not in ("ERROR", "TIMEOUT", "SKIPPED"):
+                        stage_data = {"subQuestionResults": [{"status": "SUCCESS", "rankedChunks": stage["rankedChunks"]}]}
+                        ranked, unknown = ranking_from_response(stage_data, mapping, chunk_mapping)
+                        entry.update(metrics=evaluate(ranked, case["qrels"], k), unmapped=unknown)
+                        # Dedup concatenates channels; its order is not a fused ranking.
+                        if stage["stage"] == "post:Deduplication":
+                            entry["metrics"]["mrr"] = None
+                            entry["metrics"]["ndcg"] = None
+                        entry["candidateRecall"] = evaluate(ranked, case["qrels"], max(1, len(ranked)))["recall"]
+                    result["stages"].append(entry)
             except (ValueError, KeyError, TypeError) as exc:
+                result.pop("metrics", None)
+                result.pop("stages", None)
                 result.update(status="INVALID_RESULT", error=str(exc))
         else:
             result["error"] = row.get("error", row["status"])
@@ -112,7 +142,11 @@ def score_rows(rows, dataset, manifest, k):
 def report(output, rows):
     valid = [r for r in rows if "metrics" in r]
     tags = sorted({t for r in rows for t in r["tags"]})
+    warning_statuses = {"ERROR", "TIMEOUT", "EMPTY_OR_DEGRADED", "UNSCORED"}
+    warnings = [{"id": r["id"], "stage": stage["stage"], "status": stage["status"]}
+                for r in valid for stage in r.get("stages", []) if stage["status"] in warning_statuses]
     summary = {"total": len(rows), "scored": len(valid), "errors": len(rows) - len(valid),
+               "requestsWithStageWarnings": len({w["id"] for w in warnings}), "stageWarnings": warnings,
                "metrics": aggregate([r["metrics"] for r in valid if r["answerable"]]),
                "byTag": {t: aggregate([r["metrics"] for r in valid if t in r["tags"] and r["answerable"]]) for t in tags},
                "unanswerable": {"n": sum(not r["answerable"] for r in valid),
@@ -121,10 +155,18 @@ def report(output, rows):
     write(output / "summary.json", summary)
     lines = ["# 检索评测报告", "", f"总数 {len(rows)}；计分 {len(valid)}；错误 {summary['errors']}。", "",
              "文档级排序来自已召回 chunks 的首次文档顺序，不是后端文档 TopK。", "",
+             f"阶段告警涉及 {summary['requestsWithStageWarnings']} 条请求。计分成功仅表示响应可解析，不代表模型/通道健康；未开启快照时无法判定阶段健康。", "",
              "| 用例 | 状态 | Recall | nDCG | 未命中相关文档 |", "|---|---|---|---|---|"]
     for row in rows:
         m = row.get("metrics", {})
         lines.append(f"| {row['id']} | {row['status']} | {m.get('recall', 'N/A')} | {m.get('ndcg', 'N/A')} | {', '.join(m.get('missing_relevant', []))} |")
+    stage_rows = [{"id": r["id"], **stage} for r in valid for stage in r.get("stages", [])]
+    write(output / "stages.json", stage_rows)
+    if stage_rows:
+        lines += ["", "## 阶段对照", "", "候选 Recall 使用该阶段完整可见候选集合；Recall@K 使用固定文档 cutoff。EMPTY_OR_DEGRADED 不代表已确认正常无命中。", "",
+                  "| 用例 | 阶段 | 状态 | 候选 Recall | Recall@K |", "|---|---|---|---|---|"]
+        for stage in stage_rows:
+            lines.append(f"| {stage['id']} | {stage['stage']} | {stage['status']} | {stage.get('candidateRecall', 'N/A')} | {stage.get('metrics', {}).get('recall', 'N/A')} |")
     lines += ["", "宏平均、按标签汇总及无答案统计见 summary.json。原始响应可离线重放。"]
     (output / "report.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
     return summary

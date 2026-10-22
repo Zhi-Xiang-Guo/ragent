@@ -22,6 +22,8 @@ import com.nageoffer.ai.ragent.rag.core.retrieval.channel.SearchChannelResult;
 import com.nageoffer.ai.ragent.rag.core.retrieval.channel.SearchContext;
 
 import java.util.List;
+import java.util.function.Consumer;
+import com.nageoffer.ai.ragent.rag.dto.RetrievalStageSnapshot;
 
 /**
  * 检索结果后置处理器接口
@@ -65,4 +67,11 @@ public interface SearchResultPostProcessor {
     List<RetrievedChunk> process(List<RetrievedChunk> chunks,
                                  List<SearchChannelResult> results,
                                  SearchContext context);
+    /** 只有需要采集内部阶段的处理器覆盖；普通处理器仍复用原来的执行路径。 */
+    default List<RetrievedChunk> processWithTrace(List<RetrievedChunk> chunks,
+                                                  List<SearchChannelResult> results,
+                                                  SearchContext context,
+                                                  Consumer<RetrievalStageSnapshot> observer) {
+        return process(chunks, results, context);
+    }
 }

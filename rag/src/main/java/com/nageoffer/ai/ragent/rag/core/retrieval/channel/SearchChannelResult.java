@@ -54,6 +54,9 @@ public class SearchChannelResult {
      */
     private long latencyMs;
 
+    /** 引擎可确认的 ERROR / TIMEOUT；null 时空结果无法区分无命中和通道内部降级。 */
+    private String executionStatus;
+
     /**
      * 扩展元数据
      */

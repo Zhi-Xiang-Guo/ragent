@@ -26,6 +26,7 @@ import com.nageoffer.ai.ragent.rag.core.intent.NodeScore;
 import com.nageoffer.ai.ragent.rag.core.intent.NodeScoreFilters;
 import com.nageoffer.ai.ragent.rag.core.prompt.ContextFormatter;
 import com.nageoffer.ai.ragent.rag.core.prompt.PromptTemplateLoader;
+import com.nageoffer.ai.ragent.rag.dto.RetrievalStageSnapshot;
 import com.nageoffer.ai.ragent.rag.dto.RankedChunk;
 import com.nageoffer.ai.ragent.rag.dto.SubQuestionRetrievalResult;
 import com.nageoffer.ai.ragent.rag.dto.RetrievalContext;
@@ -63,6 +64,10 @@ public class RetrievalEngine {
 
     @RagTraceNode(name = "retrieval-engine", type = "RETRIEVE")
     public RetrievalContext retrieve(List<SubQuestionIntent> subIntents) {
+        return retrieve(subIntents, false);
+    }
+
+    public RetrievalContext retrieve(List<SubQuestionIntent> subIntents, boolean captureStages) {
         if (CollUtil.isEmpty(subIntents)) {
             return RetrievalContext.builder()
                     .intentChunks(Map.of())
@@ -79,15 +84,16 @@ public class RetrievalEngine {
         List<CompletableFuture<SubQuestionContext>> tasks = subIntents.stream()
                 .map(intent -> CompletableFuture.supplyAsync(
                         () -> {
+                            List<RetrievalStageSnapshot> stages = new ArrayList<>();
                             try {
-                                return buildSubQuestionContext(intent, budget);
+                                return buildSubQuestionContext(intent, budget, captureStages ? stages : null);
                             } catch (Exception e) {
                                 log.error("子问题上下文构建失败，降级为空上下文，question：{}", intent.subQuestion(), e);
                                 return new SubQuestionContext(
                                         intent.subQuestion(), "", Map.of(),
                                         KnowledgeRetrievalResult.empty().eligibleIntentIds(
                                                 NodeScoreFilters.kb(intent.nodeScores())),
-                                        new SubQuestionRetrievalResult(intent.subQuestion(), "ERROR", List.of()));
+                                        new SubQuestionRetrievalResult(intent.subQuestion(), "ERROR", List.of(), stages));
                             }
                         },
                         ragContextExecutor
@@ -134,9 +140,10 @@ public class RetrievalEngine {
                 .build();
     }
 
-    private SubQuestionContext buildSubQuestionContext(SubQuestionIntent intent, RetrievalBudget budget) {
+    private SubQuestionContext buildSubQuestionContext(SubQuestionIntent intent, RetrievalBudget budget,
+                                                       List<RetrievalStageSnapshot> stages) {
         List<NodeScore> kbIntents = NodeScoreFilters.kb(intent.nodeScores());
-        return retrieveAndRerank(intent, kbIntents, budget);
+        return retrieveAndRerank(intent, kbIntents, budget, stages);
     }
 
     private void appendSection(StringBuilder builder, int index, String question, String context) {
@@ -150,12 +157,15 @@ public class RetrievalEngine {
         )));
     }
 
-    private SubQuestionContext retrieveAndRerank(SubQuestionIntent intent, List<NodeScore> kbIntents, RetrievalBudget budget) {
-        KnowledgeRetrievalResult retrievalResult = multiChannelRetrievalEngine.retrieveKnowledgeChannels(intent, budget);
+    private SubQuestionContext retrieveAndRerank(SubQuestionIntent intent, List<NodeScore> kbIntents, RetrievalBudget budget,
+                                                List<RetrievalStageSnapshot> stages) {
+        KnowledgeRetrievalResult retrievalResult = stages == null
+                ? multiChannelRetrievalEngine.retrieveKnowledgeChannels(intent, budget)
+                : multiChannelRetrievalEngine.retrieveKnowledgeChannels(intent, budget, stages::add);
         List<RetrievedChunk> chunks = retrievalResult.chunks();
         Set<String> eligibleIntentIds = retrievalResult.eligibleIntentIds(kbIntents);
         SubQuestionRetrievalResult rankedResult = new SubQuestionRetrievalResult(
-                intent.subQuestion(), "SUCCESS", RankedChunk.snapshot(chunks));
+                intent.subQuestion(), "SUCCESS", RankedChunk.snapshot(chunks), stages == null ? List.of() : stages);
         if (CollUtil.isEmpty(chunks)) {
             return new SubQuestionContext(intent.subQuestion(), "", Map.of(), eligibleIntentIds, rankedResult);
         }
