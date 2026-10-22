@@ -63,7 +63,7 @@ class EvalControllerTest {
         when(docs.selectByIds(any())).thenReturn(List.of(
                 KnowledgeDocumentDO.builder().id("doc-a").docName("A.md").build(),
                 KnowledgeDocumentDO.builder().id("doc-b").docName("B.pdf").build()));
-        var response = new EvalController(rewrite, resolver, engine, chunks, docs).chat("问题").getData();
+        var response = new EvalController(rewrite, resolver, engine, chunks, docs, null, null).chat("问题").getData();
         assertEquals(List.of("a1", "a2", "b1"), response.getRetrievedChunkIds());
         assertEquals(List.of("a1", "a2", "b1"), response.getRetrievedContexts());
         assertEquals(List.of("A", "A", "B"), response.getRetrievedContextDocIds());
@@ -90,7 +90,7 @@ class EvalControllerTest {
         when(engine.retrieve(any(), eq(true))).thenReturn(RetrievalContext.builder()
                 .subQuestionResults(List.of(new SubQuestionRetrievalResult("Q", "SUCCESS", List.of(), stages))).build());
         var controller = new EvalController(rewrite, resolver, engine,
-                mock(KnowledgeChunkMapper.class), mock(KnowledgeDocumentMapper.class));
+                mock(KnowledgeChunkMapper.class), mock(KnowledgeDocumentMapper.class), null, null);
         assertEquals(stages, controller.chat("Q", true).getData().getSubQuestionResults().get(0).stages());
         verify(engine).retrieve(any(), eq(true));
         verify(engine, never()).retrieve(any());

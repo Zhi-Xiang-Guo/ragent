@@ -79,8 +79,14 @@ public class KnowledgeSearchFacade {
             return EMPTY_RESULT;
         }
 
+        return llmService.chat(buildAnswerRequest(rewriteResult, subIntents, retrievalCtx));
+    }
+
+    /** Reuse the production synthesis prompt without performing a second retrieval. */
+    public ChatRequest buildAnswerRequest(RewriteResult rewriteResult, List<SubQuestionIntent> subIntents,
+                                          RetrievalContext retrievalCtx) {
         // 工具不渲染角标，但内部 docId 一定要抹掉，否则会随工具结果漏进主 Agent 的可见文本
-        String kbContext = citationContextEnricher.stripDocIdAnchors(retrievalCtx.getKbContext());
+        String kbContext = answerContext(retrievalCtx);
 
         PromptContext promptContext = PromptContext.builder()
                 .kbContext(kbContext)
@@ -90,11 +96,15 @@ public class KnowledgeSearchFacade {
         List<ChatMessage> messages = promptService.buildStructuredMessages(
                 promptContext, List.of(), rewriteResult.rewrittenQuestion(), rewriteResult.subQuestions(), false);
 
-        return llmService.chat(ChatRequest.builder()
+        return ChatRequest.builder()
                 .messages(messages)
                 .temperature(0D)
                 .topP(1D)
                 .thinking(false)
-                .build());
+                .build();
+    }
+
+    public String answerContext(RetrievalContext retrievalCtx) {
+        return citationContextEnricher.stripDocIdAnchors(retrievalCtx.getKbContext());
     }
 }

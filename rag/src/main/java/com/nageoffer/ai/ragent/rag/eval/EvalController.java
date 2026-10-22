@@ -59,20 +59,49 @@ public class EvalController {
     private final KnowledgeChunkMapper knowledgeChunkMapper;
     private final KnowledgeDocumentMapper knowledgeDocumentMapper;
 
+    private final com.nageoffer.ai.ragent.rag.service.KnowledgeSearchFacade knowledgeSearchFacade;
+    private final com.nageoffer.ai.ragent.infra.chat.LLMService llmService;
+
     public Result<EvalResponse> chat(String question) {
         return chat(question, false);
     }
 
+    public Result<EvalResponse> chat(String question, boolean captureStages) {
+        return chat(question, captureStages, false);
+    }
+
     @GetMapping("/rag/eval")
     public Result<EvalResponse> chat(@RequestParam String question,
-                                     @RequestParam(defaultValue = "false") boolean captureStages) {
+                                   @RequestParam(defaultValue = "false") boolean captureStages,
+                                   @RequestParam(defaultValue = "false") boolean generateAnswer) {
         long start = System.currentTimeMillis();
 
         RewriteResult rewriteResult = queryRewriteService.rewriteWithSplit(question, List.of());
         List<SubQuestionIntent> subIntents = intentResolver.resolve(rewriteResult);
         RetrievalContext rc = captureStages ? retrievalEngine.retrieve(subIntents, true) : retrievalEngine.retrieve(subIntents);
 
-        return Results.success(buildResponse(rc, subIntents, System.currentTimeMillis() - start));
+        EvalResponse response = buildResponse(rc, subIntents, System.currentTimeMillis() - start);
+        response.setContextUnits(rc == null ? List.of() : rc.getContextUnits());
+        response.setFinalContext(rc == null ? "" : rc.getKbContext());
+        if (generateAnswer) {
+            if (rc == null || !rc.hasKb()) {
+                response.setAnswer("未在知识库中检索到与该问题相关的内容。");
+                response.setAnswerStatus("NO_CONTEXT");
+            } else {
+                var request = knowledgeSearchFacade.buildAnswerRequest(rewriteResult, subIntents, rc);
+                response.setFinalContext(knowledgeSearchFacade.answerContext(rc));
+                response.setAnswerMessages(request.getMessages());
+                try {
+                    response.setAnswer(llmService.chat(request));
+                    response.setAnswerStatus("SUCCESS");
+                } catch (RuntimeException e) {
+                    response.setAnswerStatus("ERROR");
+                    // Do not return provider exceptions: they can contain credentials or payloads.
+                }
+            }
+        }
+        response.setLatencyMs(System.currentTimeMillis() - start);
+        return Results.success(response);
     }
 
     private EvalResponse buildResponse(RetrievalContext rc, List<SubQuestionIntent> subIntents, long latencyMs) {

@@ -72,6 +72,17 @@ public class EvalResponse {
      */
     private long latencyMs;
 
+    /** Exact context and messages used by the optional production answer synthesis. */
+    private String finalContext;
+    private List<com.nageoffer.ai.ragent.rag.core.retrieval.context.ContextUnit> contextUnits;
+    private String answer;
+    @Builder.Default
+    private String answerStatus = "NOT_REQUESTED";
+    private List<com.nageoffer.ai.ragent.framework.convention.ChatMessage> answerMessages;
+    /** LLMService returns text only; do not misrepresent estimates as provider usage. */
+    @Builder.Default
+    private String usageStatus = "UNAVAILABLE_TEXT_ONLY_LLM_INTERFACE";
+
     /** 每个子问题的后处理排名；旧 retrieved* 字段保留分组摊平的历史语义。 */
     @Builder.Default
     private List<SubQuestionRetrievalResult> subQuestionResults = List.of();

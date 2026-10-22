@@ -38,6 +38,9 @@ public class RetrievalContext {
      */
     private String kbContext;
 
+    @Builder.Default
+    private List<com.nageoffer.ai.ragent.rag.core.retrieval.context.ContextUnit> contextUnits = List.of();
+
     /**
      * 意图 ID -> 分片列表
      */

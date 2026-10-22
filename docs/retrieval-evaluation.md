@@ -42,3 +42,12 @@
 UNSCORED 表示重排结果中没有精排分，可能是 noop 降级。失败处理器快照中的候选是降级后继续流转的集合，不应计为该处理器成功执行。
 
 收集器按请求及子问题显式传递；阶段数据立即复制为不可变值，通道超时后迟到任务不会写入快照。
+
+## 答案和上下文对照
+
+`generateAnswer=true` 使用本次检索结果及 `KnowledgeSearchFacade` 的正式合成提示词生成答案，不二次检索。
+新增 `finalContext`、`answerMessages`、`answer`、`answerStatus`、`contextUnits`。
+`subQuestionResults` 保留小块排名；`contextUnits` 独立记录扩展结果和命中来源。
+上下文总上限为 8192 Unicode 码点，含模板开销；多子问题平均分配预算，裁剪围绕首个命中证据。
+`LLMService` 当前只返回文本，`usageStatus` 明确表示真实供应商 token 用量不可用。
+无上下文返回 `NO_CONTEXT`，生成异常返回 `ERROR`，不将异常计为正确拒答。
