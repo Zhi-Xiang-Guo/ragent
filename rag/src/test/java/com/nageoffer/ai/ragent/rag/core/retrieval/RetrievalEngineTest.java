@@ -165,6 +165,42 @@ class RetrievalEngineTest {
         assertEquals(Set.of("A"), result.getEligibleIntentIds());
     }
 
+    @Test
+    void preservesRankingBeforeIntentGroupingAndSnapshotsMutableChunks() {
+        RetrievedChunk a1 = chunk("a1", "第一条");
+        RetrievedChunk b1 = chunk("b1", "第二条");
+        RetrievedChunk a2 = chunk("a2", "第三条");
+        a1.setScore(0.9f);
+        MultiChannelRetrievalEngine multi = mock(MultiChannelRetrievalEngine.class);
+        ContextFormatter formatter = mock(ContextFormatter.class);
+        when(multi.retrieveKnowledgeChannels(any(), any())).thenReturn(new KnowledgeRetrievalResult(
+                List.of(a1, b1, a2), Map.of("a1", Set.of("A"), "a2", Set.of("A"), "b1", Set.of("B")), Set.of()));
+        RetrievalContext result = engine(multi, formatter).retrieve(List.of(new SubQuestionIntent("问题", List.of())));
+        assertEquals(List.of(a1, a2), result.getIntentChunks().get("A"));
+        var ranked = result.getSubQuestionResults().get(0).rankedChunks();
+        assertEquals(List.of("a1", "b1", "a2"), ranked.stream().map(c -> c.chunkId()).toList());
+        assertEquals(List.of(1, 2, 3), ranked.stream().map(c -> c.rank()).toList());
+        a1.setScore(0.1f);
+        assertEquals(0.9f, ranked.get(0).score());
+    }
+
+    @Test
+    void keepsIndependentRankingsAndEmptyOrFailedQuestions() {
+        MultiChannelRetrievalEngine multi = mock(MultiChannelRetrievalEngine.class);
+        ContextFormatter formatter = mock(ContextFormatter.class);
+        when(multi.retrieveKnowledgeChannels(any(), any()))
+                .thenReturn(new KnowledgeRetrievalResult(List.of(chunk("a", "资料")), Map.of(), Set.of()))
+                .thenReturn(KnowledgeRetrievalResult.empty())
+                .thenThrow(new IllegalStateException("unavailable"));
+        RetrievalContext result = engine(multi, formatter).retrieve(List.of(
+                new SubQuestionIntent("一", List.of()), new SubQuestionIntent("二", List.of()),
+                new SubQuestionIntent("三", List.of())));
+        assertEquals(List.of("一", "二", "三"), result.getSubQuestionResults().stream().map(q -> q.subQuestion()).toList());
+        assertEquals(List.of("SUCCESS", "SUCCESS", "ERROR"), result.getSubQuestionResults().stream().map(q -> q.status()).toList());
+        assertTrue(result.getSubQuestionResults().get(1).rankedChunks().isEmpty());
+        assertTrue(engine(multi, formatter).retrieve(List.of()).getSubQuestionResults().isEmpty());
+    }
+
     private Set<String> eligibleAfterTwoQuestions(KnowledgeRetrievalResult first,
                                                    KnowledgeRetrievalResult second) {
         MultiChannelRetrievalEngine multiChannel = mock(MultiChannelRetrievalEngine.class);

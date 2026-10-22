@@ -94,6 +94,7 @@ public class EvalController {
                 .subIntents(extractSubIntents(subIntents))
                 .intentLeafIds(extractTopLeafIds(subIntents))
                 .latencyMs(latencyMs)
+                .subQuestionResults(rc == null ? List.of() : rc.getSubQuestionResults())
                 .build();
     }
 

@@ -17,6 +17,7 @@
 
 package com.nageoffer.ai.ragent.rag.eval;
 
+import com.nageoffer.ai.ragent.rag.dto.SubQuestionRetrievalResult;
 import lombok.Builder;
 import lombok.Data;
 
@@ -70,4 +71,8 @@ public class EvalResponse {
      * 总耗时（毫秒）
      */
     private long latencyMs;
+
+    /** 每个子问题的后处理排名；旧 retrieved* 字段保留分组摊平的历史语义。 */
+    @Builder.Default
+    private List<SubQuestionRetrievalResult> subQuestionResults = List.of();
 }
