@@ -30,6 +30,11 @@ class EvaluationMetricsTest(unittest.TestCase):
         row = {'response': {'answerStatus': 'SUCCESS', 'answer': '当前可用信息不足以回答该问题。'}}
         self.assertTrue(score(case, row, {})['answerCheckProxy'])
 
+    def test_failed_retrieval_cannot_masquerade_as_a_healthy_abstention(self):
+        case = {'id': 'q', 'sourceKind': 'synthetic', 'split': 'test', 'answerable': False}
+        row = {'response': {'answerStatus': 'NO_CONTEXT', 'subQuestionResults': [{'status': 'ERROR', 'stages': []}]}}
+        self.assertFalse(score(case, row, {})['healthy'])
+
 
 if __name__ == '__main__':
     unittest.main()
