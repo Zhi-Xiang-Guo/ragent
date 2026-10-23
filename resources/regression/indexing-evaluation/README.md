@@ -29,3 +29,23 @@ For the stress suite, pass `--dataset stress-dataset.json`, a separate `--out`, 
 - `LLMService` returns text only. Provider token usage and monetary cost are unavailable; context character counts and vector counts are reported without relabeling them as actual token consumption.
 
 `python3 -m unittest test_analyze.py` verifies ranking denominators, source attribution and evidence normalization. Java tests cover structural boundaries, context expansion, guards and the pre-write embedding failure boundary. The Docker lifecycle checks additionally exercise real rollback after a deliberately rejected vector insert, whole-document reingestion, disable/enable, manual edit rejection, STANDARD fallback and deletion.
+
+
+## Lifecycle and fixed-prompt replay
+
+After quality measurements, run the disposable-document checks against the dedicated Compose project:
+
+```sh
+python3 check_lifecycle.py parent-child --compose /path/to/private-compose.json --results /tmp/indexing-results
+# Deploy the other arm before selecting sentence-window.
+```
+
+The check creates its own document and a temporary PostgreSQL trigger restricted to that document. It removes the trigger in a finally block, compares the previous chunk/vector identities after the forced failure, and deletes its test document on success.
+
+For two additional answer generations from the exact captured production prompts, use the same gateway and model and provide its key through an environment variable:
+
+```sh
+python3 replay_prompts.py all --results /tmp/indexing-results --url https://your-gateway/chat/completions --model your-captured-model
+```
+
+`EVAL_MODEL_API_KEY` is read in memory and never saved. Only the previously frozen automated baseline-failure IDs are selected. These are synthesis stability checks with fixed evidence, not three independent retrieval runs. Keep this distinction in every result table.
