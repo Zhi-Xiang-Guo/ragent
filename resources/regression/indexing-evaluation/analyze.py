@@ -49,6 +49,9 @@ def score(case, row, id_to_key):
     groups = response.get('subQuestionResults') or []
     bad_stages = [s['stage'] + ':' + s['status'] for q in groups for s in q.get('stages', [])
                   if s.get('status') not in ('SUCCESS', 'EMPTY')]
+    bad_stages += ['post:Rerank:NO_SCORES' for q in groups for s in q.get('stages', [])
+                   if s.get('stage') == 'post:Rerank' and s.get('rankedChunks')
+                   and not any(c.get('rerankScore') is not None for c in s['rankedChunks'])]
     bad_stages += ['subQuestion:' + str(q.get('status')) for q in groups if q.get('status') != 'SUCCESS']
     healthy = not row.get('error') and response.get('answerStatus') in ('SUCCESS', 'NO_CONTEXT') and not bad_stages
     rankings = [unique(id_to_key.get(c.get('docId')) for c in q.get('rankedChunks', [])) for q in groups]
@@ -112,8 +115,8 @@ def analyze(out, dataset_path=ROOT / 'dataset.json'):
         rows = latest(out / (mode + '.jsonl'))
         scored = [score(case_map[key], row, id_to_key) for key, row in rows.items() if key in case_map]
         scores[mode] = {r['id']: r for r in scored}
-        groups = {name: summarize([r for r in scored if r['split'] == name]) for name in ('dev', 'test', 'regression')}
-        groups.update({name: summarize([r for r in scored if r['sourceKind'] == name]) for name in ('real-cookbook', 'synthetic', 'existing-simulated-regression')})
+        groups = {name: summarize([r for r in scored if r['split'] == name]) for name in ('dev', 'test', 'regression', 'stress')}
+        groups.update({name: summarize([r for r in scored if r['sourceKind'] == name]) for name in ('real-cookbook', 'synthetic', 'existing-simulated-regression', 'synthetic-stress-v2')})
         report['modes'][mode] = {'all': summarize(scored), 'groups': groups}
         (out / (mode + '-scores.json')).write_text(json.dumps(scored, ensure_ascii=False, indent=2))
     failures = [key for key, row in scores['baseline'].items() if row['healthy'] and

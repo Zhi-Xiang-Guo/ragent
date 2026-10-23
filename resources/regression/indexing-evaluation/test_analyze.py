@@ -35,6 +35,12 @@ class EvaluationMetricsTest(unittest.TestCase):
         row = {'response': {'answerStatus': 'NO_CONTEXT', 'subQuestionResults': [{'status': 'ERROR', 'stages': []}]}}
         self.assertFalse(score(case, row, {})['healthy'])
 
+    def test_noop_fallback_is_not_a_valid_bge_rerank_experiment(self):
+        case = {'id': 'q', 'sourceKind': 'synthetic', 'split': 'test', 'answerable': True}
+        row = {'response': {'answerStatus': 'SUCCESS', 'subQuestionResults': [{'status': 'SUCCESS',
+               'stages': [{'stage': 'post:Rerank', 'status': 'SUCCESS', 'rankedChunks': [{'rerankScore': None}]}]}]}}
+        self.assertFalse(score(case, row, {})['healthy'])
+
 
 if __name__ == '__main__':
     unittest.main()

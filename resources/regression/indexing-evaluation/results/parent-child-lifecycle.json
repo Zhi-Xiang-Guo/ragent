@@ -1,0 +1,44 @@
+{
+  "variant": "parent-child",
+  "docId": "2113486651995996160",
+  "checks": [
+    {
+      "check": "roles-and-vectors",
+      "passed": true,
+      "chunks": 5,
+      "vectors": 3
+    },
+    {
+      "check": "all-five-advanced-mutation-guards",
+      "passed": true
+    },
+    {
+      "check": "reingestion-replaces-entire-batch",
+      "passed": true
+    },
+    {
+      "check": "disable-removes-vectors-and-context",
+      "passed": true
+    },
+    {
+      "check": "reenable-restores-only-searchable-vectors",
+      "passed": true
+    },
+    {
+      "check": "downstream-sink-failure-rolls-back-old-chunks-and-vectors",
+      "passed": true
+    },
+    {
+      "check": "changing-config-alone-cannot-unlock-advanced-chunks",
+      "passed": true
+    },
+    {
+      "check": "standard-rebuild-restores-existing-edit-api",
+      "passed": true
+    },
+    {
+      "check": "advanced-document-delete-cleans-all-roles-and-vectors",
+      "passed": true
+    }
+  ]
+}

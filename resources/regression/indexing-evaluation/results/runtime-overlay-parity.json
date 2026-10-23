@@ -1,0 +1,29 @@
+{
+  "baseline": {
+    "adapterSha256": {
+      "com/nageoffer/ai/ragent/infra/chat/OpaysChatClient.class": "8d1baba8018a8b833c86fd454c3c290eadfaec1a409254b634fb5c12a864fde9",
+      "com/nageoffer/ai/ragent/infra/enums/ModelProvider.class": "a4dfc112a283b20ae15190d7e2feebfef292366eb91c0aeb2500eb3636c66eb9",
+      "com/nageoffer/ai/ragent/infra/embedding/OpaysEmbeddingClient.class": "ad407ed04f9842a74c39c3cab871ce3b3cbf2cc23870a7e93b88bd96242914a9",
+      "com/nageoffer/ai/ragent/infra/rerank/OpaysRerankClient.class": "7dcee922623934d222237a2c58f52011474fa41b731915d72cf9f9d7b7ce47f8"
+    },
+    "runtimeYamlSha256": "85a873dba23ea2e74740c998ffdf804a0274231ab794dbb377762b03de3d59f5"
+  },
+  "parent-child": {
+    "adapterSha256": {
+      "com/nageoffer/ai/ragent/infra/chat/OpaysChatClient.class": "8d1baba8018a8b833c86fd454c3c290eadfaec1a409254b634fb5c12a864fde9",
+      "com/nageoffer/ai/ragent/infra/enums/ModelProvider.class": "a4dfc112a283b20ae15190d7e2feebfef292366eb91c0aeb2500eb3636c66eb9",
+      "com/nageoffer/ai/ragent/infra/embedding/OpaysEmbeddingClient.class": "ad407ed04f9842a74c39c3cab871ce3b3cbf2cc23870a7e93b88bd96242914a9",
+      "com/nageoffer/ai/ragent/infra/rerank/OpaysRerankClient.class": "7dcee922623934d222237a2c58f52011474fa41b731915d72cf9f9d7b7ce47f8"
+    },
+    "runtimeYamlSha256": "85a873dba23ea2e74740c998ffdf804a0274231ab794dbb377762b03de3d59f5"
+  },
+  "sentence-window": {
+    "adapterSha256": {
+      "com/nageoffer/ai/ragent/infra/chat/OpaysChatClient.class": "8d1baba8018a8b833c86fd454c3c290eadfaec1a409254b634fb5c12a864fde9",
+      "com/nageoffer/ai/ragent/infra/enums/ModelProvider.class": "a4dfc112a283b20ae15190d7e2feebfef292366eb91c0aeb2500eb3636c66eb9",
+      "com/nageoffer/ai/ragent/infra/embedding/OpaysEmbeddingClient.class": "ad407ed04f9842a74c39c3cab871ce3b3cbf2cc23870a7e93b88bd96242914a9",
+      "com/nageoffer/ai/ragent/infra/rerank/OpaysRerankClient.class": "7dcee922623934d222237a2c58f52011474fa41b731915d72cf9f9d7b7ce47f8"
+    },
+    "runtimeYamlSha256": "85a873dba23ea2e74740c998ffdf804a0274231ab794dbb377762b03de3d59f5"
+  }
+}

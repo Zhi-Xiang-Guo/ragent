@@ -1,0 +1,5 @@
+                                                            json_build_object                                                            
+-----------------------------------------------------------------------------------------------------------------------------------------
+ {"documents" : 45, "activeRoles" : { "STANDARD" : 144 }, "vectors" : 144, "parentVectors" : 0, "staleVectors" : 0, "brokenParents" : 0}
+(1 row)
+

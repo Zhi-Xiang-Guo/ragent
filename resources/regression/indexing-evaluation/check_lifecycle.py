@@ -32,10 +32,14 @@ def run(ops, variant):
         print(check, 'PASS', flush=True)
 
     def ingest():
-        client.call('/rag/eval/ingest/' + doc_id, 'POST')
-        state = client.call(base)
-        assert state['status'] == 'success', state['status']
-        return state
+        for attempt in range(4):
+            client.call('/rag/eval/ingest/' + doc_id, 'POST')
+            state = client.call(base)
+            if state['status'] == 'success':
+                return state
+            if state['status'] == 'running' or attempt == 3:
+                raise AssertionError(state['status'])
+            time.sleep(5 if attempt == 0 else 35)
 
     def snapshot():
         sql = f"""SELECT json_build_object(
@@ -77,14 +81,14 @@ def run(ops, variant):
     assert not set(c['id'] for c in initial['chunks']).intersection(c['id'] for c in rebuilt['chunks'])
     assert set(rebuilt['vectors']) == expected_vectors(rebuilt)
     record('reingestion-replaces-entire-batch')
-    client.call(base + '/enable?value=false', 'PATCH')
+    client.enable_document(doc_id, False)
     disabled = snapshot()
     assert not disabled['vectors'] and all(c['enabled'] == 0 for c in disabled['chunks'])
     query = urllib.parse.urlencode({'question': '龙爪临时审计出现紫色标记时，等待多久才能恢复？', 'captureStages': 'true'})
     response = client.call('/rag/eval?' + query)
     assert all(u['chunk'].get('docId') != doc_id for u in response.get('contextUnits', []))
     record('disable-removes-vectors-and-context')
-    client.call(base + '/enable?value=true', 'PATCH')
+    client.enable_document(doc_id, True)
     enabled = snapshot()
     assert set(enabled['vectors']) == expected_vectors(enabled)
     assert set(enabled['vectors']) == set(rebuilt['vectors'])
