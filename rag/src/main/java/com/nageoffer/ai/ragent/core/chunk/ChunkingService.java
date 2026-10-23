@@ -17,6 +17,8 @@
 
 package com.nageoffer.ai.ragent.core.chunk;
 
+import com.nageoffer.ai.ragent.core.ingest.IngestionSpec;
+
 import com.nageoffer.ai.ragent.core.chunk.blockaware.BlockAwareChunkerDispatcher;
 import com.nageoffer.ai.ragent.core.chunk.model.Chunk;
 import com.nageoffer.ai.ragent.core.chunk.model.ChunkAssembler;
@@ -52,6 +54,11 @@ public class ChunkingService {
             return wholeDocument(blocks);
         }
         return blockAwareChunkerDispatcher.dispatch(blocks, budget);
+    }
+
+    public List<Chunk> chunkForIngestion(List<Block> blocks, IngestionSpec spec) {
+        return spec.indexing().advanced() ? SentenceWindowChunker.chunk(blocks, spec.indexing(), this)
+                : chunk(blocks, spec.budget());
     }
 
     private List<Chunk> wholeDocument(List<Block> blocks) {

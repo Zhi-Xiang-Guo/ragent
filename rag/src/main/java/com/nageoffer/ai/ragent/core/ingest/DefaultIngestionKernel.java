@@ -89,7 +89,7 @@ public class DefaultIngestionKernel implements IngestionKernel {
 
         // ③ chunk：Block 类型 → chunker + 预算
         long chunkStart = System.currentTimeMillis();
-        List<Chunk> chunks = chunkingService.chunk(blocks, effectiveSpec.budget());
+        List<Chunk> chunks = chunkingService.chunkForIngestion(blocks, effectiveSpec);
         long chunkMillis = System.currentTimeMillis() - chunkStart;
 
         if (chunks.isEmpty()) {

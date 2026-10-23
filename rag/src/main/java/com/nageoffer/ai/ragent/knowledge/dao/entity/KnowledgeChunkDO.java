@@ -89,6 +89,12 @@ public class KnowledgeChunkDO {
      */
     private String embeddingText;
 
+    /** STANDARD for existing rows; advanced roles are branch-specific. */
+    @Builder.Default
+    private String chunkType = "STANDARD";
+    /** Persisted section boundary; sentence windows never cross this identity. */
+    private String sectionId;
+
     /**
      * 是否启用 0：禁用 1：启用
      */

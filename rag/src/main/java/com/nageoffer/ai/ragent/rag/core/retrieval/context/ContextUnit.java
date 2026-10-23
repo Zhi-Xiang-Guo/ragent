@@ -31,8 +31,20 @@ public record ContextUnit(RetrievedChunk chunk, List<String> hitChunkIds, String
         return new ContextUnit(hit, hit.getId() == null ? List.of() : List.of(hit.getId()),
                 "ORIGINAL", null, hit.getChunkIndex(), hit.getChunkIndex());
     }
+    /** Preserve the best contributing hit's original rank across KB and external channels. */
+    public static List<ContextUnit> orderByHits(List<ContextUnit> units, List<RetrievedChunk> hits) {
+        return units.stream().sorted(java.util.Comparator.comparingInt(unit -> {
+            for (int i = 0; i < hits.size(); i++) {
+                var hit = hits.get(i);
+                if (java.util.Objects.equals(hit.getCollectionName(), unit.chunk().getCollectionName())
+                        && (hit.getId() != null && unit.hitChunkIds().contains(hit.getId())
+                        || (hit.getId() == null && java.util.Objects.equals(hit.getText(), unit.chunk().getText())))) return i;
+            }
+            return Integer.MAX_VALUE;
+        })).toList();
+    }
     public ContextUnit withText(String text) {
         return new ContextUnit(chunk.toBuilder().text(text).build(), hitChunkIds,
-                status + ":TRUNCATED", sectionId, startIndex, endIndex);
+                status.endsWith(":TRUNCATED") ? status : status + ":TRUNCATED", sectionId, startIndex, endIndex);
     }
 }

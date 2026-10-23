@@ -17,6 +17,9 @@
 
 package com.nageoffer.ai.ragent.knowledge.sink;
 
+import com.nageoffer.ai.ragent.knowledge.dao.entity.KnowledgeDocumentDO;
+import com.nageoffer.ai.ragent.knowledge.dao.mapper.KnowledgeDocumentMapper;
+
 import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.nageoffer.ai.ragent.core.chunk.model.EmbeddedChunk;
@@ -51,9 +54,15 @@ public class RelationalChunkSink implements ChunkSink {
 
     private final KnowledgeChunkMapper chunkMapper;
     private final TokenCounterService tokenCounterService;
+    private final KnowledgeDocumentMapper documentMapper;
 
     @Override
     public void replaceDocument(VectorTarget target, DocumentRef doc, List<EmbeddedChunk> chunks) {
+        var document = documentMapper.selectOne(new LambdaQueryWrapper<KnowledgeDocumentDO>()
+                .eq(KnowledgeDocumentDO::getId, doc.docId()).last("FOR UPDATE"));
+        if (document == null || !Integer.valueOf(1).equals(document.getEnabled())
+                || !doc.kbId().equals(document.getKbId()))
+            throw new IllegalStateException("Document was deleted, disabled or changed during ingestion");
         deleteDocument(target, doc);
         if (chunks.isEmpty()) {
             return;
@@ -72,6 +81,8 @@ public class RelationalChunkSink implements ChunkSink {
                     .charCount(content.length())
                     .tokenCount(StringUtils.hasText(content) ? tokenCounterService.countTokens(content) : 0)
                     .embeddingText(chunk.embeddingText())
+                    .chunkType((String) chunk.metadata().extras().getOrDefault("chunk_type", "STANDARD"))
+                    .sectionId((String) chunk.metadata().extras().get("section_id"))
                     .enabled(1)
                     .createdBy(username)
                     .updatedBy(username)

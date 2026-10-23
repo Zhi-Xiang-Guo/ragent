@@ -216,6 +216,8 @@ CREATE TABLE t_knowledge_chunk (
     char_count     INTEGER,
     token_count    INTEGER,
     embedding_text TEXT,
+    chunk_type VARCHAR(16) NOT NULL DEFAULT 'STANDARD',
+    section_id VARCHAR(20),
     enabled        SMALLINT    NOT NULL DEFAULT 1,
     created_by     VARCHAR(20) NOT NULL,
     updated_by     VARCHAR(20),
@@ -1062,3 +1064,5 @@ COMMENT ON COLUMN t_agent_memory_control.user_id IS '用户ID';
 COMMENT ON COLUMN t_agent_memory_control.revision IS '记忆集版本号，提交期与水位一同双校验';
 COMMENT ON COLUMN t_agent_memory_control.create_time IS '建行时刻，兼作抽取下界：更早的历史消息不倒灌';
 COMMENT ON COLUMN t_agent_memory_control.update_time IS '更新时间';
+
+CREATE INDEX IF NOT EXISTS idx_chunk_doc_section_order ON t_knowledge_chunk (doc_id, section_id, chunk_index);

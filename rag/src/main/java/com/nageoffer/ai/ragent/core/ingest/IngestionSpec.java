@@ -29,9 +29,9 @@ import com.nageoffer.ai.ragent.core.parser.registry.ParseProfile;
  * @param parseProfile 解析档位
  * @param budget       分块预算
  */
-public record IngestionSpec(int version, ParseProfile parseProfile, ChunkBudget budget) {
+public record IngestionSpec(int version, ParseProfile parseProfile, ChunkBudget budget, IndexingOptions indexing) {
 
-    public static final int CURRENT_VERSION = 2;
+    public static final int CURRENT_VERSION = 3;
 
     public IngestionSpec {
         if (version <= 0) {
@@ -39,6 +39,13 @@ public record IngestionSpec(int version, ParseProfile parseProfile, ChunkBudget 
         }
         parseProfile = parseProfile == null ? ParseProfile.defaultProfile() : parseProfile;
         budget = budget == null ? ChunkBudget.defaults() : budget;
+        indexing = indexing == null ? IndexingOptions.defaults() : indexing;
+        if (indexing.advanced() && budget.isWholeDocument())
+            throw new IllegalArgumentException("Advanced indexing cannot use whole-document mode");
+    }
+
+    public IngestionSpec(int version, ParseProfile parseProfile, ChunkBudget budget) {
+        this(version, parseProfile, budget, IndexingOptions.defaults());
     }
 
     public static IngestionSpec defaults() {

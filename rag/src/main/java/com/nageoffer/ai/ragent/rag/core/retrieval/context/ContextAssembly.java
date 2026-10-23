@@ -29,9 +29,15 @@ public final class ContextAssembly {
 
     public static Result assemble(List<RetrievedChunk> hits, List<ContextExpander> expanders,
                                   Function<List<RetrievedChunk>, String> render, int budget) {
+        return assemble(hits, expanders, render, budget, 0);
+    }
+
+    public static Result assemble(List<RetrievedChunk> hits, List<ContextExpander> expanders,
+                                  Function<List<RetrievedChunk>, String> render, int budget, int maxUnits) {
         if (expanders.size() > 1) throw new IllegalStateException("Only one context expander is supported");
         List<ContextUnit> units = new ArrayList<>(expanders.isEmpty()
                 ? hits.stream().map(ContextUnit::original).toList() : expanders.get(0).expand(hits));
+        if (maxUnits > 0 && units.size() > maxUnits) units = new ArrayList<>(units.subList(0, maxUnits));
         while (!units.isEmpty() && budget > 0) {
             String text = render.apply(units.stream().map(ContextUnit::chunk).toList());
             if (text == null) text = "";
