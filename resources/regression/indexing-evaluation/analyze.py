@@ -49,6 +49,7 @@ def score(case, row, id_to_key):
     groups = response.get('subQuestionResults') or []
     bad_stages = [s['stage'] + ':' + s['status'] for q in groups for s in q.get('stages', [])
                   if s.get('status') not in ('SUCCESS', 'EMPTY')]
+    bad_stages += ['subQuestion:' + str(q.get('status')) for q in groups if q.get('status') != 'SUCCESS']
     healthy = not row.get('error') and response.get('answerStatus') in ('SUCCESS', 'NO_CONTEXT') and not bad_stages
     rankings = [unique(id_to_key.get(c.get('docId')) for c in q.get('rankedChunks', [])) for q in groups]
     union = set(key for ranking in rankings for key in ranking[:10])

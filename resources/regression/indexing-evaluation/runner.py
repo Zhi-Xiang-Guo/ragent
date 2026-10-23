@@ -86,6 +86,9 @@ def ingest(client, dataset, out, mode, synchronous=False, mapping_path=None, dat
             continue
         if existing:
             doc_id = existing['id']
+            # The two experimental branches intentionally accept different advanced modes.
+            # Convert the known completed document through its existing update API first.
+            client.call('/knowledge-base/docs/' + doc_id, 'PUT', {'docName': doc['key'] + '.md', 'processMode': 'chunk', 'ingestionSpec': json.dumps(spec(mode))})
             current = client.call('/knowledge-base/docs/' + doc_id)
             if not current.get('enabled'):
                 client.call('/knowledge-base/docs/' + doc_id + '/enable?value=true', 'PATCH')
@@ -97,31 +100,43 @@ def ingest(client, dataset, out, mode, synchronous=False, mapping_path=None, dat
                     current = client.call('/knowledge-base/docs/' + doc_id)
                 if current.get('status') == 'running':
                     raise RuntimeError('Existing ingestion still running: ' + doc['key'])
-            client.call('/knowledge-base/docs/' + doc_id, 'PUT', {'docName': doc['key'] + '.md', 'processMode': 'chunk', 'ingestionSpec': json.dumps(spec(mode))})
         else:
             uploaded = client.upload(mapping['kbId'], doc['key'], data, spec(mode))
             doc_id = uploaded['id']
             mapping['documents'][doc['key']] = {'id': doc_id}
             save(path, mapping)
         route = '/rag/eval/ingest/' + doc_id if synchronous else '/knowledge-base/docs/' + doc_id + '/chunk'
-        client.call(route, 'POST')
-        deadline = time.monotonic() + 300
-        while time.monotonic() < deadline:
-            state = client.call('/knowledge-base/docs/' + doc_id)
-            status = str(state.get('status', '')).lower()
+        ingestion_attempts = []
+        for attempt in range(4):
+            client.call(route, 'POST')
+            deadline = time.monotonic() + 300
+            while time.monotonic() < deadline:
+                state = client.call('/knowledge-base/docs/' + doc_id)
+                status = str(state.get('status', '')).lower()
+                if status in ('success', 'completed', '2', 'failed', 'failure', '3'):
+                    break
+                time.sleep(2)
+            else:
+                raise RuntimeError('Ingestion timeout: ' + doc['key'] + ' status=' + status)
+            ingestion_attempts.append(status)
             if status in ('success', 'completed', '2'):
                 break
-            if status in ('failed', 'failure', '3'):
-                raise RuntimeError('Ingestion failed: ' + doc['key'])
-            time.sleep(2)
-        else:
-            raise RuntimeError('Ingestion timeout: ' + doc['key'] + ' status=' + status)
-        mapping['documents'][doc['key']].update(mode=mode, chunks=state.get('chunkCount'))
+            print('ingestion retry', mode, doc['key'], attempt + 1, status, flush=True)
+            if attempt == 3:
+                raise RuntimeError('Ingestion failed after retries: ' + doc['key'])
+            time.sleep(35)
+        mapping['documents'][doc['key']].update(mode=mode, chunks=state.get('chunkCount'), ingestionAttempts=ingestion_attempts)
         save(path, mapping)
         print('ingested', mode, doc['key'], state.get('chunkCount'), flush=True)
     if path != out / 'mapping.json':
         save(out / 'mapping.json', mapping)
     save(out / (mode + '-ingestion.json'), {'spec': spec(mode), 'transport': 'synchronous-production-service' if synchronous else 'rocketmq', 'datasetSha256': hashlib.sha256((dataset_path or ROOT / 'dataset.json').read_bytes()).hexdigest(), 'mapping': mapping})
+
+
+def response_healthy(response):
+    return response.get('answerStatus') in ('SUCCESS', 'NO_CONTEXT') and all(
+        q.get('status') == 'SUCCESS' and all(s.get('status') in ('SUCCESS', 'EMPTY') for s in q.get('stages', []))
+        for q in response.get('subQuestionResults', []))
 
 
 def evaluate(client, dataset, out, mode, workers, repeat, only):
@@ -130,9 +145,9 @@ def evaluate(client, dataset, out, mode, workers, repeat, only):
     if path.exists():
         for line in path.read_text().splitlines():
             row = json.loads(line)
-            if not row.get('error') and (row.get('response') or {}).get('answerStatus') in ('SUCCESS', 'NO_CONTEXT'):
+            if not row.get('error') and response_healthy(row.get('response') or {}):
                 completed.add(row['id'])
-    cases = [c for c in dataset['cases'] if c['id'] not in completed and (not only or c['id'] in only)]
+    cases = [c for c in dataset['cases'] if c['id'] not in completed and (only is None or c['id'] in only)]
     def one(case):
         started = time.monotonic()
         try:
@@ -141,9 +156,7 @@ def evaluate(client, dataset, out, mode, workers, repeat, only):
             for attempt in range(4):
                 response = client.call('/rag/eval?' + query)
                 attempts.append({'answerStatus': response.get('answerStatus'), 'latencyMs': response.get('latencyMs')})
-                degraded = any(s.get('status') not in ('SUCCESS', 'EMPTY')
-                               for q in response.get('subQuestionResults', []) for s in q.get('stages', []))
-                if response.get('answerStatus') in ('SUCCESS', 'NO_CONTEXT') and not degraded:
+                if response_healthy(response):
                     break
                 if attempt < 3:
                     time.sleep(35)
