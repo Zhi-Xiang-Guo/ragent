@@ -1,0 +1,2694 @@
+{
+  "version": 1,
+  "description": "真实文档构造题、合成工程测试题和现有模拟回归题；均非线上用户失败记录。先冻结题集，再从基线实际响应识别失败。",
+  "upstreamCommit": "cec956e80ae28d6c0ca84c9d39dddcf61ad633fd",
+  "documents": [
+    {
+      "key": "cook-01",
+      "path": "corpus/cookbook/cook-01.md",
+      "upstreamPath": "data/C8/cook/dishes/soup/腊八粥.md",
+      "source": "all-in-rag",
+      "sha256": "c3f127465480c130d9ab9cdec45c12348bed26572dcc90aa9dd9be504288ef03",
+      "split": "dev"
+    },
+    {
+      "key": "cook-02",
+      "path": "corpus/cookbook/cook-02.md",
+      "upstreamPath": "data/C8/cook/dishes/vegetable_dish/蒲烧茄子.md",
+      "source": "all-in-rag",
+      "sha256": "9e0846576bbe707d00fcbe62ca5663d97ea6c8a7cea85c54a1cfa2ce9bd96ab1",
+      "split": "dev"
+    },
+    {
+      "key": "cook-03",
+      "path": "corpus/cookbook/cook-03.md",
+      "upstreamPath": "data/C8/cook/dishes/meat_dish/咖喱肥牛/咖喱肥牛.md",
+      "source": "all-in-rag",
+      "sha256": "7676bb4ed5febfc367662d70e59f3f2a6cce6700038eceaa56b88f9963f5973e",
+      "split": "dev"
+    },
+    {
+      "key": "cook-04",
+      "path": "corpus/cookbook/cook-04.md",
+      "upstreamPath": "data/C8/cook/dishes/dessert/奥利奥冰淇淋/奥利奥冰淇淋.md",
+      "source": "all-in-rag",
+      "sha256": "04a76372e04a5b9a7f0f503aae19ac6d17dc9f2b66cacf7b292314882a2cd2ba",
+      "split": "dev"
+    },
+    {
+      "key": "cook-05",
+      "path": "corpus/cookbook/cook-05.md",
+      "upstreamPath": "data/C8/cook/dishes/meat_dish/小酥肉.md",
+      "source": "all-in-rag",
+      "sha256": "ab02191560a764eb3bccbc465aec1524d4f5c56909d03db2461cc52c21c93de5",
+      "split": "dev"
+    },
+    {
+      "key": "cook-06",
+      "path": "corpus/cookbook/cook-06.md",
+      "upstreamPath": "data/C8/cook/dishes/staple/河南蒸面条/河南蒸面条.md",
+      "source": "all-in-rag",
+      "sha256": "a187d8e8a9a965db2e515d505c23a0589c2b3ff71158542803124a5bcd33fa5d",
+      "split": "test"
+    },
+    {
+      "key": "cook-07",
+      "path": "corpus/cookbook/cook-07.md",
+      "upstreamPath": "data/C8/cook/dishes/staple/日式肥牛丼饭/日式肥牛丼饭.md",
+      "source": "all-in-rag",
+      "sha256": "72785faab1e97486395bd0bf097d0277cbf19fb936eec4fdf62fe7c5877067a1",
+      "split": "test"
+    },
+    {
+      "key": "cook-08",
+      "path": "corpus/cookbook/cook-08.md",
+      "upstreamPath": "data/C8/cook/dishes/dessert/戚风蛋糕/戚风蛋糕.md",
+      "source": "all-in-rag",
+      "sha256": "63a8fc4d61f9efdd4cd485e2185474005530626b598b79d2878e1d9201f0dcad",
+      "split": "test"
+    },
+    {
+      "key": "cook-09",
+      "path": "corpus/cookbook/cook-09.md",
+      "upstreamPath": "data/C8/cook/dishes/staple/汤面.md",
+      "source": "all-in-rag",
+      "sha256": "e7955987858f447e270a9dfbaed7d1f061889b8ced2c393801c158b00d39050b",
+      "split": "test"
+    },
+    {
+      "key": "cook-10",
+      "path": "corpus/cookbook/cook-10.md",
+      "upstreamPath": "data/C8/cook/dishes/staple/茄子肉煎饼/茄子肉煎饼.md",
+      "source": "all-in-rag",
+      "sha256": "b881d2c687e1e7dcbd0002931da27b769f1f3114d932e15a87e54da7bbb90f6b",
+      "split": "test"
+    },
+    {
+      "key": "cook-11",
+      "path": "corpus/cookbook/cook-11.md",
+      "upstreamPath": "data/C8/cook/dishes/vegetable_dish/炒茄子.md",
+      "source": "all-in-rag",
+      "sha256": "95d12756f59c334b95b59fe1a1a4d846c400a70652b752058a65f2e5105635ff",
+      "split": "test"
+    },
+    {
+      "key": "cook-12",
+      "path": "corpus/cookbook/cook-12.md",
+      "upstreamPath": "data/C8/cook/dishes/aquatic/咖喱炒蟹.md",
+      "source": "all-in-rag",
+      "sha256": "7682641f4a76a2c08634d648c4584fb0adfa942c4fa24f1155eaaca9bbee2174",
+      "split": "test"
+    },
+    {
+      "key": "cook-13",
+      "path": "corpus/cookbook/cook-13.md",
+      "upstreamPath": "data/C8/cook/dishes/aquatic/红烧鱼.md",
+      "source": "all-in-rag",
+      "sha256": "2172ed5fbe314aaaf74df6ad3caaf928fd7dc746143a0d93c7a7c1dffa493728",
+      "split": "test"
+    },
+    {
+      "key": "cook-14",
+      "path": "corpus/cookbook/cook-14.md",
+      "upstreamPath": "data/C8/cook/dishes/meat_dish/清蒸鳜鱼/清蒸鳜鱼.md",
+      "source": "all-in-rag",
+      "sha256": "7c96c4e1c85d571025d05f7cdf8db62b1b20f7d6edbebd8cfdebffbc8cb9b1bd",
+      "split": "test"
+    },
+    {
+      "key": "cook-15",
+      "path": "corpus/cookbook/cook-15.md",
+      "upstreamPath": "data/C8/cook/dishes/meat_dish/尖叫牛蛙/尖叫牛蛙.md",
+      "source": "all-in-rag",
+      "sha256": "d697d5760d8624882e4859385bf69eb7a84ebe3e70e0274afe9a31dee5548a3c",
+      "split": "test"
+    },
+    {
+      "key": "cook-16",
+      "path": "corpus/cookbook/cook-16.md",
+      "upstreamPath": "data/C8/cook/dishes/meat_dish/口水鸡/口水鸡.md",
+      "source": "all-in-rag",
+      "sha256": "404a940d03c398927dadf20bce18440bcaadab47c58411504a640eca7f359f9d",
+      "split": "test"
+    },
+    {
+      "key": "cook-17",
+      "path": "corpus/cookbook/cook-17.md",
+      "upstreamPath": "data/C8/cook/dishes/meat_dish/枝竹羊腩煲/枝竹羊腩煲.md",
+      "source": "all-in-rag",
+      "sha256": "1db8f0d4d1fe4f8ff655a28f4b3d89687b77409003d38bca7f51fb29acb75c76",
+      "split": "test"
+    },
+    {
+      "key": "cook-18",
+      "path": "corpus/cookbook/cook-18.md",
+      "upstreamPath": "data/C8/cook/dishes/aquatic/香煎翘嘴鱼/香煎翘嘴鱼.md",
+      "source": "all-in-rag",
+      "sha256": "cf5fc365fcd0cec0caf43dae6ee897b1adf1e73f2b485ceaf83244e748e94fd9",
+      "split": "test"
+    },
+    {
+      "key": "cook-19",
+      "path": "corpus/cookbook/cook-19.md",
+      "upstreamPath": "data/C8/cook/dishes/dessert/芋泥雪媚娘/芋泥雪媚娘.md",
+      "source": "all-in-rag",
+      "sha256": "6f0a81ad20bf82b8357cafee0f3d6618af8092f502a9edaa0b679f137d36bade",
+      "split": "test"
+    },
+    {
+      "key": "cook-20",
+      "path": "corpus/cookbook/cook-20.md",
+      "upstreamPath": "data/C8/cook/dishes/meat_dish/老式锅包肉/老式锅包肉.md",
+      "source": "all-in-rag",
+      "sha256": "6ec90ba1e94ecccdeb913294a499d875f99cca950f293e749a5572f2b628e668",
+      "split": "test"
+    },
+    {
+      "key": "synth-01",
+      "path": "corpus/synthetic/synth-01.md",
+      "source": "synthetic",
+      "sha256": "0026c547ede5f5681b7348d540b828379d22a53010a1f05db52b41a340e8e78f",
+      "split": "dev"
+    },
+    {
+      "key": "synth-02",
+      "path": "corpus/synthetic/synth-02.md",
+      "source": "synthetic",
+      "sha256": "42910f43c9c98a3a77ea81125e35c2bbc983f4c84d4b5c805055633fdcf95f7a",
+      "split": "dev"
+    },
+    {
+      "key": "synth-03",
+      "path": "corpus/synthetic/synth-03.md",
+      "source": "synthetic",
+      "sha256": "0067918df5f5accab37a05ea9761b97ebfc9aa234f58c7e5511f305d15e76cde",
+      "split": "dev"
+    },
+    {
+      "key": "synth-04",
+      "path": "corpus/synthetic/synth-04.md",
+      "source": "synthetic",
+      "sha256": "c4f1fe055a2de19f772c2b23d37bc3a01da4b9ca210bba3e947b5f832f63c998",
+      "split": "dev"
+    },
+    {
+      "key": "synth-05",
+      "path": "corpus/synthetic/synth-05.md",
+      "source": "synthetic",
+      "sha256": "0bce881e22c615c0996b4d9debeb7b98f0bb724014ae1c1de97d21cb01611ea2",
+      "split": "dev"
+    },
+    {
+      "key": "synth-06",
+      "path": "corpus/synthetic/synth-06.md",
+      "source": "synthetic",
+      "sha256": "29e9d18c21bbdfc293ea8ed8eb1f917dc43fe646a49cb909700d7f1aed3b1b43",
+      "split": "test"
+    },
+    {
+      "key": "synth-07",
+      "path": "corpus/synthetic/synth-07.md",
+      "source": "synthetic",
+      "sha256": "8b09fd24aa80a74705fc8e91478b41aaa0bf9bd2f787f3adedf3f078c300a2dd",
+      "split": "test"
+    },
+    {
+      "key": "synth-08",
+      "path": "corpus/synthetic/synth-08.md",
+      "source": "synthetic",
+      "sha256": "40c9f4c3b780fdcb1b79439514432f006bc62b03f6a1dfb0244655fa2fb3f573",
+      "split": "test"
+    },
+    {
+      "key": "synth-09",
+      "path": "corpus/synthetic/synth-09.md",
+      "source": "synthetic",
+      "sha256": "63fc8916df474a812b0c93167a786cc6e27669d99c194318ab9297ff14216464",
+      "split": "test"
+    },
+    {
+      "key": "synth-10",
+      "path": "corpus/synthetic/synth-10.md",
+      "source": "synthetic",
+      "sha256": "cccd7cc329868bcb48705b9d6ee5f3f84bec490eab6aaf824cc6e7666a6ff19e",
+      "split": "test"
+    },
+    {
+      "key": "synth-11",
+      "path": "corpus/synthetic/synth-11.md",
+      "source": "synthetic",
+      "sha256": "0c6a7c22cb2583f08ea5b98e2a3e631775e21e03be4d200acec08de07bb66e98",
+      "split": "test"
+    },
+    {
+      "key": "synth-12",
+      "path": "corpus/synthetic/synth-12.md",
+      "source": "synthetic",
+      "sha256": "401a2e04721cc28c595f5b14234af74da3dc947618c2f035a48e8268f6396a51",
+      "split": "test"
+    },
+    {
+      "key": "synth-13",
+      "path": "corpus/synthetic/synth-13.md",
+      "source": "synthetic",
+      "sha256": "124cd983a78b86c6e928b19a9e40d4f6572aacb580a8fdfce0cbf98b5f8b9f0b",
+      "split": "test"
+    },
+    {
+      "key": "synth-14",
+      "path": "corpus/synthetic/synth-14.md",
+      "source": "synthetic",
+      "sha256": "d3a4cde6e6fb1eb2e06edc3d3b221c066a7b9efb356de15a2167a099be4dc36d",
+      "split": "test"
+    },
+    {
+      "key": "synth-15",
+      "path": "corpus/synthetic/synth-15.md",
+      "source": "synthetic",
+      "sha256": "2ed55e35a07ace9c00f9776826bef0147e380b95f97d0cc096d0e0062b8f7985",
+      "split": "test"
+    },
+    {
+      "key": "synth-16",
+      "path": "corpus/synthetic/synth-16.md",
+      "source": "synthetic",
+      "sha256": "df583680220ed903eb069fb4c21c335b239af7e89797f6927994dcbbc9f8ddae",
+      "split": "test"
+    },
+    {
+      "key": "synth-17",
+      "path": "corpus/synthetic/synth-17.md",
+      "source": "synthetic",
+      "sha256": "635d8676e02742a722d81bbd0c55d253832ef218b9634ab76e5ed3022884f281",
+      "split": "test"
+    },
+    {
+      "key": "synth-18",
+      "path": "corpus/synthetic/synth-18.md",
+      "source": "synthetic",
+      "sha256": "0d020c9c66cf9b2e8a12d83b4d1c4897e6e8ef72a9a5663d190e4bce781fafbe",
+      "split": "test"
+    },
+    {
+      "key": "synth-19",
+      "path": "corpus/synthetic/synth-19.md",
+      "source": "synthetic",
+      "sha256": "2be4b5e7bb51126c5e509b4b42662943fb92f68587f47e984da8d545d0e1d2dd",
+      "split": "test"
+    },
+    {
+      "key": "synth-20",
+      "path": "corpus/synthetic/synth-20.md",
+      "source": "synthetic",
+      "sha256": "cfcbb56d8c30c752cb042eceed6d8dc7a7d290502f85e2d67fd26d3454b0edea",
+      "split": "test"
+    },
+    {
+      "key": "return",
+      "path": "corpus/regression/return.md",
+      "source": "existing-simulated-regression",
+      "sha256": "0dae6b4d98411d623243019dc0fe6293a1a2b38f77c7c046f564bc0cbbf4e025",
+      "split": "regression"
+    },
+    {
+      "key": "price",
+      "path": "corpus/regression/price.md",
+      "source": "existing-simulated-regression",
+      "sha256": "e10b40c4f6ea77d2e23bb088cbffdbf323c073be30f028fafeb30fc654dff487",
+      "split": "regression"
+    },
+    {
+      "key": "warranty",
+      "path": "corpus/regression/warranty.md",
+      "source": "existing-simulated-regression",
+      "sha256": "50645aec366d7e73ace62b02e9c4fa90f67eabc917f70e366f3b5e3c2fa2b3a6",
+      "split": "regression"
+    },
+    {
+      "key": "invoice",
+      "path": "corpus/regression/invoice.md",
+      "source": "existing-simulated-regression",
+      "sha256": "e449bb70f048aa5acb6659e236c438934384e0ca0a0a70dab67193dc0be28728",
+      "split": "regression"
+    },
+    {
+      "key": "shipping",
+      "path": "corpus/regression/shipping.md",
+      "source": "existing-simulated-regression",
+      "sha256": "4a161bc49c6dfc9adf3f1f0615c243e62afdc2c83764bff42b614ee9a7bee5c5",
+      "split": "regression"
+    }
+  ],
+  "cases": [
+    {
+      "id": "cook-01-1",
+      "sourceKind": "real-cookbook",
+      "split": "dev",
+      "question": "腊八粥的豆类、花生和谷物分别至少浸泡多久？",
+      "answerable": true,
+      "qrels": {
+        "cook-01": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "cook-01",
+          "quote": "- 提前洗净好绿豆、红豆、花生、黄豆、豌豆、红腰豆，并用干净的玻璃碗盛放好，注入 3/4 玻璃碗大小的饮用水，浸泡一夜（或最少 8 小时）。"
+        },
+        {
+          "docKey": "cook-01",
+          "quote": "- 提前洗净好大米、糯米、薏米、黑米、小米、莲子，并用干净的玻璃碗盛放好，注入 3/4 玻璃碗大小的饮用水，浸泡 3 小时。"
+        }
+      ],
+      "answerChecks": [
+        "8|八",
+        "3|三"
+      ],
+      "referenceAnswer": "- 提前洗净好绿豆、红豆、花生、黄豆、豌豆、红腰豆，并用干净的玻璃碗盛放好，注入 3/4 玻璃碗大小的饮用水，浸泡一夜（或最少 8 小时）。；- 提前洗净好大米、糯米、薏米、黑米、小米、莲子，并用干净的玻璃碗盛放好，注入 3/4 玻璃碗大小的饮用水，浸泡 3 小时。"
+    },
+    {
+      "id": "cook-01-2",
+      "sourceKind": "real-cookbook",
+      "split": "dev",
+      "question": "腊八粥先煮豆类多久，再加入谷物煮多久？",
+      "answerable": true,
+      "qrels": {
+        "cook-01": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "cook-01",
+          "quote": "- 将步骤 1 中准备好的盛有绿豆、红豆、花生、黄豆、豌豆、红腰豆的玻璃碗中的水分分离倒出，其余原料倒入粥锅中，加入 1 升饮用水（或漫过食材 1 拇指块），大火煮沸，煮沸后合上锅盖，小火煮 30 分钟。"
+        },
+        {
+          "docKey": "cook-01",
+          "quote": "- 将步骤 2 中准备好的盛有大米、糯米、薏米、黑米、小米、莲子的玻璃碗中的水分分离倒出，其余原料继续倒入粥锅中，合上锅盖，小火煮 60 分钟。"
+        }
+      ],
+      "answerChecks": [
+        "30|三十",
+        "60|六十"
+      ],
+      "referenceAnswer": "- 将步骤 1 中准备好的盛有绿豆、红豆、花生、黄豆、豌豆、红腰豆的玻璃碗中的水分分离倒出，其余原料倒入粥锅中，加入 1 升饮用水（或漫过食材 1 拇指块），大火煮沸，煮沸后合上锅盖，小火煮 30 分钟。；- 将步骤 2 中准备好的盛有大米、糯米、薏米、黑米、小米、莲子的玻璃碗中的水分分离倒出，其余原料继续倒入粥锅中，合上锅盖，小火煮 60 分钟。"
+    },
+    {
+      "id": "cook-02-1",
+      "sourceKind": "real-cookbook",
+      "split": "dev",
+      "question": "蒲烧茄子先蒸多久，之后应该如何切开才能摊平？",
+      "answerable": true,
+      "qrels": {
+        "cook-02": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "cook-02",
+          "quote": "- 蒸 5  分钟"
+        },
+        {
+          "docKey": "cook-02",
+          "quote": "- 纵向切开，不要切断，在两边切面各划 2~3 刀至可以摊平"
+        }
+      ],
+      "answerChecks": [
+        "5|五",
+        "不要切断|不切断|别切断"
+      ],
+      "referenceAnswer": "- 蒸 5  分钟；- 纵向切开，不要切断，在两边切面各划 2~3 刀至可以摊平"
+    },
+    {
+      "id": "cook-02-2",
+      "sourceKind": "real-cookbook",
+      "split": "dev",
+      "question": "蒲烧茄子的酱汁应浇到什么高度，收汁困难如何处理？",
+      "answerable": true,
+      "qrels": {
+        "cook-02": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "cook-02",
+          "quote": "- 往茄子上浇蒲烧汁至没过 1/2 茄子高度"
+        },
+        {
+          "docKey": "cook-02",
+          "quote": "- 同时收汁，若无法收汁可以加入水淀粉（生粉和水的比例在 1:4 到 1:10 根据收汁情况而定）"
+        }
+      ],
+      "answerChecks": [
+        "1/2|一半|半",
+        "淀粉"
+      ],
+      "referenceAnswer": "- 往茄子上浇蒲烧汁至没过 1/2 茄子高度；- 同时收汁，若无法收汁可以加入水淀粉（生粉和水的比例在 1:4 到 1:10 根据收汁情况而定）"
+    },
+    {
+      "id": "cook-03-1",
+      "sourceKind": "real-cookbook",
+      "split": "dev",
+      "question": "咖喱肥牛中土豆和胡萝卜要先翻炒多久，牛奶和肥牛加入后再煮多久？",
+      "answerable": true,
+      "qrels": {
+        "cook-03": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "cook-03",
+          "quote": "- 放入土豆以及胡萝卜**翻炒 2 分钟**"
+        },
+        {
+          "docKey": "cook-03",
+          "quote": "- 加入肥牛卷以及牛奶，盖上锅盖再小火煮 2-3 分钟即可出锅（用勺子搅拌食材，注意力度，避免肥牛卷破碎）"
+        }
+      ],
+      "answerChecks": [
+        "2|两|二",
+        "2.?3|两.?三"
+      ],
+      "referenceAnswer": "- 放入土豆以及胡萝卜**翻炒 2 分钟**；- 加入肥牛卷以及牛奶，盖上锅盖再小火煮 2-3 分钟即可出锅（用勺子搅拌食材，注意力度，避免肥牛卷破碎）"
+    },
+    {
+      "id": "cook-03-2",
+      "sourceKind": "real-cookbook",
+      "split": "dev",
+      "question": "咖喱肥牛开始炒洋葱前，放多少油并等待多久？",
+      "answerable": true,
+      "qrels": {
+        "cook-03": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "cook-03",
+          "quote": "- 热锅，锅内放入 10ml - 15ml 食用油，**等待 10 秒让油温升高**"
+        }
+      ],
+      "answerChecks": [
+        "10",
+        "15",
+        "秒"
+      ],
+      "referenceAnswer": "- 热锅，锅内放入 10ml - 15ml 食用油，**等待 10 秒让油温升高**"
+    },
+    {
+      "id": "cook-04-1",
+      "sourceKind": "real-cookbook",
+      "split": "dev",
+      "question": "奥利奥冰淇淋需要怎样处理饼干碎的粗细？",
+      "answerable": true,
+      "qrels": {
+        "cook-04": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "cook-04",
+          "quote": "- 用筷子将奥奥剁碎，需要有一半奥奥变成粉状，另一半的奥奥最大长度小于 0.5 厘米，备用（某宝可搜“奥利奥饼干碎”，节省时间精力^-^）"
+        }
+      ],
+      "answerChecks": [
+        "一半|半数",
+        "0.5|半厘米"
+      ],
+      "referenceAnswer": "- 用筷子将奥奥剁碎，需要有一半奥奥变成粉状，另一半的奥奥最大长度小于 0.5 厘米，备用（某宝可搜“奥利奥饼干碎”，节省时间精力^-^）"
+    },
+    {
+      "id": "cook-04-2",
+      "sourceKind": "real-cookbook",
+      "split": "dev",
+      "question": "奥利奥冰淇淋应该放冷藏还是冷冻，温度和时长是多少？",
+      "answerable": true,
+      "qrels": {
+        "cook-04": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "cook-04",
+          "quote": "- 放置冰箱冷冻室（ -18 度） 4 小时以上可取出"
+        }
+      ],
+      "answerChecks": [
+        "冷冻",
+        "18",
+        "4|四"
+      ],
+      "referenceAnswer": "- 放置冰箱冷冻室（ -18 度） 4 小时以上可取出"
+    },
+    {
+      "id": "cook-05-1",
+      "sourceKind": "real-cookbook",
+      "split": "dev",
+      "question": "小酥肉肉条的长度和厚度是多少？",
+      "answerable": true,
+      "qrels": {
+        "cook-05": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "cook-05",
+          "quote": "- 切成长度 8~10 厘米，厚度 1.5 厘米的肉条。"
+        }
+      ],
+      "answerChecks": [
+        "8",
+        "10",
+        "1.5"
+      ],
+      "referenceAnswer": "- 切成长度 8~10 厘米，厚度 1.5 厘米的肉条。"
+    },
+    {
+      "id": "cook-05-2",
+      "sourceKind": "real-cookbook",
+      "split": "dev",
+      "question": "小酥肉腌制揉制到什么状态，接下来应怎样静置？",
+      "answerable": true,
+      "qrels": {
+        "cook-05": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "cook-05",
+          "quote": "- 抓匀并且充分揉制 10 分钟，直至肉吸收所有水分并且变得粘手。"
+        },
+        {
+          "docKey": "cook-05",
+          "quote": "- 封上保鲜膜放冷藏室静置 30 分钟。"
+        }
+      ],
+      "answerChecks": [
+        "粘手|黏手",
+        "冷藏",
+        "30|三十"
+      ],
+      "referenceAnswer": "- 抓匀并且充分揉制 10 分钟，直至肉吸收所有水分并且变得粘手。；- 封上保鲜膜放冷藏室静置 30 分钟。"
+    },
+    {
+      "id": "cook-06-1",
+      "sourceKind": "real-cookbook",
+      "split": "test",
+      "question": "河南蒸面条第一次蒸制时要淋多少油并蒸多久？",
+      "answerable": true,
+      "qrels": {
+        "cook-06": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "cook-06",
+          "quote": "- 将挂面，均匀铺开放置，淋 5ml 油并抹匀，蒸 15 分钟"
+        }
+      ],
+      "answerChecks": [
+        "5",
+        "15"
+      ],
+      "referenceAnswer": "- 将挂面，均匀铺开放置，淋 5ml 油并抹匀，蒸 15 分钟"
+    },
+    {
+      "id": "cook-06-2",
+      "sourceKind": "real-cookbook",
+      "split": "test",
+      "question": "河南蒸面条五花肉需要切成多厚，炒制肉片多久？",
+      "answerable": true,
+      "qrels": {
+        "cook-06": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "cook-06",
+          "quote": "- 五花肉，切成 2mm 厚度的肉片"
+        },
+        {
+          "docKey": "cook-06",
+          "quote": "- 中火，加入肉片，翻炒 1 分钟"
+        }
+      ],
+      "answerChecks": [
+        "2",
+        "1|一"
+      ],
+      "referenceAnswer": "- 五花肉，切成 2mm 厚度的肉片；- 中火，加入肉片，翻炒 1 分钟"
+    },
+    {
+      "id": "cook-07-1",
+      "sourceKind": "real-cookbook",
+      "split": "test",
+      "question": "日式肥牛丼饭肥牛先焯水多久，加水或出汁后大火等多久？",
+      "answerable": true,
+      "qrels": {
+        "cook-07": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "cook-07",
+          "quote": "- 肥牛焯水 1 分钟后捞出"
+        },
+        {
+          "docKey": "cook-07",
+          "quote": "- 关小火，加入 250g 水（或出汁），开回大火加热**等待 3 分钟**"
+        }
+      ],
+      "answerChecks": [
+        "1|一",
+        "3|三"
+      ],
+      "referenceAnswer": "- 肥牛焯水 1 分钟后捞出；- 关小火，加入 250g 水（或出汁），开回大火加热**等待 3 分钟**"
+    },
+    {
+      "id": "cook-07-2",
+      "sourceKind": "real-cookbook",
+      "split": "test",
+      "question": "日式肥牛丼饭最后翻动食材多久，目的是什么？",
+      "answerable": true,
+      "qrels": {
+        "cook-07": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "cook-07",
+          "quote": "- **不断翻动**所有食材 **10 分钟**，防止食材粘锅"
+        }
+      ],
+      "answerChecks": [
+        "10|十",
+        "粘锅|黏锅"
+      ],
+      "referenceAnswer": "- **不断翻动**所有食材 **10 分钟**，防止食材粘锅"
+    },
+    {
+      "id": "cook-08-1",
+      "sourceKind": "real-cookbook",
+      "split": "test",
+      "question": "戚风蛋糕六寸和八寸的烘烤总时间分别是多少？",
+      "answerable": true,
+      "qrels": {
+        "cook-08": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "cook-08",
+          "quote": "* 烘烤总时间：6 寸蛋糕 **30-35** 分钟，8 寸蛋糕 **50** 分钟。根据自己烤箱特性灵活调整，一般不超过 $\\pm 5$ 分钟。（最后几分钟时可在烤箱前观察）"
+        }
+      ],
+      "answerChecks": [
+        "30",
+        "35",
+        "50"
+      ],
+      "referenceAnswer": "* 烘烤总时间：6 寸蛋糕 **30-35** 分钟，8 寸蛋糕 **50** 分钟。根据自己烤箱特性灵活调整，一般不超过 $\\pm 5$ 分钟。（最后几分钟时可在烤箱前观察）"
+    },
+    {
+      "id": "cook-08-2",
+      "sourceKind": "real-cookbook",
+      "split": "test",
+      "question": "戚风蛋糕应该选哪种模具，为什么不能随便用不粘模？",
+      "answerable": true,
+      "qrels": {
+        "cook-08": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "cook-08",
+          "quote": "* 铝合金阳极模具（千万不能选不沾模具，常用尺寸为 6 寸或 8 寸）"
+        }
+      ],
+      "answerChecks": [
+        "铝合金|阳极",
+        "不沾|不粘"
+      ],
+      "referenceAnswer": "* 铝合金阳极模具（千万不能选不沾模具，常用尺寸为 6 寸或 8 寸）"
+    },
+    {
+      "id": "cook-09-1",
+      "sourceKind": "real-cookbook",
+      "split": "test",
+      "question": "汤面里难熟食材在沸腾后煮多久，特别大块如何延长？",
+      "answerable": true,
+      "qrels": {
+        "cook-09": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "cook-09",
+          "quote": "- 将较难煮熟的食材放入锅中（比如半熟肉类、香菇类、等最先放入锅中）。为保证煮熟，可在沸腾后计时 10 分钟，特别难熟的大块食材可追加 5 分钟。"
+        }
+      ],
+      "answerChecks": [
+        "10|十",
+        "5|五"
+      ],
+      "referenceAnswer": "- 将较难煮熟的食材放入锅中（比如半熟肉类、香菇类、等最先放入锅中）。为保证煮熟，可在沸腾后计时 10 分钟，特别难熟的大块食材可追加 5 分钟。"
+    },
+    {
+      "id": "cook-09-2",
+      "sourceKind": "real-cookbook",
+      "split": "test",
+      "question": "汤面放入面条后煮多久，出现白色泡沫如何处理？",
+      "answerable": true,
+      "qrels": {
+        "cook-09": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "cook-09",
+          "quote": "- 将面食放入锅中，适当搅拌确保面和汤充分接触，使液面保持轻微沸腾，煮 5 分钟。加入面后液面易产生白色泡沫，可适当抬起锅盖通气或者撤下锅盖。"
+        }
+      ],
+      "answerChecks": [
+        "5|五",
+        "锅盖"
+      ],
+      "referenceAnswer": "- 将面食放入锅中，适当搅拌确保面和汤充分接触，使液面保持轻微沸腾，煮 5 分钟。加入面后液面易产生白色泡沫，可适当抬起锅盖通气或者撤下锅盖。"
+    },
+    {
+      "id": "cook-10-1",
+      "sourceKind": "real-cookbook",
+      "split": "test",
+      "question": "茄子肉煎饼加清水应调到什么状态才停止？",
+      "answerable": true,
+      "qrels": {
+        "cook-10": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "cook-10",
+          "quote": "* 边用筷子搅拌，边加入清水（**清水用于调节粘稠度**），使米粉、面粉、鸡蛋混合成面糊,当面糊能够附着在茄片、肉片上而不掉落时停止加水，而后将所有茄片和肉片放入面糊中，用面糊充分包裹"
+        }
+      ],
+      "answerChecks": [
+        "附着|挂住|包裹",
+        "不掉|不脱|不流"
+      ],
+      "referenceAnswer": "* 边用筷子搅拌，边加入清水（**清水用于调节粘稠度**），使米粉、面粉、鸡蛋混合成面糊,当面糊能够附着在茄片、肉片上而不掉落时停止加水，而后将所有茄片和肉片放入面糊中，用面糊充分包裹"
+    },
+    {
+      "id": "cook-10-2",
+      "sourceKind": "real-cookbook",
+      "split": "test",
+      "question": "茄子肉煎饼两面金黄后还要煎多久，油变少怎么办？",
+      "answerable": true,
+      "qrels": {
+        "cook-10": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "cook-10",
+          "quote": "* 用筷子或勺子把裹了面糊的茄片、肉片放入锅中，先煎至两面金黄，再煎**3-6分钟**（**煎的过程中，食用油会变少，可再添加食用油**）"
+        }
+      ],
+      "answerChecks": [
+        "3",
+        "6",
+        "加.*油|补.*油"
+      ],
+      "referenceAnswer": "* 用筷子或勺子把裹了面糊的茄片、肉片放入锅中，先煎至两面金黄，再煎**3-6分钟**（**煎的过程中，食用油会变少，可再添加食用油**）"
+    },
+    {
+      "id": "cook-11-1",
+      "sourceKind": "real-cookbook",
+      "split": "test",
+      "question": "炒茄子倒酱油前翻炒多久，一人份酱油如何计量？",
+      "answerable": true,
+      "qrels": {
+        "cook-11": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "cook-11",
+          "quote": "- 翻炒约 40 秒，将锅铲悬空，与锅平行，把酱油倒入锅铲内。一人约 2.5 锅铲（酱油可以少加，但不可多加，会咸）"
+        }
+      ],
+      "answerChecks": [
+        "40",
+        "2.5"
+      ],
+      "referenceAnswer": "- 翻炒约 40 秒，将锅铲悬空，与锅平行，把酱油倒入锅铲内。一人约 2.5 锅铲（酱油可以少加，但不可多加，会咸）"
+    },
+    {
+      "id": "cook-11-2",
+      "sourceKind": "real-cookbook",
+      "split": "test",
+      "question": "炒茄子为什么酱油宁少勿多？",
+      "answerable": true,
+      "qrels": {
+        "cook-11": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "cook-11",
+          "quote": "- 翻炒约 40 秒，将锅铲悬空，与锅平行，把酱油倒入锅铲内。一人约 2.5 锅铲（酱油可以少加，但不可多加，会咸）"
+        }
+      ],
+      "answerChecks": [
+        "咸"
+      ],
+      "referenceAnswer": "- 翻炒约 40 秒，将锅铲悬空，与锅平行，把酱油倒入锅铲内。一人约 2.5 锅铲（酱油可以少加，但不可多加，会咸）"
+    },
+    {
+      "id": "cook-12-1",
+      "sourceKind": "real-cookbook",
+      "split": "test",
+      "question": "咖喱炒蟹入锅时切口朝哪里，第一次与翻面各煎多久？",
+      "answerable": true,
+      "qrels": {
+        "cook-12": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "cook-12",
+          "quote": "- 将螃蟹切口朝下，轻轻放入锅中，煎 20 秒，这一步主要是封住蟹黄，蟹肉。然后翻面，每面煎 10 秒。煎完将螃蟹取出备用"
+        }
+      ],
+      "answerChecks": [
+        "朝下",
+        "20",
+        "10"
+      ],
+      "referenceAnswer": "- 将螃蟹切口朝下，轻轻放入锅中，煎 20 秒，这一步主要是封住蟹黄，蟹肉。然后翻面，每面煎 10 秒。煎完将螃蟹取出备用"
+    },
+    {
+      "id": "cook-12-2",
+      "sourceKind": "real-cookbook",
+      "split": "test",
+      "question": "咖喱炒蟹为何要先煎切口，蟹盖又如何封住蟹黄？",
+      "answerable": true,
+      "qrels": {
+        "cook-12": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "cook-12",
+          "quote": "- 将螃蟹切口朝下，轻轻放入锅中，煎 20 秒，这一步主要是封住蟹黄，蟹肉。然后翻面，每面煎 10 秒。煎完将螃蟹取出备用"
+        },
+        {
+          "docKey": "cook-12",
+          "quote": "- 将螃蟹盖放入锅中，使用勺子舀起锅中热油泼到蟹盖中，煎封住蟹盖中的蟹黄，煎 20 秒后取出备用"
+        }
+      ],
+      "answerChecks": [
+        "封",
+        "蟹黄",
+        "20"
+      ],
+      "referenceAnswer": "- 将螃蟹切口朝下，轻轻放入锅中，煎 20 秒，这一步主要是封住蟹黄，蟹肉。然后翻面，每面煎 10 秒。煎完将螃蟹取出备用；- 将螃蟹盖放入锅中，使用勺子舀起锅中热油泼到蟹盖中，煎封住蟹盖中的蟹黄，煎 20 秒后取出备用"
+    },
+    {
+      "id": "cook-13-1",
+      "sourceKind": "real-cookbook",
+      "split": "test",
+      "question": "红烧鱼加冷水时水量和火力怎么控制，多久翻身？",
+      "answerable": true,
+      "qrels": {
+        "cook-13": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "cook-13",
+          "quote": "* 加入冷水，以刚好淹没鱼身为宜，然后调成中火，盖上锅盖，大概 1 分钟后将鱼翻身，继续盖上锅盖"
+        }
+      ],
+      "answerChecks": [
+        "淹没|没过",
+        "中火",
+        "1|一"
+      ],
+      "referenceAnswer": "* 加入冷水，以刚好淹没鱼身为宜，然后调成中火，盖上锅盖，大概 1 分钟后将鱼翻身，继续盖上锅盖"
+    },
+    {
+      "id": "cook-13-2",
+      "sourceKind": "real-cookbook",
+      "split": "test",
+      "question": "红烧鱼收汁到何时改小火，加入香菜葱花后多久关火？",
+      "answerable": true,
+      "qrels": {
+        "cook-13": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "cook-13",
+          "quote": "* 当锅内汤汁收汁到鱼的脊背线上的鱼鳍下面一点点的时候（或者汤汁不多的时候），转小火，加入香菜，葱花，然后盖上锅盖 20 秒，关火"
+        }
+      ],
+      "answerChecks": [
+        "小火",
+        "20"
+      ],
+      "referenceAnswer": "* 当锅内汤汁收汁到鱼的脊背线上的鱼鳍下面一点点的时候（或者汤汁不多的时候），转小火，加入香菜，葱花，然后盖上锅盖 20 秒，关火"
+    },
+    {
+      "id": "cook-14-1",
+      "sourceKind": "real-cookbook",
+      "split": "test",
+      "question": "清蒸鳜鱼应该用多大火，蒸多久，关键窍门是什么？",
+      "answerable": true,
+      "qrels": {
+        "cook-14": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "cook-14",
+          "quote": "- 锅里加水，水量大一些，水热后放入鳜鱼，盖上锅盖，大火蒸制 8 - 10 分钟，蒸鱼四字窍门：汽大火足"
+        }
+      ],
+      "answerChecks": [
+        "大火",
+        "8",
+        "10"
+      ],
+      "referenceAnswer": "- 锅里加水，水量大一些，水热后放入鳜鱼，盖上锅盖，大火蒸制 8 - 10 分钟，蒸鱼四字窍门：汽大火足"
+    },
+    {
+      "id": "cook-14-2",
+      "sourceKind": "real-cookbook",
+      "split": "test",
+      "question": "清蒸鳜鱼装盘为什么垫筷子，姜片放在哪里？",
+      "answerable": true,
+      "qrels": {
+        "cook-14": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "cook-14",
+          "quote": "- 鳜鱼身上打上花刀，放姜片，有条件的可以放点猪油，装盘在下面垫一个筷子，便于蒸制时受热均匀"
+        }
+      ],
+      "answerChecks": [
+        "均匀",
+        "姜片"
+      ],
+      "referenceAnswer": "- 鳜鱼身上打上花刀，放姜片，有条件的可以放点猪油，装盘在下面垫一个筷子，便于蒸制时受热均匀"
+    },
+    {
+      "id": "cook-15-1",
+      "sourceKind": "real-cookbook",
+      "split": "test",
+      "question": "尖叫牛蛙去腥时盐和啤酒至少各多少，手抓多久？",
+      "answerable": true,
+      "qrels": {
+        "cook-15": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "cook-15",
+          "quote": "- 牛蛙肉洗净后控干水分，加入 10 克以上的盐巴和 50ml 以上的啤酒，用手抓 5 分钟，去除牛蛙肉的腥味"
+        }
+      ],
+      "answerChecks": [
+        "10",
+        "50",
+        "5|五"
+      ],
+      "referenceAnswer": "- 牛蛙肉洗净后控干水分，加入 10 克以上的盐巴和 50ml 以上的啤酒，用手抓 5 分钟，去除牛蛙肉的腥味"
+    },
+    {
+      "id": "cook-15-2",
+      "sourceKind": "real-cookbook",
+      "split": "test",
+      "question": "尖叫牛蛙过油多久应捞出，拖久会怎样？",
+      "answerable": true,
+      "qrels": {
+        "cook-15": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "cook-15",
+          "quote": "- 起锅烧热，加入 200ml 食用油（锅底比较平的可以再加 100ml）,烧至 6 成油温（有小气泡出现），将腌制好的牛蛙倒入，快速过油炸制，10 秒钟后捞出（不能超时太多，否则会导致蛙肉老柴）"
+        }
+      ],
+      "answerChecks": [
+        "10",
+        "老|柴"
+      ],
+      "referenceAnswer": "- 起锅烧热，加入 200ml 食用油（锅底比较平的可以再加 100ml）,烧至 6 成油温（有小气泡出现），将腌制好的牛蛙倒入，快速过油炸制，10 秒钟后捞出（不能超时太多，否则会导致蛙肉老柴）"
+    },
+    {
+      "id": "cook-16-1",
+      "sourceKind": "real-cookbook",
+      "split": "test",
+      "question": "口水鸡煮鸡时大火烧开后如何调整火力，多久关火？",
+      "answerable": true,
+      "qrels": {
+        "cook-16": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "cook-16",
+          "quote": "- 大火烧开后，转中小火 20 分钟关火"
+        }
+      ],
+      "answerChecks": [
+        "中小火",
+        "20"
+      ],
+      "referenceAnswer": "- 大火烧开后，转中小火 20 分钟关火"
+    },
+    {
+      "id": "cook-16-2",
+      "sourceKind": "real-cookbook",
+      "split": "test",
+      "question": "口水鸡一份的鸡肉和辣椒粉分别是多少？",
+      "answerable": true,
+      "qrels": {
+        "cook-16": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "cook-16",
+          "quote": "- 鸡     半只(500g)"
+        },
+        {
+          "docKey": "cook-16",
+          "quote": "- 辣椒粉   20g"
+        }
+      ],
+      "answerChecks": [
+        "500|半只",
+        "20"
+      ],
+      "referenceAnswer": "- 鸡     半只(500g)；- 辣椒粉   20g"
+    },
+    {
+      "id": "cook-17-1",
+      "sourceKind": "real-cookbook",
+      "split": "test",
+      "question": "枝竹羊腩煲香菇和腐竹分别提前泡多久？",
+      "answerable": true,
+      "qrels": {
+        "cook-17": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "cook-17",
+          "quote": "- 准备工作: 香菇提前浸泡 2 - 3 小时至变软。腐竹提前浸泡 30 分钟至变软"
+        }
+      ],
+      "answerChecks": [
+        "2",
+        "3",
+        "30"
+      ],
+      "referenceAnswer": "- 准备工作: 香菇提前浸泡 2 - 3 小时至变软。腐竹提前浸泡 30 分钟至变软"
+    },
+    {
+      "id": "cook-17-2",
+      "sourceKind": "real-cookbook",
+      "split": "test",
+      "question": "枝竹羊腩煲加盖后应以什么火力炖多久？",
+      "answerable": true,
+      "qrels": {
+        "cook-17": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "cook-17",
+          "quote": "- 加盖转小火炖 90 分钟"
+        }
+      ],
+      "answerChecks": [
+        "小火",
+        "90"
+      ],
+      "referenceAnswer": "- 加盖转小火炖 90 分钟"
+    },
+    {
+      "id": "cook-18-1",
+      "sourceKind": "real-cookbook",
+      "split": "test",
+      "question": "香煎翘嘴鱼腌制和晾晒分别多久，应放在哪里腌制？",
+      "answerable": true,
+      "qrels": {
+        "cook-18": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "cook-18",
+          "quote": "- 鱼表面用盐涂抹均匀，倒入料酒约 80ml,姜末 20g，放入冰箱保鲜层进行腌制 1-2 天"
+        },
+        {
+          "docKey": "cook-18",
+          "quote": "- 取出腌制好的鱼，用绳挂起晾晒至半干（约 1-2 天，具体时间需结合气温与阳光）"
+        }
+      ],
+      "answerChecks": [
+        "1",
+        "2",
+        "冰箱|保鲜"
+      ],
+      "referenceAnswer": "- 鱼表面用盐涂抹均匀，倒入料酒约 80ml,姜末 20g，放入冰箱保鲜层进行腌制 1-2 天；- 取出腌制好的鱼，用绳挂起晾晒至半干（约 1-2 天，具体时间需结合气温与阳光）"
+    },
+    {
+      "id": "cook-18-2",
+      "sourceKind": "real-cookbook",
+      "split": "test",
+      "question": "香煎翘嘴鱼刚下锅为什么不急着移动，大约多久再晃锅？",
+      "answerable": true,
+      "qrels": {
+        "cook-18": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "cook-18",
+          "quote": "- 鱼入锅后（和翻面后），不要着急移动鱼的位置（此时容易破皮），煎约 30 秒后，尝试晃动锅"
+        }
+      ],
+      "answerChecks": [
+        "破皮",
+        "30"
+      ],
+      "referenceAnswer": "- 鱼入锅后（和翻面后），不要着急移动鱼的位置（此时容易破皮），煎约 30 秒后，尝试晃动锅"
+    },
+    {
+      "id": "cook-19-1",
+      "sourceKind": "real-cookbook",
+      "split": "test",
+      "question": "芋泥雪媚娘蒸好的面团何时加黄油、加多少，之后冷藏多久？",
+      "answerable": true,
+      "qrels": {
+        "cook-19": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "cook-19",
+          "quote": "- 将中火蒸完半小时的糯米牛奶混合物（果冻状）趁热加入黄油 30g，将黄油揉至面团完全吸收，然后放冰箱冷藏一小时"
+        }
+      ],
+      "answerChecks": [
+        "趁热",
+        "30",
+        "一小时|1小时"
+      ],
+      "referenceAnswer": "- 将中火蒸完半小时的糯米牛奶混合物（果冻状）趁热加入黄油 30g，将黄油揉至面团完全吸收，然后放冰箱冷藏一小时"
+    },
+    {
+      "id": "cook-19-2",
+      "sourceKind": "real-cookbook",
+      "split": "test",
+      "question": "芋泥雪媚娘一张皮和一份芋泥各多少克？",
+      "answerable": true,
+      "qrels": {
+        "cook-19": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "cook-19",
+          "quote": "- 取出冷藏后的面团，搓揉 5 分钟，分成 30g 一个，均匀撒上 2g 手粉防粘，擀成圆形，先挤上 5g 裱花奶油，然后放上 30g 芋泥，最后将面饼像包包子一样包起来（可以减去多余的皮）"
+        }
+      ],
+      "answerChecks": [
+        "30"
+      ],
+      "referenceAnswer": "- 取出冷藏后的面团，搓揉 5 分钟，分成 30g 一个，均匀撒上 2g 手粉防粘，擀成圆形，先挤上 5g 裱花奶油，然后放上 30g 芋泥，最后将面饼像包包子一样包起来（可以减去多余的皮）"
+    },
+    {
+      "id": "cook-20-1",
+      "sourceKind": "real-cookbook",
+      "split": "test",
+      "question": "老式锅包肉的肉片要切多厚，哪些部位要去掉？",
+      "answerable": true,
+      "qrels": {
+        "cook-20": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "cook-20",
+          "quote": "- 将猪通脊肉切成厚度 8mm 的均匀肉片，去除白色筋膜。"
+        }
+      ],
+      "answerChecks": [
+        "8",
+        "筋膜"
+      ],
+      "referenceAnswer": "- 将猪通脊肉切成厚度 8mm 的均匀肉片，去除白色筋膜。"
+    },
+    {
+      "id": "cook-20-2",
+      "sourceKind": "real-cookbook",
+      "split": "test",
+      "question": "老式锅包肉加入小苏打后静置多久，再腌制多久？",
+      "answerable": true,
+      "qrels": {
+        "cook-20": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "cook-20",
+          "quote": "- 小苏打 5g"
+        },
+        {
+          "docKey": "cook-20",
+          "quote": "- 在肉片中加入盐 4g、料酒 5ml，拌匀，腌制 15 分钟。"
+        }
+      ],
+      "answerChecks": [
+        "5",
+        "15"
+      ],
+      "referenceAnswer": "- 小苏打 5g；- 在肉片中加入盐 4g、料酒 5ml，拌匀，腌制 15 分钟。"
+    },
+    {
+      "id": "synth-01-1",
+      "sourceKind": "synthetic",
+      "split": "dev",
+      "question": "青岚库存同步出现R01标记后如何处理，满足哪些条件才可以恢复？",
+      "answerable": true,
+      "qrels": {
+        "synth-01": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "synth-01",
+          "quote": "当青岚库存同步出现R01标记时，先暂停当前批次并保存校验报告。"
+        },
+        {
+          "docKey": "synth-01",
+          "quote": "此时必须连续等待8分钟，而且待处理数量低于107条后，才允许点击恢复。"
+        }
+      ],
+      "answerChecks": [
+        "暂停",
+        "8",
+        "107"
+      ],
+      "referenceAnswer": "当青岚库存同步出现R01标记时，先暂停当前批次并保存校验报告。此时必须连续等待8分钟，而且待处理数量低于107条后，才允许点击恢复。"
+    },
+    {
+      "id": "synth-01-2",
+      "sourceKind": "synthetic",
+      "split": "dev",
+      "question": "青岚库存同步恢复后能立即全量提交吗，应该如何验证？",
+      "answerable": true,
+      "qrels": {
+        "synth-01": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "synth-01",
+          "quote": "青岚库存同步恢复后的第一轮仅处理12条样本，样本全部校验通过后才能提交剩余记录。"
+        }
+      ],
+      "answerChecks": [
+        "12",
+        "通过|成功"
+      ],
+      "referenceAnswer": "青岚库存同步恢复后的第一轮仅处理12条样本，样本全部校验通过后才能提交剩余记录。"
+    },
+    {
+      "id": "synth-02-1",
+      "sourceKind": "synthetic",
+      "split": "dev",
+      "question": "白鹭标签打印出现R02标记后如何处理，满足哪些条件才可以恢复？",
+      "answerable": true,
+      "qrels": {
+        "synth-02": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "synth-02",
+          "quote": "当白鹭标签打印出现R02标记时，先暂停当前批次并保存校验报告。"
+        },
+        {
+          "docKey": "synth-02",
+          "quote": "此时必须连续等待9分钟，而且待处理数量低于114条后，才允许点击恢复。"
+        }
+      ],
+      "answerChecks": [
+        "暂停",
+        "9",
+        "114"
+      ],
+      "referenceAnswer": "当白鹭标签打印出现R02标记时，先暂停当前批次并保存校验报告。此时必须连续等待9分钟，而且待处理数量低于114条后，才允许点击恢复。"
+    },
+    {
+      "id": "synth-02-2",
+      "sourceKind": "synthetic",
+      "split": "dev",
+      "question": "白鹭标签打印恢复后能立即全量提交吗，应该如何验证？",
+      "answerable": true,
+      "qrels": {
+        "synth-02": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "synth-02",
+          "quote": "白鹭标签打印恢复后的第一轮仅处理12条样本，样本全部校验通过后才能提交剩余记录。"
+        }
+      ],
+      "answerChecks": [
+        "12",
+        "通过|成功"
+      ],
+      "referenceAnswer": "白鹭标签打印恢复后的第一轮仅处理12条样本，样本全部校验通过后才能提交剩余记录。"
+    },
+    {
+      "id": "synth-03-1",
+      "sourceKind": "synthetic",
+      "split": "dev",
+      "question": "松影批次导出出现R03标记后如何处理，满足哪些条件才可以恢复？",
+      "answerable": true,
+      "qrels": {
+        "synth-03": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "synth-03",
+          "quote": "当松影批次导出出现R03标记时，先暂停当前批次并保存校验报告。"
+        },
+        {
+          "docKey": "synth-03",
+          "quote": "此时必须连续等待10分钟，而且待处理数量低于121条后，才允许点击恢复。"
+        }
+      ],
+      "answerChecks": [
+        "暂停",
+        "10",
+        "121"
+      ],
+      "referenceAnswer": "当松影批次导出出现R03标记时，先暂停当前批次并保存校验报告。此时必须连续等待10分钟，而且待处理数量低于121条后，才允许点击恢复。"
+    },
+    {
+      "id": "synth-03-2",
+      "sourceKind": "synthetic",
+      "split": "dev",
+      "question": "松影批次导出恢复后能立即全量提交吗，应该如何验证？",
+      "answerable": true,
+      "qrels": {
+        "synth-03": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "synth-03",
+          "quote": "松影批次导出恢复后的第一轮仅处理12条样本，样本全部校验通过后才能提交剩余记录。"
+        }
+      ],
+      "answerChecks": [
+        "12",
+        "通过|成功"
+      ],
+      "referenceAnswer": "松影批次导出恢复后的第一轮仅处理12条样本，样本全部校验通过后才能提交剩余记录。"
+    },
+    {
+      "id": "synth-04-1",
+      "sourceKind": "synthetic",
+      "split": "dev",
+      "question": "云舟离线采集出现R04标记后如何处理，满足哪些条件才可以恢复？",
+      "answerable": true,
+      "qrels": {
+        "synth-04": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "synth-04",
+          "quote": "当云舟离线采集出现R04标记时，先暂停当前批次并保存校验报告。"
+        },
+        {
+          "docKey": "synth-04",
+          "quote": "此时必须连续等待11分钟，而且待处理数量低于128条后，才允许点击恢复。"
+        }
+      ],
+      "answerChecks": [
+        "暂停",
+        "11",
+        "128"
+      ],
+      "referenceAnswer": "当云舟离线采集出现R04标记时，先暂停当前批次并保存校验报告。此时必须连续等待11分钟，而且待处理数量低于128条后，才允许点击恢复。"
+    },
+    {
+      "id": "synth-04-2",
+      "sourceKind": "synthetic",
+      "split": "dev",
+      "question": "云舟离线采集恢复后能立即全量提交吗，应该如何验证？",
+      "answerable": true,
+      "qrels": {
+        "synth-04": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "synth-04",
+          "quote": "云舟离线采集恢复后的第一轮仅处理12条样本，样本全部校验通过后才能提交剩余记录。"
+        }
+      ],
+      "answerChecks": [
+        "12",
+        "通过|成功"
+      ],
+      "referenceAnswer": "云舟离线采集恢复后的第一轮仅处理12条样本，样本全部校验通过后才能提交剩余记录。"
+    },
+    {
+      "id": "synth-05-1",
+      "sourceKind": "synthetic",
+      "split": "dev",
+      "question": "星桥账目对齐出现R05标记后如何处理，满足哪些条件才可以恢复？",
+      "answerable": true,
+      "qrels": {
+        "synth-05": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "synth-05",
+          "quote": "当星桥账目对齐出现R05标记时，先暂停当前批次并保存校验报告。"
+        },
+        {
+          "docKey": "synth-05",
+          "quote": "此时必须连续等待12分钟，而且待处理数量低于135条后，才允许点击恢复。"
+        }
+      ],
+      "answerChecks": [
+        "暂停",
+        "12",
+        "135"
+      ],
+      "referenceAnswer": "当星桥账目对齐出现R05标记时，先暂停当前批次并保存校验报告。此时必须连续等待12分钟，而且待处理数量低于135条后，才允许点击恢复。"
+    },
+    {
+      "id": "synth-05-2",
+      "sourceKind": "synthetic",
+      "split": "dev",
+      "question": "星桥账目对齐恢复后能立即全量提交吗，应该如何验证？",
+      "answerable": true,
+      "qrels": {
+        "synth-05": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "synth-05",
+          "quote": "星桥账目对齐恢复后的第一轮仅处理12条样本，样本全部校验通过后才能提交剩余记录。"
+        }
+      ],
+      "answerChecks": [
+        "12",
+        "通过|成功"
+      ],
+      "referenceAnswer": "星桥账目对齐恢复后的第一轮仅处理12条样本，样本全部校验通过后才能提交剩余记录。"
+    },
+    {
+      "id": "synth-06-1",
+      "sourceKind": "synthetic",
+      "split": "test",
+      "question": "竹海报表缓存出现R06标记后如何处理，满足哪些条件才可以恢复？",
+      "answerable": true,
+      "qrels": {
+        "synth-06": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "synth-06",
+          "quote": "当竹海报表缓存出现R06标记时，先暂停当前批次并保存校验报告。"
+        },
+        {
+          "docKey": "synth-06",
+          "quote": "此时必须连续等待13分钟，而且待处理数量低于142条后，才允许点击恢复。"
+        }
+      ],
+      "answerChecks": [
+        "暂停",
+        "13",
+        "142"
+      ],
+      "referenceAnswer": "当竹海报表缓存出现R06标记时，先暂停当前批次并保存校验报告。此时必须连续等待13分钟，而且待处理数量低于142条后，才允许点击恢复。"
+    },
+    {
+      "id": "synth-06-2",
+      "sourceKind": "synthetic",
+      "split": "test",
+      "question": "竹海报表缓存恢复后能立即全量提交吗，应该如何验证？",
+      "answerable": true,
+      "qrels": {
+        "synth-06": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "synth-06",
+          "quote": "竹海报表缓存恢复后的第一轮仅处理12条样本，样本全部校验通过后才能提交剩余记录。"
+        }
+      ],
+      "answerChecks": [
+        "12",
+        "通过|成功"
+      ],
+      "referenceAnswer": "竹海报表缓存恢复后的第一轮仅处理12条样本，样本全部校验通过后才能提交剩余记录。"
+    },
+    {
+      "id": "synth-07-1",
+      "sourceKind": "synthetic",
+      "split": "test",
+      "question": "远帆图片归档出现R07标记后如何处理，满足哪些条件才可以恢复？",
+      "answerable": true,
+      "qrels": {
+        "synth-07": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "synth-07",
+          "quote": "当远帆图片归档出现R07标记时，先暂停当前批次并保存校验报告。"
+        },
+        {
+          "docKey": "synth-07",
+          "quote": "此时必须连续等待14分钟，而且待处理数量低于149条后，才允许点击恢复。"
+        }
+      ],
+      "answerChecks": [
+        "暂停",
+        "14",
+        "149"
+      ],
+      "referenceAnswer": "当远帆图片归档出现R07标记时，先暂停当前批次并保存校验报告。此时必须连续等待14分钟，而且待处理数量低于149条后，才允许点击恢复。"
+    },
+    {
+      "id": "synth-07-2",
+      "sourceKind": "synthetic",
+      "split": "test",
+      "question": "远帆图片归档恢复后能立即全量提交吗，应该如何验证？",
+      "answerable": true,
+      "qrels": {
+        "synth-07": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "synth-07",
+          "quote": "远帆图片归档恢复后的第一轮仅处理12条样本，样本全部校验通过后才能提交剩余记录。"
+        }
+      ],
+      "answerChecks": [
+        "12",
+        "通过|成功"
+      ],
+      "referenceAnswer": "远帆图片归档恢复后的第一轮仅处理12条样本，样本全部校验通过后才能提交剩余记录。"
+    },
+    {
+      "id": "synth-08-1",
+      "sourceKind": "synthetic",
+      "split": "test",
+      "question": "霁月目录同步出现R08标记后如何处理，满足哪些条件才可以恢复？",
+      "answerable": true,
+      "qrels": {
+        "synth-08": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "synth-08",
+          "quote": "当霁月目录同步出现R08标记时，先暂停当前批次并保存校验报告。"
+        },
+        {
+          "docKey": "synth-08",
+          "quote": "此时必须连续等待15分钟，而且待处理数量低于156条后，才允许点击恢复。"
+        }
+      ],
+      "answerChecks": [
+        "暂停",
+        "15",
+        "156"
+      ],
+      "referenceAnswer": "当霁月目录同步出现R08标记时，先暂停当前批次并保存校验报告。此时必须连续等待15分钟，而且待处理数量低于156条后，才允许点击恢复。"
+    },
+    {
+      "id": "synth-08-2",
+      "sourceKind": "synthetic",
+      "split": "test",
+      "question": "霁月目录同步恢复后能立即全量提交吗，应该如何验证？",
+      "answerable": true,
+      "qrels": {
+        "synth-08": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "synth-08",
+          "quote": "霁月目录同步恢复后的第一轮仅处理12条样本，样本全部校验通过后才能提交剩余记录。"
+        }
+      ],
+      "answerChecks": [
+        "12",
+        "通过|成功"
+      ],
+      "referenceAnswer": "霁月目录同步恢复后的第一轮仅处理12条样本，样本全部校验通过后才能提交剩余记录。"
+    },
+    {
+      "id": "synth-09-1",
+      "sourceKind": "synthetic",
+      "split": "test",
+      "question": "石径任务分发出现R09标记后如何处理，满足哪些条件才可以恢复？",
+      "answerable": true,
+      "qrels": {
+        "synth-09": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "synth-09",
+          "quote": "当石径任务分发出现R09标记时，先暂停当前批次并保存校验报告。"
+        },
+        {
+          "docKey": "synth-09",
+          "quote": "此时必须连续等待16分钟，而且待处理数量低于163条后，才允许点击恢复。"
+        }
+      ],
+      "answerChecks": [
+        "暂停",
+        "16",
+        "163"
+      ],
+      "referenceAnswer": "当石径任务分发出现R09标记时，先暂停当前批次并保存校验报告。此时必须连续等待16分钟，而且待处理数量低于163条后，才允许点击恢复。"
+    },
+    {
+      "id": "synth-09-2",
+      "sourceKind": "synthetic",
+      "split": "test",
+      "question": "石径任务分发恢复后能立即全量提交吗，应该如何验证？",
+      "answerable": true,
+      "qrels": {
+        "synth-09": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "synth-09",
+          "quote": "石径任务分发恢复后的第一轮仅处理12条样本，样本全部校验通过后才能提交剩余记录。"
+        }
+      ],
+      "answerChecks": [
+        "12",
+        "通过|成功"
+      ],
+      "referenceAnswer": "石径任务分发恢复后的第一轮仅处理12条样本，样本全部校验通过后才能提交剩余记录。"
+    },
+    {
+      "id": "synth-10-1",
+      "sourceKind": "synthetic",
+      "split": "test",
+      "question": "晴川日志整理出现R10标记后如何处理，满足哪些条件才可以恢复？",
+      "answerable": true,
+      "qrels": {
+        "synth-10": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "synth-10",
+          "quote": "当晴川日志整理出现R10标记时，先暂停当前批次并保存校验报告。"
+        },
+        {
+          "docKey": "synth-10",
+          "quote": "此时必须连续等待17分钟，而且待处理数量低于170条后，才允许点击恢复。"
+        }
+      ],
+      "answerChecks": [
+        "暂停",
+        "17",
+        "170"
+      ],
+      "referenceAnswer": "当晴川日志整理出现R10标记时，先暂停当前批次并保存校验报告。此时必须连续等待17分钟，而且待处理数量低于170条后，才允许点击恢复。"
+    },
+    {
+      "id": "synth-10-2",
+      "sourceKind": "synthetic",
+      "split": "test",
+      "question": "晴川日志整理恢复后能立即全量提交吗，应该如何验证？",
+      "answerable": true,
+      "qrels": {
+        "synth-10": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "synth-10",
+          "quote": "晴川日志整理恢复后的第一轮仅处理12条样本，样本全部校验通过后才能提交剩余记录。"
+        }
+      ],
+      "answerChecks": [
+        "12",
+        "通过|成功"
+      ],
+      "referenceAnswer": "晴川日志整理恢复后的第一轮仅处理12条样本，样本全部校验通过后才能提交剩余记录。"
+    },
+    {
+      "id": "synth-11-1",
+      "sourceKind": "synthetic",
+      "split": "test",
+      "question": "栖霞文件投递出现R11标记后如何处理，满足哪些条件才可以恢复？",
+      "answerable": true,
+      "qrels": {
+        "synth-11": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "synth-11",
+          "quote": "当栖霞文件投递出现R11标记时，先暂停当前批次并保存校验报告。"
+        },
+        {
+          "docKey": "synth-11",
+          "quote": "此时必须连续等待18分钟，而且待处理数量低于177条后，才允许点击恢复。"
+        }
+      ],
+      "answerChecks": [
+        "暂停",
+        "18",
+        "177"
+      ],
+      "referenceAnswer": "当栖霞文件投递出现R11标记时，先暂停当前批次并保存校验报告。此时必须连续等待18分钟，而且待处理数量低于177条后，才允许点击恢复。"
+    },
+    {
+      "id": "synth-11-2",
+      "sourceKind": "synthetic",
+      "split": "test",
+      "question": "栖霞文件投递恢复后能立即全量提交吗，应该如何验证？",
+      "answerable": true,
+      "qrels": {
+        "synth-11": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "synth-11",
+          "quote": "栖霞文件投递恢复后的第一轮仅处理12条样本，样本全部校验通过后才能提交剩余记录。"
+        }
+      ],
+      "answerChecks": [
+        "12",
+        "通过|成功"
+      ],
+      "referenceAnswer": "栖霞文件投递恢复后的第一轮仅处理12条样本，样本全部校验通过后才能提交剩余记录。"
+    },
+    {
+      "id": "synth-12-1",
+      "sourceKind": "synthetic",
+      "split": "test",
+      "question": "晨光清单合并出现R12标记后如何处理，满足哪些条件才可以恢复？",
+      "answerable": true,
+      "qrels": {
+        "synth-12": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "synth-12",
+          "quote": "当晨光清单合并出现R12标记时，先暂停当前批次并保存校验报告。"
+        },
+        {
+          "docKey": "synth-12",
+          "quote": "此时必须连续等待19分钟，而且待处理数量低于184条后，才允许点击恢复。"
+        }
+      ],
+      "answerChecks": [
+        "暂停",
+        "19",
+        "184"
+      ],
+      "referenceAnswer": "当晨光清单合并出现R12标记时，先暂停当前批次并保存校验报告。此时必须连续等待19分钟，而且待处理数量低于184条后，才允许点击恢复。"
+    },
+    {
+      "id": "synth-12-2",
+      "sourceKind": "synthetic",
+      "split": "test",
+      "question": "晨光清单合并恢复后能立即全量提交吗，应该如何验证？",
+      "answerable": true,
+      "qrels": {
+        "synth-12": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "synth-12",
+          "quote": "晨光清单合并恢复后的第一轮仅处理12条样本，样本全部校验通过后才能提交剩余记录。"
+        }
+      ],
+      "answerChecks": [
+        "12",
+        "通过|成功"
+      ],
+      "referenceAnswer": "晨光清单合并恢复后的第一轮仅处理12条样本，样本全部校验通过后才能提交剩余记录。"
+    },
+    {
+      "id": "synth-13-1",
+      "sourceKind": "synthetic",
+      "split": "test",
+      "question": "晚枫字段映射出现R13标记后如何处理，满足哪些条件才可以恢复？",
+      "answerable": true,
+      "qrels": {
+        "synth-13": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "synth-13",
+          "quote": "当晚枫字段映射出现R13标记时，先暂停当前批次并保存校验报告。"
+        },
+        {
+          "docKey": "synth-13",
+          "quote": "此时必须连续等待20分钟，而且待处理数量低于191条后，才允许点击恢复。"
+        }
+      ],
+      "answerChecks": [
+        "暂停",
+        "20",
+        "191"
+      ],
+      "referenceAnswer": "当晚枫字段映射出现R13标记时，先暂停当前批次并保存校验报告。此时必须连续等待20分钟，而且待处理数量低于191条后，才允许点击恢复。"
+    },
+    {
+      "id": "synth-13-2",
+      "sourceKind": "synthetic",
+      "split": "test",
+      "question": "晚枫字段映射恢复后能立即全量提交吗，应该如何验证？",
+      "answerable": true,
+      "qrels": {
+        "synth-13": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "synth-13",
+          "quote": "晚枫字段映射恢复后的第一轮仅处理12条样本，样本全部校验通过后才能提交剩余记录。"
+        }
+      ],
+      "answerChecks": [
+        "12",
+        "通过|成功"
+      ],
+      "referenceAnswer": "晚枫字段映射恢复后的第一轮仅处理12条样本，样本全部校验通过后才能提交剩余记录。"
+    },
+    {
+      "id": "synth-14-1",
+      "sourceKind": "synthetic",
+      "split": "test",
+      "question": "秋池扫描校验出现R14标记后如何处理，满足哪些条件才可以恢复？",
+      "answerable": true,
+      "qrels": {
+        "synth-14": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "synth-14",
+          "quote": "当秋池扫描校验出现R14标记时，先暂停当前批次并保存校验报告。"
+        },
+        {
+          "docKey": "synth-14",
+          "quote": "此时必须连续等待21分钟，而且待处理数量低于198条后，才允许点击恢复。"
+        }
+      ],
+      "answerChecks": [
+        "暂停",
+        "21",
+        "198"
+      ],
+      "referenceAnswer": "当秋池扫描校验出现R14标记时，先暂停当前批次并保存校验报告。此时必须连续等待21分钟，而且待处理数量低于198条后，才允许点击恢复。"
+    },
+    {
+      "id": "synth-14-2",
+      "sourceKind": "synthetic",
+      "split": "test",
+      "question": "秋池扫描校验恢复后能立即全量提交吗，应该如何验证？",
+      "answerable": true,
+      "qrels": {
+        "synth-14": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "synth-14",
+          "quote": "秋池扫描校验恢复后的第一轮仅处理12条样本，样本全部校验通过后才能提交剩余记录。"
+        }
+      ],
+      "answerChecks": [
+        "12",
+        "通过|成功"
+      ],
+      "referenceAnswer": "秋池扫描校验恢复后的第一轮仅处理12条样本，样本全部校验通过后才能提交剩余记录。"
+    },
+    {
+      "id": "synth-15-1",
+      "sourceKind": "synthetic",
+      "split": "test",
+      "question": "海棠消息归档出现R15标记后如何处理，满足哪些条件才可以恢复？",
+      "answerable": true,
+      "qrels": {
+        "synth-15": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "synth-15",
+          "quote": "当海棠消息归档出现R15标记时，先暂停当前批次并保存校验报告。"
+        },
+        {
+          "docKey": "synth-15",
+          "quote": "此时必须连续等待22分钟，而且待处理数量低于205条后，才允许点击恢复。"
+        }
+      ],
+      "answerChecks": [
+        "暂停",
+        "22",
+        "205"
+      ],
+      "referenceAnswer": "当海棠消息归档出现R15标记时，先暂停当前批次并保存校验报告。此时必须连续等待22分钟，而且待处理数量低于205条后，才允许点击恢复。"
+    },
+    {
+      "id": "synth-15-2",
+      "sourceKind": "synthetic",
+      "split": "test",
+      "question": "海棠消息归档恢复后能立即全量提交吗，应该如何验证？",
+      "answerable": true,
+      "qrels": {
+        "synth-15": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "synth-15",
+          "quote": "海棠消息归档恢复后的第一轮仅处理12条样本，样本全部校验通过后才能提交剩余记录。"
+        }
+      ],
+      "answerChecks": [
+        "12",
+        "通过|成功"
+      ],
+      "referenceAnswer": "海棠消息归档恢复后的第一轮仅处理12条样本，样本全部校验通过后才能提交剩余记录。"
+    },
+    {
+      "id": "synth-16-1",
+      "sourceKind": "synthetic",
+      "split": "test",
+      "question": "流萤库存快照出现R16标记后如何处理，满足哪些条件才可以恢复？",
+      "answerable": true,
+      "qrels": {
+        "synth-16": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "synth-16",
+          "quote": "当流萤库存快照出现R16标记时，先暂停当前批次并保存校验报告。"
+        },
+        {
+          "docKey": "synth-16",
+          "quote": "此时必须连续等待23分钟，而且待处理数量低于212条后，才允许点击恢复。"
+        }
+      ],
+      "answerChecks": [
+        "暂停",
+        "23",
+        "212"
+      ],
+      "referenceAnswer": "当流萤库存快照出现R16标记时，先暂停当前批次并保存校验报告。此时必须连续等待23分钟，而且待处理数量低于212条后，才允许点击恢复。"
+    },
+    {
+      "id": "synth-16-2",
+      "sourceKind": "synthetic",
+      "split": "test",
+      "question": "流萤库存快照恢复后能立即全量提交吗，应该如何验证？",
+      "answerable": true,
+      "qrels": {
+        "synth-16": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "synth-16",
+          "quote": "流萤库存快照恢复后的第一轮仅处理12条样本，样本全部校验通过后才能提交剩余记录。"
+        }
+      ],
+      "answerChecks": [
+        "12",
+        "通过|成功"
+      ],
+      "referenceAnswer": "流萤库存快照恢复后的第一轮仅处理12条样本，样本全部校验通过后才能提交剩余记录。"
+    },
+    {
+      "id": "synth-17-1",
+      "sourceKind": "synthetic",
+      "split": "test",
+      "question": "墨竹差异核验出现R17标记后如何处理，满足哪些条件才可以恢复？",
+      "answerable": true,
+      "qrels": {
+        "synth-17": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "synth-17",
+          "quote": "当墨竹差异核验出现R17标记时，先暂停当前批次并保存校验报告。"
+        },
+        {
+          "docKey": "synth-17",
+          "quote": "此时必须连续等待24分钟，而且待处理数量低于219条后，才允许点击恢复。"
+        }
+      ],
+      "answerChecks": [
+        "暂停",
+        "24",
+        "219"
+      ],
+      "referenceAnswer": "当墨竹差异核验出现R17标记时，先暂停当前批次并保存校验报告。此时必须连续等待24分钟，而且待处理数量低于219条后，才允许点击恢复。"
+    },
+    {
+      "id": "synth-17-2",
+      "sourceKind": "synthetic",
+      "split": "test",
+      "question": "墨竹差异核验恢复后能立即全量提交吗，应该如何验证？",
+      "answerable": true,
+      "qrels": {
+        "synth-17": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "synth-17",
+          "quote": "墨竹差异核验恢复后的第一轮仅处理12条样本，样本全部校验通过后才能提交剩余记录。"
+        }
+      ],
+      "answerChecks": [
+        "12",
+        "通过|成功"
+      ],
+      "referenceAnswer": "墨竹差异核验恢复后的第一轮仅处理12条样本，样本全部校验通过后才能提交剩余记录。"
+    },
+    {
+      "id": "synth-18-1",
+      "sourceKind": "synthetic",
+      "split": "test",
+      "question": "银杏任务恢复出现R18标记后如何处理，满足哪些条件才可以恢复？",
+      "answerable": true,
+      "qrels": {
+        "synth-18": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "synth-18",
+          "quote": "当银杏任务恢复出现R18标记时，先暂停当前批次并保存校验报告。"
+        },
+        {
+          "docKey": "synth-18",
+          "quote": "此时必须连续等待25分钟，而且待处理数量低于226条后，才允许点击恢复。"
+        }
+      ],
+      "answerChecks": [
+        "暂停",
+        "25",
+        "226"
+      ],
+      "referenceAnswer": "当银杏任务恢复出现R18标记时，先暂停当前批次并保存校验报告。此时必须连续等待25分钟，而且待处理数量低于226条后，才允许点击恢复。"
+    },
+    {
+      "id": "synth-18-2",
+      "sourceKind": "synthetic",
+      "split": "test",
+      "question": "银杏任务恢复恢复后能立即全量提交吗，应该如何验证？",
+      "answerable": true,
+      "qrels": {
+        "synth-18": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "synth-18",
+          "quote": "银杏任务恢复恢复后的第一轮仅处理12条样本，样本全部校验通过后才能提交剩余记录。"
+        }
+      ],
+      "answerChecks": [
+        "12",
+        "通过|成功"
+      ],
+      "referenceAnswer": "银杏任务恢复恢复后的第一轮仅处理12条样本，样本全部校验通过后才能提交剩余记录。"
+    },
+    {
+      "id": "synth-19-1",
+      "sourceKind": "synthetic",
+      "split": "test",
+      "question": "春溪权限同步出现R19标记后如何处理，满足哪些条件才可以恢复？",
+      "answerable": true,
+      "qrels": {
+        "synth-19": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "synth-19",
+          "quote": "当春溪权限同步出现R19标记时，先暂停当前批次并保存校验报告。"
+        },
+        {
+          "docKey": "synth-19",
+          "quote": "此时必须连续等待26分钟，而且待处理数量低于233条后，才允许点击恢复。"
+        }
+      ],
+      "answerChecks": [
+        "暂停",
+        "26",
+        "233"
+      ],
+      "referenceAnswer": "当春溪权限同步出现R19标记时，先暂停当前批次并保存校验报告。此时必须连续等待26分钟，而且待处理数量低于233条后，才允许点击恢复。"
+    },
+    {
+      "id": "synth-19-2",
+      "sourceKind": "synthetic",
+      "split": "test",
+      "question": "春溪权限同步的付费版本每月收费多少钱？",
+      "answerable": false,
+      "qrels": {},
+      "requiredEvidence": [],
+      "answerChecks": [],
+      "referenceAnswer": "文档未说明收费，不能推断。"
+    },
+    {
+      "id": "synth-20-1",
+      "sourceKind": "synthetic",
+      "split": "test",
+      "question": "雪岭批量导入出现R20标记后如何处理，满足哪些条件才可以恢复？",
+      "answerable": true,
+      "qrels": {
+        "synth-20": 3
+      },
+      "requiredEvidence": [
+        {
+          "docKey": "synth-20",
+          "quote": "当雪岭批量导入出现R20标记时，先暂停当前批次并保存校验报告。"
+        },
+        {
+          "docKey": "synth-20",
+          "quote": "此时必须连续等待27分钟，而且待处理数量低于240条后，才允许点击恢复。"
+        }
+      ],
+      "answerChecks": [
+        "暂停",
+        "27",
+        "240"
+      ],
+      "referenceAnswer": "当雪岭批量导入出现R20标记时，先暂停当前批次并保存校验报告。此时必须连续等待27分钟，而且待处理数量低于240条后，才允许点击恢复。"
+    },
+    {
+      "id": "synth-20-2",
+      "sourceKind": "synthetic",
+      "split": "test",
+      "question": "雪岭批量导入的付费版本每月收费多少钱？",
+      "answerable": false,
+      "qrels": {},
+      "requiredEvidence": [],
+      "answerChecks": [],
+      "referenceAnswer": "文档未说明收费，不能推断。"
+    },
+    {
+      "id": "return-1",
+      "question": "比特严选：7天无理由退换从哪一天开始计算？",
+      "tags": [
+        "return",
+        "single-question"
+      ],
+      "answerable": true,
+      "qrels": {
+        "return": 3
+      },
+      "evidence": {
+        "return": "签收成功次日 0:00 起算"
+      },
+      "sourceKind": "existing-simulated-regression",
+      "split": "regression",
+      "requiredEvidence": [
+        {
+          "docKey": "return",
+          "quote": "签收成功次日 0:00 起算"
+        }
+      ],
+      "answerChecks": [],
+      "referenceAnswer": "签收成功次日 0:00 起算"
+    },
+    {
+      "id": "return-2",
+      "question": "比特严选：数码商品激活后能无理由退货吗？",
+      "tags": [
+        "return",
+        "single-question"
+      ],
+      "answerable": true,
+      "qrels": {
+        "return": 3
+      },
+      "evidence": {
+        "return": "通常不再按无理由退货处理"
+      },
+      "sourceKind": "existing-simulated-regression",
+      "split": "regression",
+      "requiredEvidence": [
+        {
+          "docKey": "return",
+          "quote": "通常不再按无理由退货处理"
+        }
+      ],
+      "answerChecks": [],
+      "referenceAnswer": "通常不再按无理由退货处理"
+    },
+    {
+      "id": "return-3",
+      "question": "比特严选：无理由换货可以换颜色吗？",
+      "tags": [
+        "return",
+        "single-question"
+      ],
+      "answerable": true,
+      "qrels": {
+        "return": 3
+      },
+      "evidence": {
+        "return": "仅支持同一商品、同一 SKU"
+      },
+      "sourceKind": "existing-simulated-regression",
+      "split": "regression",
+      "requiredEvidence": [
+        {
+          "docKey": "return",
+          "quote": "仅支持同一商品、同一 SKU"
+        }
+      ],
+      "answerChecks": [],
+      "referenceAnswer": "仅支持同一商品、同一 SKU"
+    },
+    {
+      "id": "return-4",
+      "question": "比特严选：退货审核通过后几天内寄出？",
+      "tags": [
+        "return",
+        "single-question"
+      ],
+      "answerable": true,
+      "qrels": {
+        "return": 3
+      },
+      "evidence": {
+        "return": "审核通过后 3 个自然日内寄出"
+      },
+      "sourceKind": "existing-simulated-regression",
+      "split": "regression",
+      "requiredEvidence": [
+        {
+          "docKey": "return",
+          "quote": "审核通过后 3 个自然日内寄出"
+        }
+      ],
+      "answerChecks": [],
+      "referenceAnswer": "审核通过后 3 个自然日内寄出"
+    },
+    {
+      "id": "price-1",
+      "question": "比特严选：价保周期从什么时候起算？",
+      "tags": [
+        "price",
+        "single-question"
+      ],
+      "answerable": true,
+      "qrels": {
+        "price": 3
+      },
+      "evidence": {
+        "price": "订单支付成功时间起算"
+      },
+      "sourceKind": "existing-simulated-regression",
+      "split": "regression",
+      "requiredEvidence": [
+        {
+          "docKey": "price",
+          "quote": "订单支付成功时间起算"
+        }
+      ],
+      "answerChecks": [],
+      "referenceAnswer": "订单支付成功时间起算"
+    },
+    {
+      "id": "price-2",
+      "question": "比特严选：其他平台降价能申请价保吗？",
+      "tags": [
+        "price",
+        "single-question"
+      ],
+      "answerable": true,
+      "qrels": {
+        "price": 3
+      },
+      "evidence": {
+        "price": "跨平台降价"
+      },
+      "sourceKind": "existing-simulated-regression",
+      "split": "regression",
+      "requiredEvidence": [
+        {
+          "docKey": "price",
+          "quote": "跨平台降价"
+        }
+      ],
+      "answerChecks": [],
+      "referenceAnswer": "跨平台降价"
+    },
+    {
+      "id": "price-3",
+      "question": "比特严选：价保补差到账需要多久？",
+      "tags": [
+        "price",
+        "single-question"
+      ],
+      "answerable": true,
+      "qrels": {
+        "price": 3
+      },
+      "evidence": {
+        "price": "通常为 1-7 个工作日"
+      },
+      "sourceKind": "existing-simulated-regression",
+      "split": "regression",
+      "requiredEvidence": [
+        {
+          "docKey": "price",
+          "quote": "通常为 1-7 个工作日"
+        }
+      ],
+      "answerChecks": [],
+      "referenceAnswer": "通常为 1-7 个工作日"
+    },
+    {
+      "id": "price-4",
+      "question": "比特严选：赠品变多可以价保吗？",
+      "tags": [
+        "price",
+        "single-question"
+      ],
+      "answerable": true,
+      "qrels": {
+        "price": 3
+      },
+      "evidence": {
+        "price": "赠品价值变化不按价保处理"
+      },
+      "sourceKind": "existing-simulated-regression",
+      "split": "regression",
+      "requiredEvidence": [
+        {
+          "docKey": "price",
+          "quote": "赠品价值变化不按价保处理"
+        }
+      ],
+      "answerChecks": [],
+      "referenceAnswer": "赠品价值变化不按价保处理"
+    },
+    {
+      "id": "warranty-1",
+      "question": "比特严选：没有发票如何申请保修？",
+      "tags": [
+        "warranty",
+        "single-question"
+      ],
+      "answerable": true,
+      "qrels": {
+        "warranty": 3
+      },
+      "evidence": {
+        "warranty": "发票不是唯一凭证"
+      },
+      "sourceKind": "existing-simulated-regression",
+      "split": "regression",
+      "requiredEvidence": [
+        {
+          "docKey": "warranty",
+          "quote": "发票不是唯一凭证"
+        }
+      ],
+      "answerChecks": [],
+      "referenceAnswer": "发票不是唯一凭证"
+    },
+    {
+      "id": "warranty-2",
+      "question": "比特严选：二手商品享受剩余保修需要什么条件？",
+      "tags": [
+        "warranty",
+        "single-question"
+      ],
+      "answerable": true,
+      "qrels": {
+        "warranty": 3
+      },
+      "evidence": {
+        "warranty": "原比特严选自营订单"
+      },
+      "sourceKind": "existing-simulated-regression",
+      "split": "regression",
+      "requiredEvidence": [
+        {
+          "docKey": "warranty",
+          "quote": "原比特严选自营订单"
+        }
+      ],
+      "answerChecks": [],
+      "referenceAnswer": "原比特严选自营订单"
+    },
+    {
+      "id": "warranty-3",
+      "question": "比特严选：没有标注保修期的赠品坏了怎么办？",
+      "tags": [
+        "warranty",
+        "single-question"
+      ],
+      "answerable": true,
+      "qrels": {
+        "warranty": 3
+      },
+      "evidence": {
+        "warranty": "30 天功能故障换新"
+      },
+      "sourceKind": "existing-simulated-regression",
+      "split": "regression",
+      "requiredEvidence": [
+        {
+          "docKey": "warranty",
+          "quote": "30 天功能故障换新"
+        }
+      ],
+      "answerChecks": [],
+      "referenceAnswer": "30 天功能故障换新"
+    },
+    {
+      "id": "warranty-4",
+      "question": "比特严选：二手商品会重新计算保修期吗？",
+      "tags": [
+        "warranty",
+        "single-question"
+      ],
+      "answerable": true,
+      "qrels": {
+        "warranty": 3
+      },
+      "evidence": {
+        "warranty": "不重新计算保修期"
+      },
+      "sourceKind": "existing-simulated-regression",
+      "split": "regression",
+      "requiredEvidence": [
+        {
+          "docKey": "warranty",
+          "quote": "不重新计算保修期"
+        }
+      ],
+      "answerChecks": [],
+      "referenceAnswer": "不重新计算保修期"
+    },
+    {
+      "id": "invoice-1",
+      "question": "比特严选：电子发票申请后多久开具？",
+      "tags": [
+        "invoice",
+        "single-question"
+      ],
+      "answerable": true,
+      "qrels": {
+        "invoice": 3
+      },
+      "evidence": {
+        "invoice": "申请后 1-3 个工作日"
+      },
+      "sourceKind": "existing-simulated-regression",
+      "split": "regression",
+      "requiredEvidence": [
+        {
+          "docKey": "invoice",
+          "quote": "申请后 1-3 个工作日"
+        }
+      ],
+      "answerChecks": [],
+      "referenceAnswer": "申请后 1-3 个工作日"
+    },
+    {
+      "id": "invoice-2",
+      "question": "比特严选：企业发票需要填写哪些必填信息？",
+      "tags": [
+        "invoice",
+        "single-question"
+      ],
+      "answerable": true,
+      "qrels": {
+        "invoice": 3
+      },
+      "evidence": {
+        "invoice": "企业名称和纳税人识别号"
+      },
+      "sourceKind": "existing-simulated-regression",
+      "split": "regression",
+      "requiredEvidence": [
+        {
+          "docKey": "invoice",
+          "quote": "企业名称和纳税人识别号"
+        }
+      ],
+      "answerChecks": [],
+      "referenceAnswer": "企业名称和纳税人识别号"
+    },
+    {
+      "id": "invoice-3",
+      "question": "比特严选：发票开具后税号错误如何处理？",
+      "tags": [
+        "invoice",
+        "single-question"
+      ],
+      "answerable": true,
+      "qrels": {
+        "invoice": 3
+      },
+      "evidence": {
+        "invoice": "作废或红冲后重开"
+      },
+      "sourceKind": "existing-simulated-regression",
+      "split": "regression",
+      "requiredEvidence": [
+        {
+          "docKey": "invoice",
+          "quote": "作废或红冲后重开"
+        }
+      ],
+      "answerChecks": [],
+      "referenceAnswer": "作废或红冲后重开"
+    },
+    {
+      "id": "invoice-4",
+      "question": "比特严选：发票金额按标价还是实际支付金额计算？",
+      "tags": [
+        "invoice",
+        "single-question"
+      ],
+      "answerable": true,
+      "qrels": {
+        "invoice": 3
+      },
+      "evidence": {
+        "invoice": "订单实际支付金额为准"
+      },
+      "sourceKind": "existing-simulated-regression",
+      "split": "regression",
+      "requiredEvidence": [
+        {
+          "docKey": "invoice",
+          "quote": "订单实际支付金额为准"
+        }
+      ],
+      "answerChecks": [],
+      "referenceAnswer": "订单实际支付金额为准"
+    },
+    {
+      "id": "shipping-1",
+      "question": "比特严选：自营现货一般几小时发货？",
+      "tags": [
+        "shipping",
+        "single-question"
+      ],
+      "answerable": true,
+      "qrels": {
+        "shipping": 3
+      },
+      "evidence": {
+        "shipping": "通常 48 小时内发货"
+      },
+      "sourceKind": "existing-simulated-regression",
+      "split": "regression",
+      "requiredEvidence": [
+        {
+          "docKey": "shipping",
+          "quote": "通常 48 小时内发货"
+        }
+      ],
+      "answerChecks": [],
+      "referenceAnswer": "通常 48 小时内发货"
+    },
+    {
+      "id": "shipping-2",
+      "question": "比特严选：主要城市在揽收后多久送到？",
+      "tags": [
+        "shipping",
+        "single-question"
+      ],
+      "answerable": true,
+      "qrels": {
+        "shipping": 3
+      },
+      "evidence": {
+        "shipping": "主要城市通常 1-3 个自然日送达"
+      },
+      "sourceKind": "existing-simulated-regression",
+      "split": "regression",
+      "requiredEvidence": [
+        {
+          "docKey": "shipping",
+          "quote": "主要城市通常 1-3 个自然日送达"
+        }
+      ],
+      "answerChecks": [],
+      "referenceAnswer": "主要城市通常 1-3 个自然日送达"
+    },
+    {
+      "id": "shipping-3",
+      "question": "比特严选：支持海外配送吗？",
+      "tags": [
+        "shipping",
+        "single-question"
+      ],
+      "answerable": true,
+      "qrels": {
+        "shipping": 3
+      },
+      "evidence": {
+        "shipping": "海外地址"
+      },
+      "sourceKind": "existing-simulated-regression",
+      "split": "regression",
+      "requiredEvidence": [
+        {
+          "docKey": "shipping",
+          "quote": "海外地址"
+        }
+      ],
+      "answerChecks": [],
+      "referenceAnswer": "海外地址"
+    },
+    {
+      "id": "shipping-4",
+      "question": "比特严选：询问补货日期应该查知识库还是实时系统？",
+      "tags": [
+        "shipping",
+        "single-question"
+      ],
+      "answerable": true,
+      "qrels": {
+        "shipping": 3
+      },
+      "evidence": {
+        "shipping": "不承诺固定补货日期"
+      },
+      "sourceKind": "existing-simulated-regression",
+      "split": "regression",
+      "requiredEvidence": [
+        {
+          "docKey": "shipping",
+          "quote": "不承诺固定补货日期"
+        }
+      ],
+      "answerChecks": [],
+      "referenceAnswer": "不承诺固定补货日期"
+    },
+    {
+      "id": "no-answer-1",
+      "question": "比特严选下一季度尚未公布的内部采购底价是多少？",
+      "tags": [
+        "unanswerable"
+      ],
+      "answerable": false,
+      "qrels": {},
+      "evidence": {},
+      "sourceKind": "existing-simulated-regression",
+      "split": "regression",
+      "requiredEvidence": [],
+      "answerChecks": [],
+      "referenceAnswer": "文档没有提供答案。"
+    },
+    {
+      "id": "no-answer-2",
+      "question": "比特严选 2099 年尚未制定的配送政策具体内容是什么？",
+      "tags": [
+        "unanswerable"
+      ],
+      "answerable": false,
+      "qrels": {},
+      "evidence": {},
+      "sourceKind": "existing-simulated-regression",
+      "split": "regression",
+      "requiredEvidence": [],
+      "answerChecks": [],
+      "referenceAnswer": "文档没有提供答案。"
+    }
+  ]
+}

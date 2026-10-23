@@ -1,0 +1,166 @@
+{
+  "upstreamCommit": "cec956e80ae28d6c0ca84c9d39dddcf61ad633fd",
+  "upstream": "https://github.com/datawhalechina/all-in-rag",
+  "documents": [
+    {
+      "key": "cook-01",
+      "path": "corpus/cookbook/cook-01.md",
+      "upstreamPath": "data/C8/cook/dishes/soup/腊八粥.md",
+      "source": "all-in-rag",
+      "sha256": "c3f127465480c130d9ab9cdec45c12348bed26572dcc90aa9dd9be504288ef03",
+      "split": "dev"
+    },
+    {
+      "key": "cook-02",
+      "path": "corpus/cookbook/cook-02.md",
+      "upstreamPath": "data/C8/cook/dishes/vegetable_dish/蒲烧茄子.md",
+      "source": "all-in-rag",
+      "sha256": "9e0846576bbe707d00fcbe62ca5663d97ea6c8a7cea85c54a1cfa2ce9bd96ab1",
+      "split": "dev"
+    },
+    {
+      "key": "cook-03",
+      "path": "corpus/cookbook/cook-03.md",
+      "upstreamPath": "data/C8/cook/dishes/meat_dish/咖喱肥牛/咖喱肥牛.md",
+      "source": "all-in-rag",
+      "sha256": "7676bb4ed5febfc367662d70e59f3f2a6cce6700038eceaa56b88f9963f5973e",
+      "split": "dev"
+    },
+    {
+      "key": "cook-04",
+      "path": "corpus/cookbook/cook-04.md",
+      "upstreamPath": "data/C8/cook/dishes/dessert/奥利奥冰淇淋/奥利奥冰淇淋.md",
+      "source": "all-in-rag",
+      "sha256": "04a76372e04a5b9a7f0f503aae19ac6d17dc9f2b66cacf7b292314882a2cd2ba",
+      "split": "dev"
+    },
+    {
+      "key": "cook-05",
+      "path": "corpus/cookbook/cook-05.md",
+      "upstreamPath": "data/C8/cook/dishes/meat_dish/小酥肉.md",
+      "source": "all-in-rag",
+      "sha256": "ab02191560a764eb3bccbc465aec1524d4f5c56909d03db2461cc52c21c93de5",
+      "split": "dev"
+    },
+    {
+      "key": "cook-06",
+      "path": "corpus/cookbook/cook-06.md",
+      "upstreamPath": "data/C8/cook/dishes/staple/河南蒸面条/河南蒸面条.md",
+      "source": "all-in-rag",
+      "sha256": "a187d8e8a9a965db2e515d505c23a0589c2b3ff71158542803124a5bcd33fa5d",
+      "split": "test"
+    },
+    {
+      "key": "cook-07",
+      "path": "corpus/cookbook/cook-07.md",
+      "upstreamPath": "data/C8/cook/dishes/staple/日式肥牛丼饭/日式肥牛丼饭.md",
+      "source": "all-in-rag",
+      "sha256": "72785faab1e97486395bd0bf097d0277cbf19fb936eec4fdf62fe7c5877067a1",
+      "split": "test"
+    },
+    {
+      "key": "cook-08",
+      "path": "corpus/cookbook/cook-08.md",
+      "upstreamPath": "data/C8/cook/dishes/dessert/戚风蛋糕/戚风蛋糕.md",
+      "source": "all-in-rag",
+      "sha256": "63a8fc4d61f9efdd4cd485e2185474005530626b598b79d2878e1d9201f0dcad",
+      "split": "test"
+    },
+    {
+      "key": "cook-09",
+      "path": "corpus/cookbook/cook-09.md",
+      "upstreamPath": "data/C8/cook/dishes/staple/汤面.md",
+      "source": "all-in-rag",
+      "sha256": "e7955987858f447e270a9dfbaed7d1f061889b8ced2c393801c158b00d39050b",
+      "split": "test"
+    },
+    {
+      "key": "cook-10",
+      "path": "corpus/cookbook/cook-10.md",
+      "upstreamPath": "data/C8/cook/dishes/staple/茄子肉煎饼/茄子肉煎饼.md",
+      "source": "all-in-rag",
+      "sha256": "b881d2c687e1e7dcbd0002931da27b769f1f3114d932e15a87e54da7bbb90f6b",
+      "split": "test"
+    },
+    {
+      "key": "cook-11",
+      "path": "corpus/cookbook/cook-11.md",
+      "upstreamPath": "data/C8/cook/dishes/vegetable_dish/炒茄子.md",
+      "source": "all-in-rag",
+      "sha256": "95d12756f59c334b95b59fe1a1a4d846c400a70652b752058a65f2e5105635ff",
+      "split": "test"
+    },
+    {
+      "key": "cook-12",
+      "path": "corpus/cookbook/cook-12.md",
+      "upstreamPath": "data/C8/cook/dishes/aquatic/咖喱炒蟹.md",
+      "source": "all-in-rag",
+      "sha256": "7682641f4a76a2c08634d648c4584fb0adfa942c4fa24f1155eaaca9bbee2174",
+      "split": "test"
+    },
+    {
+      "key": "cook-13",
+      "path": "corpus/cookbook/cook-13.md",
+      "upstreamPath": "data/C8/cook/dishes/aquatic/红烧鱼.md",
+      "source": "all-in-rag",
+      "sha256": "2172ed5fbe314aaaf74df6ad3caaf928fd7dc746143a0d93c7a7c1dffa493728",
+      "split": "test"
+    },
+    {
+      "key": "cook-14",
+      "path": "corpus/cookbook/cook-14.md",
+      "upstreamPath": "data/C8/cook/dishes/meat_dish/清蒸鳜鱼/清蒸鳜鱼.md",
+      "source": "all-in-rag",
+      "sha256": "7c96c4e1c85d571025d05f7cdf8db62b1b20f7d6edbebd8cfdebffbc8cb9b1bd",
+      "split": "test"
+    },
+    {
+      "key": "cook-15",
+      "path": "corpus/cookbook/cook-15.md",
+      "upstreamPath": "data/C8/cook/dishes/meat_dish/尖叫牛蛙/尖叫牛蛙.md",
+      "source": "all-in-rag",
+      "sha256": "d697d5760d8624882e4859385bf69eb7a84ebe3e70e0274afe9a31dee5548a3c",
+      "split": "test"
+    },
+    {
+      "key": "cook-16",
+      "path": "corpus/cookbook/cook-16.md",
+      "upstreamPath": "data/C8/cook/dishes/meat_dish/口水鸡/口水鸡.md",
+      "source": "all-in-rag",
+      "sha256": "404a940d03c398927dadf20bce18440bcaadab47c58411504a640eca7f359f9d",
+      "split": "test"
+    },
+    {
+      "key": "cook-17",
+      "path": "corpus/cookbook/cook-17.md",
+      "upstreamPath": "data/C8/cook/dishes/meat_dish/枝竹羊腩煲/枝竹羊腩煲.md",
+      "source": "all-in-rag",
+      "sha256": "1db8f0d4d1fe4f8ff655a28f4b3d89687b77409003d38bca7f51fb29acb75c76",
+      "split": "test"
+    },
+    {
+      "key": "cook-18",
+      "path": "corpus/cookbook/cook-18.md",
+      "upstreamPath": "data/C8/cook/dishes/aquatic/香煎翘嘴鱼/香煎翘嘴鱼.md",
+      "source": "all-in-rag",
+      "sha256": "cf5fc365fcd0cec0caf43dae6ee897b1adf1e73f2b485ceaf83244e748e94fd9",
+      "split": "test"
+    },
+    {
+      "key": "cook-19",
+      "path": "corpus/cookbook/cook-19.md",
+      "upstreamPath": "data/C8/cook/dishes/dessert/芋泥雪媚娘/芋泥雪媚娘.md",
+      "source": "all-in-rag",
+      "sha256": "6f0a81ad20bf82b8357cafee0f3d6618af8092f502a9edaa0b679f137d36bade",
+      "split": "test"
+    },
+    {
+      "key": "cook-20",
+      "path": "corpus/cookbook/cook-20.md",
+      "upstreamPath": "data/C8/cook/dishes/meat_dish/老式锅包肉/老式锅包肉.md",
+      "source": "all-in-rag",
+      "sha256": "6ec90ba1e94ecccdeb913294a499d875f99cca950f293e749a5572f2b628e668",
+      "split": "test"
+    }
+  ]
+}
