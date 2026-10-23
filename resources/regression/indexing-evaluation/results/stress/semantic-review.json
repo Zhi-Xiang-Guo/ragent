@@ -1,0 +1,360 @@
+{
+  "reviewer": "Codex reading saved answers and source requirements; not independent human adjudication",
+  "criterion": "主答案是否给出该条目正确的连续等待时间、严格低于阈值，并同时满足；不把附注中的其他条目数字算作答对。",
+  "modes": {
+    "baseline": {
+      "correct": 3,
+      "n": 16,
+      "cases": [
+        {
+          "id": "stress-01-7",
+          "expected": "连续等待33分钟，且待处理数量严格低于150条，两个条件同时满足才允许恢复。",
+          "requestedConditionsCorrect": false,
+          "note": "主答案使用了其他条目的等待时间或数量阈值。",
+          "answerSha256": "dbb41a0a86fb3608dc0d29ecf278233d98448baf128ff09e52365a6177fe0736"
+        },
+        {
+          "id": "stress-01-11",
+          "expected": "连续等待37分钟，且待处理数量严格低于178条，两个条件同时满足才允许恢复。",
+          "requestedConditionsCorrect": false,
+          "note": "拒答，未提供源条款中存在的条件。",
+          "answerSha256": "9fb7b1fbd8d1d800515994e0ef7519bba0a6d5808a8ef491ad17a8bd326ad5e8"
+        },
+        {
+          "id": "stress-02-7",
+          "expected": "连续等待36分钟，且待处理数量严格低于161条，两个条件同时满足才允许恢复。",
+          "requestedConditionsCorrect": false,
+          "note": "主答案使用了其他条目的等待时间或数量阈值。",
+          "answerSha256": "8f0e1eca1f88869887fb35958bb811d805b8202b89d946e84b3961e217c055b3"
+        },
+        {
+          "id": "stress-02-11",
+          "expected": "连续等待40分钟，且待处理数量严格低于189条，两个条件同时满足才允许恢复。",
+          "requestedConditionsCorrect": true,
+          "note": "主答案的两个条件及合取关系与源条款一致。",
+          "answerSha256": "b9513667be688fece8adc0bbcfb8fe47f21bf0a515dca912d8ea09daa28c4e57"
+        },
+        {
+          "id": "stress-03-7",
+          "expected": "连续等待39分钟，且待处理数量严格低于172条，两个条件同时满足才允许恢复。",
+          "requestedConditionsCorrect": false,
+          "note": "主答案使用了其他条目的等待时间或数量阈值。",
+          "answerSha256": "2351d5b8f0d9860ab56f13a6363b3fdecd546c99952aadda8c8949f7b1ba885f"
+        },
+        {
+          "id": "stress-03-11",
+          "expected": "连续等待43分钟，且待处理数量严格低于200条，两个条件同时满足才允许恢复。",
+          "requestedConditionsCorrect": true,
+          "note": "主答案的两个条件及合取关系与源条款一致。",
+          "answerSha256": "c862a7cdd1453077af3f958ea2dc155326275365f359d719d07236782531305a"
+        },
+        {
+          "id": "stress-04-7",
+          "expected": "连续等待42分钟，且待处理数量严格低于183条，两个条件同时满足才允许恢复。",
+          "requestedConditionsCorrect": false,
+          "note": "主答案使用了其他条目的等待时间或数量阈值。",
+          "answerSha256": "31ffcce303cdae7333eafeaec1d25fe80a3cf021d6b05c90cb33b26ec17696f4"
+        },
+        {
+          "id": "stress-04-11",
+          "expected": "连续等待46分钟，且待处理数量严格低于211条，两个条件同时满足才允许恢复。",
+          "requestedConditionsCorrect": true,
+          "note": "主答案的两个条件及合取关系与源条款一致。",
+          "answerSha256": "6aebc0872ebee29f55205c4be1b85c67ada5ca470d859826faadc4a5c049b2a9"
+        },
+        {
+          "id": "stress-05-7",
+          "expected": "连续等待45分钟，且待处理数量严格低于194条，两个条件同时满足才允许恢复。",
+          "requestedConditionsCorrect": false,
+          "note": "主答案使用了其他条目的等待时间或数量阈值。",
+          "answerSha256": "04db5ded03fa9263f1eceb3bac9ceb4322ffc2af7b18a9eedc350d91dbd0c8ec"
+        },
+        {
+          "id": "stress-05-11",
+          "expected": "连续等待49分钟，且待处理数量严格低于222条，两个条件同时满足才允许恢复。",
+          "requestedConditionsCorrect": false,
+          "note": "主答案使用了其他条目的等待时间或数量阈值。",
+          "answerSha256": "32b308cc95fddbdf4f2afa20d922bf6a5c2c0755fcac16f4b9423e868cfbc6eb"
+        },
+        {
+          "id": "stress-06-7",
+          "expected": "连续等待48分钟，且待处理数量严格低于205条，两个条件同时满足才允许恢复。",
+          "requestedConditionsCorrect": false,
+          "note": "主答案使用了其他条目的等待时间或数量阈值。",
+          "answerSha256": "4d5ce3a419b52d1be91493d342bcbed819986b651de7acdd363a3e4296916878"
+        },
+        {
+          "id": "stress-06-11",
+          "expected": "连续等待52分钟，且待处理数量严格低于233条，两个条件同时满足才允许恢复。",
+          "requestedConditionsCorrect": false,
+          "note": "主答案使用了其他条目的等待时间或数量阈值。",
+          "answerSha256": "999480d1dc452bdc666f86bd60aefc9fef1472bd526a57224c7eac3265c39bd4"
+        },
+        {
+          "id": "stress-07-7",
+          "expected": "连续等待51分钟，且待处理数量严格低于216条，两个条件同时满足才允许恢复。",
+          "requestedConditionsCorrect": false,
+          "note": "主答案使用了其他条目的等待时间或数量阈值。",
+          "answerSha256": "3585951ee4e89538c9e16c2ea05116085a7b79027a4157299ccfc1e3390e5851"
+        },
+        {
+          "id": "stress-07-11",
+          "expected": "连续等待55分钟，且待处理数量严格低于244条，两个条件同时满足才允许恢复。",
+          "requestedConditionsCorrect": false,
+          "note": "正则假阳性：主答案54分钟/237条，正确的55分钟/244条只出现在其他组的说明中。",
+          "answerSha256": "fc49fb76a6a4962d0e078b9498fc86e2a4d5da73f84b9c2552f2f009b5ecf658"
+        },
+        {
+          "id": "stress-08-7",
+          "expected": "连续等待54分钟，且待处理数量严格低于227条，两个条件同时满足才允许恢复。",
+          "requestedConditionsCorrect": false,
+          "note": "主答案使用了其他条目的等待时间或数量阈值。",
+          "answerSha256": "0d4b04dc03f4f7809f6a45094e815a4fed1f6170ddc43e198fa350faf6e45c7d"
+        },
+        {
+          "id": "stress-08-11",
+          "expected": "连续等待58分钟，且待处理数量严格低于255条，两个条件同时满足才允许恢复。",
+          "requestedConditionsCorrect": false,
+          "note": "主答案使用了其他条目的等待时间或数量阈值。",
+          "answerSha256": "e6fea3adeadc8c051c0dc7c7fbcfdfb2d60bb2aeeacb58961e0d9e35ee15339d"
+        }
+      ]
+    },
+    "parent-child": {
+      "correct": 14,
+      "n": 16,
+      "cases": [
+        {
+          "id": "stress-01-7",
+          "expected": "连续等待33分钟，且待处理数量严格低于150条，两个条件同时满足才允许恢复。",
+          "requestedConditionsCorrect": true,
+          "note": "主答案的两个条件及合取关系与源条款一致。 有名称缺失提示：祖先根标题未自动补入父块正文；条件主答案正确，但来源展示仍有改进空间。",
+          "answerSha256": "a67a58c7b2621ff2ed92d98408a284a3522392214a40d69adbb6d4057f57a05c"
+        },
+        {
+          "id": "stress-01-11",
+          "expected": "连续等待37分钟，且待处理数量严格低于178条，两个条件同时满足才允许恢复。",
+          "requestedConditionsCorrect": true,
+          "note": "主答案的两个条件及合取关系与源条款一致。",
+          "answerSha256": "83be6f0909cfcd8d054d36399ff10eb97fdb9a2664171f532194d7429de5e82f"
+        },
+        {
+          "id": "stress-02-7",
+          "expected": "连续等待36分钟，且待处理数量严格低于161条，两个条件同时满足才允许恢复。",
+          "requestedConditionsCorrect": false,
+          "note": "拒答，未提供源条款中存在的条件。",
+          "answerSha256": "498783ea7a99c8b8989f688e3dbf8cf1e37ede572d1a0b2e7092c6453a33fd72"
+        },
+        {
+          "id": "stress-02-11",
+          "expected": "连续等待40分钟，且待处理数量严格低于189条，两个条件同时满足才允许恢复。",
+          "requestedConditionsCorrect": false,
+          "note": "拒答，未提供源条款中存在的条件。",
+          "answerSha256": "36319d331b28549997c7701bd6b32a9c1c0a38cec17b163dae95243bcc26890b"
+        },
+        {
+          "id": "stress-03-7",
+          "expected": "连续等待39分钟，且待处理数量严格低于172条，两个条件同时满足才允许恢复。",
+          "requestedConditionsCorrect": true,
+          "note": "主答案的两个条件及合取关系与源条款一致。",
+          "answerSha256": "3807d23983cd25a7f53f7c616ab459d4c0b0c711b932ac1ba12ea30b4f8fca75"
+        },
+        {
+          "id": "stress-03-11",
+          "expected": "连续等待43分钟，且待处理数量严格低于200条，两个条件同时满足才允许恢复。",
+          "requestedConditionsCorrect": true,
+          "note": "主答案的两个条件及合取关系与源条款一致。",
+          "answerSha256": "5ebd9b8d89dce36ace9e429d118382816128bf0707cec8a3299d75e0cf0cfde7"
+        },
+        {
+          "id": "stress-04-7",
+          "expected": "连续等待42分钟，且待处理数量严格低于183条，两个条件同时满足才允许恢复。",
+          "requestedConditionsCorrect": true,
+          "note": "主答案的两个条件及合取关系与源条款一致。",
+          "answerSha256": "0ea5e93def7e24ad63dbe4582586e674679dae879382658fda2b51b13d73eb79"
+        },
+        {
+          "id": "stress-04-11",
+          "expected": "连续等待46分钟，且待处理数量严格低于211条，两个条件同时满足才允许恢复。",
+          "requestedConditionsCorrect": true,
+          "note": "主答案的两个条件及合取关系与源条款一致。",
+          "answerSha256": "d8671ebeff85ad534bf047999e29bc617f09fa8cfd87b09d4d899ae840fdf677"
+        },
+        {
+          "id": "stress-05-7",
+          "expected": "连续等待45分钟，且待处理数量严格低于194条，两个条件同时满足才允许恢复。",
+          "requestedConditionsCorrect": true,
+          "note": "主答案的两个条件及合取关系与源条款一致。",
+          "answerSha256": "77b27da7241a10dd79c74f49f021ae57b659454d1ec29adfcae52b106da7e792"
+        },
+        {
+          "id": "stress-05-11",
+          "expected": "连续等待49分钟，且待处理数量严格低于222条，两个条件同时满足才允许恢复。",
+          "requestedConditionsCorrect": true,
+          "note": "主答案的两个条件及合取关系与源条款一致。",
+          "answerSha256": "d8e75c6ab0b1730d6f2e563802441e8824b7a7e6c6cbc5a979fe5c109cfe8c78"
+        },
+        {
+          "id": "stress-06-7",
+          "expected": "连续等待48分钟，且待处理数量严格低于205条，两个条件同时满足才允许恢复。",
+          "requestedConditionsCorrect": true,
+          "note": "主答案的两个条件及合取关系与源条款一致。",
+          "answerSha256": "368f928495d512df415b93f14204f4e9ff05b2da3a679598f5d64008c544c018"
+        },
+        {
+          "id": "stress-06-11",
+          "expected": "连续等待52分钟，且待处理数量严格低于233条，两个条件同时满足才允许恢复。",
+          "requestedConditionsCorrect": true,
+          "note": "主答案的两个条件及合取关系与源条款一致。",
+          "answerSha256": "080d2896648c0ebc2a3ac0aadddb4d8d922d5454be8802cdc1fae02ef8597ce9"
+        },
+        {
+          "id": "stress-07-7",
+          "expected": "连续等待51分钟，且待处理数量严格低于216条，两个条件同时满足才允许恢复。",
+          "requestedConditionsCorrect": true,
+          "note": "主答案的两个条件及合取关系与源条款一致。 有名称缺失提示：祖先根标题未自动补入父块正文；条件主答案正确，但来源展示仍有改进空间。",
+          "answerSha256": "d2fc6e8e82ceb3603903f0c5447692441bb7bf7000b6f2de4935b55230502074"
+        },
+        {
+          "id": "stress-07-11",
+          "expected": "连续等待55分钟，且待处理数量严格低于244条，两个条件同时满足才允许恢复。",
+          "requestedConditionsCorrect": true,
+          "note": "主答案的两个条件及合取关系与源条款一致。",
+          "answerSha256": "c6ce3df12d645e0d264f903696850a9f382c5b329d769c0f01bb9c6f8a1b919a"
+        },
+        {
+          "id": "stress-08-7",
+          "expected": "连续等待54分钟，且待处理数量严格低于227条，两个条件同时满足才允许恢复。",
+          "requestedConditionsCorrect": true,
+          "note": "主答案的两个条件及合取关系与源条款一致。",
+          "answerSha256": "329541496d55fb90889a00adf714a63c9a2ac9cda81ee917779ac9684c25ef14"
+        },
+        {
+          "id": "stress-08-11",
+          "expected": "连续等待58分钟，且待处理数量严格低于255条，两个条件同时满足才允许恢复。",
+          "requestedConditionsCorrect": true,
+          "note": "主答案的两个条件及合取关系与源条款一致。",
+          "answerSha256": "0a9773a6d524150d87704004ab6eabe731005d9a9c39a10ad15432432b9c59fd"
+        }
+      ]
+    },
+    "sentence-window": {
+      "correct": 16,
+      "n": 16,
+      "cases": [
+        {
+          "id": "stress-01-7",
+          "expected": "连续等待33分钟，且待处理数量严格低于150条，两个条件同时满足才允许恢复。",
+          "requestedConditionsCorrect": true,
+          "note": "主答案的两个条件及合取关系与源条款一致。",
+          "answerSha256": "84b30efe7894f22baa50b7b2adcb1690af8651a1611c146f64b7ac6a45812d0f"
+        },
+        {
+          "id": "stress-01-11",
+          "expected": "连续等待37分钟，且待处理数量严格低于178条，两个条件同时满足才允许恢复。",
+          "requestedConditionsCorrect": true,
+          "note": "主答案的两个条件及合取关系与源条款一致。",
+          "answerSha256": "379bb881f664c16140ccd9931b7fdd2be3ec7a8f4a92a57b81c4f41d2ebd8495"
+        },
+        {
+          "id": "stress-02-7",
+          "expected": "连续等待36分钟，且待处理数量严格低于161条，两个条件同时满足才允许恢复。",
+          "requestedConditionsCorrect": true,
+          "note": "主答案的两个条件及合取关系与源条款一致。",
+          "answerSha256": "bff276df6d1308a67581336283b43b07efb990a9fe99b3a5bc36e0994c4b67f0"
+        },
+        {
+          "id": "stress-02-11",
+          "expected": "连续等待40分钟，且待处理数量严格低于189条，两个条件同时满足才允许恢复。",
+          "requestedConditionsCorrect": true,
+          "note": "主答案的两个条件及合取关系与源条款一致。",
+          "answerSha256": "92899ec9702b750c1b31c3173ca0f6bc6ea7771e76e02f51706d57160bdbab31"
+        },
+        {
+          "id": "stress-03-7",
+          "expected": "连续等待39分钟，且待处理数量严格低于172条，两个条件同时满足才允许恢复。",
+          "requestedConditionsCorrect": true,
+          "note": "主答案的两个条件及合取关系与源条款一致。",
+          "answerSha256": "2c5a25c7f76fb8b7d0269104e3c30661e0bca082a3029af99aeb0a0386fafb67"
+        },
+        {
+          "id": "stress-03-11",
+          "expected": "连续等待43分钟，且待处理数量严格低于200条，两个条件同时满足才允许恢复。",
+          "requestedConditionsCorrect": true,
+          "note": "主答案的两个条件及合取关系与源条款一致。",
+          "answerSha256": "a3c07497c84d8652c3072b3e17f6a142cefc1e0966ed91d041c45dac2ede0c3b"
+        },
+        {
+          "id": "stress-04-7",
+          "expected": "连续等待42分钟，且待处理数量严格低于183条，两个条件同时满足才允许恢复。",
+          "requestedConditionsCorrect": true,
+          "note": "主答案的两个条件及合取关系与源条款一致。 有根名称或对应关系缺失提示：条件主答案正确，但来源展示仍有改进空间。",
+          "answerSha256": "78e9da3c7678e18368a8437132b3c8d66a335adf836ecbe7b1ae03c87b0c13de"
+        },
+        {
+          "id": "stress-04-11",
+          "expected": "连续等待46分钟，且待处理数量严格低于211条，两个条件同时满足才允许恢复。",
+          "requestedConditionsCorrect": true,
+          "note": "主答案的两个条件及合取关系与源条款一致。",
+          "answerSha256": "b40f6841b8e19634bce06225e9fb263bba809690728dedb55c5dd3f64a24910f"
+        },
+        {
+          "id": "stress-05-7",
+          "expected": "连续等待45分钟，且待处理数量严格低于194条，两个条件同时满足才允许恢复。",
+          "requestedConditionsCorrect": true,
+          "note": "主答案的两个条件及合取关系与源条款一致。 有根名称或对应关系缺失提示：条件主答案正确，但来源展示仍有改进空间。",
+          "answerSha256": "9127c2e336680dc3e52187e902c0726fd66eb0454c555266cf72837f97421548"
+        },
+        {
+          "id": "stress-05-11",
+          "expected": "连续等待49分钟，且待处理数量严格低于222条，两个条件同时满足才允许恢复。",
+          "requestedConditionsCorrect": true,
+          "note": "主答案的两个条件及合取关系与源条款一致。",
+          "answerSha256": "13f0a74662d228c81a9e947a650a4856cf3686dbf26d5327930d1f8daca06a36"
+        },
+        {
+          "id": "stress-06-7",
+          "expected": "连续等待48分钟，且待处理数量严格低于205条，两个条件同时满足才允许恢复。",
+          "requestedConditionsCorrect": true,
+          "note": "主答案的两个条件及合取关系与源条款一致。 有根名称或对应关系缺失提示：条件主答案正确，但来源展示仍有改进空间。",
+          "answerSha256": "b1a06d69ea12618f9451f9e074e55a466e3ebfae16a2ccac435cb91eb6da66bb"
+        },
+        {
+          "id": "stress-06-11",
+          "expected": "连续等待52分钟，且待处理数量严格低于233条，两个条件同时满足才允许恢复。",
+          "requestedConditionsCorrect": true,
+          "note": "主答案的两个条件及合取关系与源条款一致。",
+          "answerSha256": "c3bbc4eebc4ed5de6fad94cfbd932f1a4fb794067ec5ec43b19f5799759ad5fb"
+        },
+        {
+          "id": "stress-07-7",
+          "expected": "连续等待51分钟，且待处理数量严格低于216条，两个条件同时满足才允许恢复。",
+          "requestedConditionsCorrect": true,
+          "note": "主答案的两个条件及合取关系与源条款一致。",
+          "answerSha256": "c0e86aa03ee26f4fe7edbd59c13d0db79792e4950c21a8887024cd079453bf70"
+        },
+        {
+          "id": "stress-07-11",
+          "expected": "连续等待55分钟，且待处理数量严格低于244条，两个条件同时满足才允许恢复。",
+          "requestedConditionsCorrect": true,
+          "note": "主答案的两个条件及合取关系与源条款一致。 有根名称或对应关系缺失提示：条件主答案正确，但来源展示仍有改进空间。",
+          "answerSha256": "f8c944613517e0d02efead90ff6e975c534f3df4d41851008d1c0dc7829d4c96"
+        },
+        {
+          "id": "stress-08-7",
+          "expected": "连续等待54分钟，且待处理数量严格低于227条，两个条件同时满足才允许恢复。",
+          "requestedConditionsCorrect": true,
+          "note": "主答案的两个条件及合取关系与源条款一致。",
+          "answerSha256": "58290b573f65c63f4b92470fa7b46db92fda20df4546d7dc0501c45bc4eba2ae"
+        },
+        {
+          "id": "stress-08-11",
+          "expected": "连续等待58分钟，且待处理数量严格低于255条，两个条件同时满足才允许恢复。",
+          "requestedConditionsCorrect": true,
+          "note": "主答案的两个条件及合取关系与源条款一致。",
+          "answerSha256": "c69ebc9be20aff790905e72d7795e9bff4c4a950ebff698893ec8a7c43a5305f"
+        }
+      ]
+    }
+  }
+}

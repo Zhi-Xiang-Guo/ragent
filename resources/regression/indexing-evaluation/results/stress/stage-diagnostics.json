@@ -1,0 +1,72 @@
+[
+  {
+    "id": "stress-02-7",
+    "mode": "parent-child",
+    "target": "砂砾漂移",
+    "stagePresence": [
+      {
+        "stage": "channel:VECTOR",
+        "targetPresent": true
+      },
+      {
+        "stage": "post:Deduplication",
+        "targetPresent": true
+      },
+      {
+        "stage": "fusion:ranked",
+        "targetPresent": true
+      },
+      {
+        "stage": "post:Fusion",
+        "targetPresent": true
+      },
+      {
+        "stage": "post:Rerank",
+        "targetPresent": false
+      },
+      {
+        "stage": "post:MetadataEnrichment",
+        "targetPresent": false
+      },
+      {
+        "stage": "context:Expanded",
+        "targetPresent": false
+      }
+    ]
+  },
+  {
+    "id": "stress-02-11",
+    "mode": "parent-child",
+    "target": "芦苇漂白",
+    "stagePresence": [
+      {
+        "stage": "channel:VECTOR",
+        "targetPresent": true
+      },
+      {
+        "stage": "post:Deduplication",
+        "targetPresent": true
+      },
+      {
+        "stage": "fusion:ranked",
+        "targetPresent": true
+      },
+      {
+        "stage": "post:Fusion",
+        "targetPresent": true
+      },
+      {
+        "stage": "post:Rerank",
+        "targetPresent": false
+      },
+      {
+        "stage": "post:MetadataEnrichment",
+        "targetPresent": false
+      },
+      {
+        "stage": "context:Expanded",
+        "targetPresent": false
+      }
+    ]
+  }
+]

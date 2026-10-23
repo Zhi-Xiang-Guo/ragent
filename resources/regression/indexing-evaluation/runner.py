@@ -39,6 +39,20 @@ class Client:
             raise RuntimeError('API failure at ' + path.split('?')[0] + ': ' + str(result.get('message'))[:300])
         return result.get('data')
 
+    def enable_document(self, doc_id, enabled):
+        path = '/knowledge-base/docs/' + doc_id
+        for attempt in range(4):
+            try:
+                return self.call(path + '/enable?value=' + str(enabled).lower(), 'PATCH')
+            except (RuntimeError, urllib.error.URLError):
+                state = self.call(path)
+                if state.get('enabled') == enabled:
+                    return None
+                if state.get('status') == 'running' or attempt == 3:
+                    raise
+                print('enable retry', doc_id, attempt + 1, flush=True)
+                time.sleep(5 if attempt == 0 else 35)
+
     def upload(self, kb, key, data, spec):
         boundary = uuid.uuid4().hex
         fields = {'sourceType': 'file', 'processMode': 'chunk',
@@ -91,7 +105,7 @@ def ingest(client, dataset, out, mode, synchronous=False, mapping_path=None, dat
             client.call('/knowledge-base/docs/' + doc_id, 'PUT', {'docName': doc['key'] + '.md', 'processMode': 'chunk', 'ingestionSpec': json.dumps(spec(mode))})
             current = client.call('/knowledge-base/docs/' + doc_id)
             if not current.get('enabled'):
-                client.call('/knowledge-base/docs/' + doc_id + '/enable?value=true', 'PATCH')
+                client.enable_document(doc_id, True)
                 current = client.call('/knowledge-base/docs/' + doc_id)
             if current.get('status') == 'running':
                 deadline = time.monotonic() + 300
@@ -124,7 +138,7 @@ def ingest(client, dataset, out, mode, synchronous=False, mapping_path=None, dat
             print('ingestion retry', mode, doc['key'], attempt + 1, status, flush=True)
             if attempt == 3:
                 raise RuntimeError('Ingestion failed after retries: ' + doc['key'])
-            time.sleep(35)
+            time.sleep(5 if attempt == 0 else 35)
         mapping['documents'][doc['key']].update(mode=mode, chunks=state.get('chunkCount'), ingestionAttempts=ingestion_attempts)
         save(path, mapping)
         print('ingested', mode, doc['key'], state.get('chunkCount'), flush=True)
@@ -134,6 +148,11 @@ def ingest(client, dataset, out, mode, synchronous=False, mapping_path=None, dat
 
 
 def response_healthy(response):
+    for q in response.get('subQuestionResults', []):
+        for stage in q.get('stages', []):
+            ranked = stage.get('rankedChunks') or []
+            if stage.get('stage') == 'post:Rerank' and ranked and not any(c.get('rerankScore') is not None for c in ranked):
+                return False  # The controlled BGE experiment must not silently accept a noop fallback.
     return response.get('answerStatus') in ('SUCCESS', 'NO_CONTEXT') and all(
         q.get('status') == 'SUCCESS' and all(s.get('status') in ('SUCCESS', 'EMPTY') for s in q.get('stages', []))
         for q in response.get('subQuestionResults', []))
@@ -159,7 +178,7 @@ def evaluate(client, dataset, out, mode, workers, repeat, only):
                 if response_healthy(response):
                     break
                 if attempt < 3:
-                    time.sleep(35)
+                    time.sleep(5 if attempt == 0 else 35)
             time.sleep(2)
             return {'id': case['id'], 'mode': mode, 'repeat': repeat, 'response': response,
                     'attempts': attempts, 'wallSeconds': time.monotonic() - started, 'timestamp': time.time()}

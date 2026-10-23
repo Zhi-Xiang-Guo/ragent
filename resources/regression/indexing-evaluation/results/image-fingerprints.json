@@ -1,0 +1,35 @@
+{
+  "baseline": {
+    "variant": "baseline",
+    "jarSha256": "c278121d737e943fe8f10170b4d91b5068371a971bc854c2473ed0bf97579e0d",
+    "runtimeSha256": "8f23ac3b36a7bb9d7fece5ce5e9007e7a6569812379ce00c1e90eb6312d6a3d8",
+    "adapterSha256": {
+      "com/nageoffer/ai/ragent/infra/chat/OpaysChatClient.class": "8d1baba8018a8b833c86fd454c3c290eadfaec1a409254b634fb5c12a864fde9",
+      "com/nageoffer/ai/ragent/infra/enums/ModelProvider.class": "a4dfc112a283b20ae15190d7e2feebfef292366eb91c0aeb2500eb3636c66eb9",
+      "com/nageoffer/ai/ragent/infra/embedding/OpaysEmbeddingClient.class": "ad407ed04f9842a74c39c3cab871ce3b3cbf2cc23870a7e93b88bd96242914a9",
+      "com/nageoffer/ai/ragent/infra/rerank/OpaysRerankClient.class": "7dcee922623934d222237a2c58f52011474fa41b731915d72cf9f9d7b7ce47f8"
+    }
+  },
+  "parent-child": {
+    "variant": "parent-child",
+    "jarSha256": "1cf7f0cf50599af5575a1cdd07b31d06658401c094d5ce43000ee2ee0b601a9e",
+    "runtimeSha256": "45f8d741d5c48e4e3702f0e9345cecd6890134eb7387eb021a7682185c876692",
+    "adapterSha256": {
+      "com/nageoffer/ai/ragent/infra/chat/OpaysChatClient.class": "8d1baba8018a8b833c86fd454c3c290eadfaec1a409254b634fb5c12a864fde9",
+      "com/nageoffer/ai/ragent/infra/enums/ModelProvider.class": "a4dfc112a283b20ae15190d7e2feebfef292366eb91c0aeb2500eb3636c66eb9",
+      "com/nageoffer/ai/ragent/infra/embedding/OpaysEmbeddingClient.class": "ad407ed04f9842a74c39c3cab871ce3b3cbf2cc23870a7e93b88bd96242914a9",
+      "com/nageoffer/ai/ragent/infra/rerank/OpaysRerankClient.class": "7dcee922623934d222237a2c58f52011474fa41b731915d72cf9f9d7b7ce47f8"
+    }
+  },
+  "sentence-window": {
+    "variant": "sentence-window",
+    "jarSha256": "83fcaff1415e2bfb5c7eff053f8a6ba3bd4032e96abff1e8e845c2e6dadfd965",
+    "runtimeSha256": "68366c45cdb6e69580a1f02d1ecd7d922dd5a825d754439c601c3142e4cef2cf",
+    "adapterSha256": {
+      "com/nageoffer/ai/ragent/infra/chat/OpaysChatClient.class": "8d1baba8018a8b833c86fd454c3c290eadfaec1a409254b634fb5c12a864fde9",
+      "com/nageoffer/ai/ragent/infra/enums/ModelProvider.class": "a4dfc112a283b20ae15190d7e2feebfef292366eb91c0aeb2500eb3636c66eb9",
+      "com/nageoffer/ai/ragent/infra/embedding/OpaysEmbeddingClient.class": "ad407ed04f9842a74c39c3cab871ce3b3cbf2cc23870a7e93b88bd96242914a9",
+      "com/nageoffer/ai/ragent/infra/rerank/OpaysRerankClient.class": "7dcee922623934d222237a2c58f52011474fa41b731915d72cf9f9d7b7ce47f8"
+    }
+  }
+}

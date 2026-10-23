@@ -1,0 +1,5 @@
+                                                           json_build_object                                                            
+----------------------------------------------------------------------------------------------------------------------------------------
+ {"name" : "stress-07.md", "status" : "failed", "configuredMode" : "PARENT_CHILD", "storedRoles" : { "STANDARD" : 33 }, "vectors" : 33}
+(1 row)
+

@@ -1,0 +1,62 @@
+{
+  "baseline": [
+    {
+      "trial": 0,
+      "kind": "end-to-end retrieval and synthesis",
+      "n": 12,
+      "checksPassed": 0
+    },
+    {
+      "trial": 1,
+      "kind": "same captured production prompt; retrieval not repeated",
+      "n": 12,
+      "checksPassed": 0
+    },
+    {
+      "trial": 2,
+      "kind": "same captured production prompt; retrieval not repeated",
+      "n": 12,
+      "checksPassed": 0
+    }
+  ],
+  "parent-child": [
+    {
+      "trial": 0,
+      "kind": "end-to-end retrieval and synthesis",
+      "n": 12,
+      "checksPassed": 11
+    },
+    {
+      "trial": 1,
+      "kind": "same captured production prompt; retrieval not repeated",
+      "n": 12,
+      "checksPassed": 11
+    },
+    {
+      "trial": 2,
+      "kind": "same captured production prompt; retrieval not repeated",
+      "n": 12,
+      "checksPassed": 11
+    }
+  ],
+  "sentence-window": [
+    {
+      "trial": 0,
+      "kind": "end-to-end retrieval and synthesis",
+      "n": 12,
+      "checksPassed": 12
+    },
+    {
+      "trial": 1,
+      "kind": "same captured production prompt; retrieval not repeated",
+      "n": 12,
+      "checksPassed": 12
+    },
+    {
+      "trial": 2,
+      "kind": "same captured production prompt; retrieval not repeated",
+      "n": 12,
+      "checksPassed": 12
+    }
+  ]
+}

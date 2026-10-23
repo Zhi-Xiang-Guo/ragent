@@ -1,0 +1,12 @@
+[
+  {
+    "id": "return-3",
+    "mode": "sentence-window",
+    "exactQuoteMissing": "仅支持同一商品、同一 SKU",
+    "alternativeEvidence": "无理由换货默认仅支持同一 SKU。想换颜色、容量或型号，通常需要退货后重新下单。",
+    "answerCorrectForRequestedQuestion": true,
+    "reviewer": "Codex source/context/answer inspection, not independent human review",
+    "note": "同文档FAQ含等价条件；精确引文未命中不是本题语义答错。保留原精确匹配指标。",
+    "answerSha256": "6b917d12daacb113c4a723a671198e406d3020fb4fb6faf35a58d3e0e65c24b0"
+  }
+]
