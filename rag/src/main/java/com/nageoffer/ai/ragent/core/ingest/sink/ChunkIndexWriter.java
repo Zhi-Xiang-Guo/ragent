@@ -44,10 +44,14 @@ public class ChunkIndexWriter {
      * 整体替换该文档的块：全部落点在同一个事务里
      */
     public void replaceDocument(VectorTarget target, DocumentRef doc, List<EmbeddedChunk> chunks) {
+        replaceDocument(target, doc, new ChunkWriteBatch(chunks, List.of()));
+    }
+
+    public void replaceDocument(VectorTarget target, DocumentRef doc, ChunkWriteBatch batch) {
         transactionOperations.executeWithoutResult(status ->
-                sinks.forEach(sink -> sink.replaceDocument(target, doc, chunks)));
+                sinks.forEach(sink -> sink.replaceDocument(target, doc, batch)));
         log.info("块索引写入完成 docId={} 分区={} 块数={} 落点数={}",
-                doc.docId(), target.partition(), chunks.size(), sinks.size());
+                doc.docId(), target.partition(), batch.searchable().size(), sinks.size());
     }
 
     public void deleteDocument(VectorTarget target, DocumentRef doc) {

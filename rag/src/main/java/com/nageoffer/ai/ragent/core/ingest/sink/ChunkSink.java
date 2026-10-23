@@ -37,7 +37,12 @@ public interface ChunkSink {
     void replaceDocument(VectorTarget target, DocumentRef doc, List<EmbeddedChunk> chunks);
 
     /**
-     * 清除该文档的全部块
+     * Replace searchable units; relational sinks may additionally persist parent context units.
      */
+    default void replaceDocument(VectorTarget target, DocumentRef doc, ChunkWriteBatch batch) {
+        replaceDocument(target, doc, batch.searchable());
+    }
+
+    /** Clear all roles belonging to this document. */
     void deleteDocument(VectorTarget target, DocumentRef doc);
 }

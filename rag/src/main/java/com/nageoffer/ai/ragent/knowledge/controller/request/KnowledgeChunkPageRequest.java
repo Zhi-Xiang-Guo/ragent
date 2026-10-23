@@ -24,4 +24,5 @@ import lombok.Data;
 public class KnowledgeChunkPageRequest extends Page {
 
     private Integer enabled;
+    private String chunkType;
 }

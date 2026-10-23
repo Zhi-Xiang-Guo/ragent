@@ -39,4 +39,13 @@ class ContextAssemblyTest {
         assertEquals("", result.text());
         assertTrue(result.units().isEmpty());
     }
+    @Test void contextUnitsExcludeHitsBeyondTheRenderedTopK() {
+        var a = RetrievedChunk.builder().id("a").text("first").build();
+        var b = RetrievedChunk.builder().id("b").text("second").build();
+        var result = ContextAssembly.assemble(List.of(a, b), List.of(),
+                chunks -> chunks.stream().map(RetrievedChunk::getText).collect(java.util.stream.Collectors.joining()), 100, 1);
+        assertEquals("first", result.text());
+        assertEquals(1, result.units().size());
+        assertEquals(List.of("a"), result.units().get(0).hitChunkIds());
+    }
 }

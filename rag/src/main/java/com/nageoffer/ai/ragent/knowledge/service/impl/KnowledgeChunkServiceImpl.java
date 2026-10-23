@@ -17,6 +17,8 @@
 
 package com.nageoffer.ai.ragent.knowledge.service.impl;
 
+import com.nageoffer.ai.ragent.knowledge.support.IngestionSpecCodec;
+
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
@@ -83,6 +85,7 @@ public class KnowledgeChunkServiceImpl implements KnowledgeChunkService {
     private final VectorStoreService vectorStoreService;
     private final TransactionOperations transactionOperations;
     private final BizChangeLogContext bizChangeLogContext;
+    private final IngestionSpecCodec ingestionSpecCodec;
 
     @Override
     public IPage<KnowledgeChunkVO> pageQuery(String docId, KnowledgeChunkPageRequest requestParam) {
@@ -94,6 +97,13 @@ public class KnowledgeChunkServiceImpl implements KnowledgeChunkService {
                 .eq(requestParam.getEnabled() != null, KnowledgeChunkDO::getEnabled, requestParam.getEnabled())
                 .orderByAsc(KnowledgeChunkDO::getChunkIndex);
 
+        if (requestParam.getChunkType() == null) {
+            queryWrapper.ne(KnowledgeChunkDO::getChunkType, "PARENT");
+        } else {
+            if (!java.util.Set.of("STANDARD", "PARENT", "CHILD").contains(requestParam.getChunkType()))
+                throw new ClientException("无效的 chunkType");
+            queryWrapper.eq(KnowledgeChunkDO::getChunkType, requestParam.getChunkType());
+        }
         Page<KnowledgeChunkDO> page = new Page<>(requestParam.getCurrent(), requestParam.getSize());
         IPage<KnowledgeChunkDO> result = chunkMapper.selectPage(page, queryWrapper);
         return result.convert(each -> BeanUtil.toBean(each, KnowledgeChunkVO.class));
@@ -113,6 +123,7 @@ public class KnowledgeChunkServiceImpl implements KnowledgeChunkService {
     public KnowledgeChunkVO create(String docId, KnowledgeChunkCreateRequest requestParam) {
         KnowledgeDocumentDO documentDO = documentMapper.selectById(docId);
         Assert.notNull(documentDO, () -> new ClientException("文档不存在"));
+        requireEditableChunks(documentDO);
         if (DocumentStatus.RUNNING.getCode().equals(documentDO.getStatus())) {
             throw new ClientException("文档正在分块处理中，暂不支持新增 Chunk");
         }
@@ -184,6 +195,7 @@ public class KnowledgeChunkServiceImpl implements KnowledgeChunkService {
     public void update(String docId, String chunkId, KnowledgeChunkUpdateRequest requestParam) {
         KnowledgeDocumentDO documentDO = documentMapper.selectById(docId);
         Assert.notNull(documentDO, () -> new ClientException("文档不存在"));
+        requireEditableChunks(documentDO);
         if (DocumentStatus.RUNNING.getCode().equals(documentDO.getStatus())) {
             throw new ClientException("文档正在分块处理中，暂不支持修改 Chunk");
         }
@@ -240,6 +252,7 @@ public class KnowledgeChunkServiceImpl implements KnowledgeChunkService {
     public void delete(String docId, String chunkId) {
         KnowledgeDocumentDO documentDO = documentMapper.selectById(docId);
         Assert.notNull(documentDO, () -> new ClientException("文档不存在"));
+        requireEditableChunks(documentDO);
         if (DocumentStatus.RUNNING.getCode().equals(documentDO.getStatus())) {
             throw new ClientException("文档正在分块处理中，暂不支持删除 Chunk");
         }
@@ -279,6 +292,7 @@ public class KnowledgeChunkServiceImpl implements KnowledgeChunkService {
     public void enableChunk(String docId, String chunkId, boolean enabled) {
         KnowledgeDocumentDO documentDO = documentMapper.selectById(docId);
         Assert.notNull(documentDO, () -> new ClientException("文档不存在"));
+        requireEditableChunks(documentDO);
         if (DocumentStatus.RUNNING.getCode().equals(documentDO.getStatus())) {
             throw new ClientException("文档正在分块处理中，暂不支持修改 Chunk 状态");
         }
@@ -334,6 +348,7 @@ public class KnowledgeChunkServiceImpl implements KnowledgeChunkService {
 
         KnowledgeDocumentDO documentDO = documentMapper.selectById(docId);
         Assert.notNull(documentDO, () -> new ClientException("文档不存在"));
+        requireEditableChunks(documentDO);
         if (DocumentStatus.RUNNING.getCode().equals(documentDO.getStatus())) {
             throw new ClientException("文档正在分块处理中，暂不支持批量修改 Chunk 状态");
         }
@@ -423,6 +438,7 @@ public class KnowledgeChunkServiceImpl implements KnowledgeChunkService {
         List<KnowledgeChunkDO> chunkDOList = chunkMapper.selectList(
                 Wrappers.lambdaQuery(KnowledgeChunkDO.class)
                         .eq(KnowledgeChunkDO::getDocId, docId)
+                        .ne(KnowledgeChunkDO::getChunkType, "PARENT")
                         .orderByAsc(KnowledgeChunkDO::getChunkIndex)
         );
         if (CollUtil.isEmpty(chunkDOList)) {
@@ -438,6 +454,15 @@ public class KnowledgeChunkServiceImpl implements KnowledgeChunkService {
             return;
         }
         chunkMapper.delete(new LambdaQueryWrapper<KnowledgeChunkDO>().eq(KnowledgeChunkDO::getDocId, docId));
+    }
+
+    private void requireEditableChunks(KnowledgeDocumentDO document) {
+        boolean configured = ingestionSpecCodec.read(document.getIngestionSpec()).indexing().advanced();
+        boolean stored = chunkMapper.selectCount(Wrappers.lambdaQuery(KnowledgeChunkDO.class)
+                .eq(KnowledgeChunkDO::getDocId, document.getId())
+                .ne(KnowledgeChunkDO::getChunkType, "STANDARD")) > 0;
+        if (configured || stored)
+            throw new ClientException("高级分块不支持单块增删改或开关，请修改原文后整篇重建");
     }
 
     // ==================== 私有方法 ====================

@@ -185,9 +185,17 @@ public class RetrievalEngine {
         }
 
         Map<String, List<RetrievedChunk>> intentChunks = retrievalResult.groupByIntent(MULTI_CHANNEL_KEY);
+        long expansionStarted = System.nanoTime();
         var assembly = ContextAssembly.assemble(chunks, contextExpanders,
                 expanded -> contextFormatter.formatKbContext(kbIntents, eligibleIntentIds, expanded, budget.contextTopK()),
-                contextChars);
+                contextChars, budget.contextTopK());
+        if (stages != null) {
+            stages.add(new RetrievalStageSnapshot("context:Expanded", "SUCCESS",
+                    (System.nanoTime() - expansionStarted) / 1_000_000,
+                    RankedChunk.snapshot(assembly.units().stream().map(ContextUnit::chunk).toList())));
+            rankedResult = new SubQuestionRetrievalResult(intent.subQuestion(), "SUCCESS",
+                    rankedResult.rankedChunks(), stages);
+        }
         Set<String> usedIds = assembly.units().stream().flatMap(u -> u.hitChunkIds().stream())
                 .collect(java.util.stream.Collectors.toSet());
         if (!contextExpanders.isEmpty()) {

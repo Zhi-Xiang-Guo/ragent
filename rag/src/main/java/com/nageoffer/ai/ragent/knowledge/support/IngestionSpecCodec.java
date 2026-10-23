@@ -21,6 +21,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nageoffer.ai.ragent.core.chunk.model.ChunkBudget;
 import com.nageoffer.ai.ragent.core.ingest.IngestionSpec;
+import com.nageoffer.ai.ragent.core.ingest.IndexingOptions;
 import com.nageoffer.ai.ragent.core.parser.registry.ParseProfile;
 import com.nageoffer.ai.ragent.framework.exception.ClientException;
 import lombok.RequiredArgsConstructor;
@@ -75,8 +76,10 @@ public class IngestionSpecCodec {
             return IngestionSpec.defaults();
         }
         try {
-            return objectMapper.readValue(json, SpecWire.class).toDomain();
+            return fromMap(objectMapper.readValue(json, new TypeReference<Map<String, Object>>() { }));
         } catch (Exception e) {
+            if (json.contains("indexing") || json.contains("indexingMode"))
+                throw new ClientException("高级摄取配置无效，请修正配置后重建文档");
             log.warn("摄取配置解析失败，回落默认配置：{}", json, e);
             return IngestionSpec.defaults();
         }
@@ -118,9 +121,18 @@ public class IngestionSpecCodec {
     }
 
     private IngestionSpec fromMap(Map<String, Object> raw) {
-        return IngestionSpec.of(ParseProfile.from(readString(raw, KEY_PARSE_PROFILE)),
-                toBudget(readInt(raw, KEY_MAX_CHARS), readInt(raw, KEY_OVERLAP_CHARS),
-                        readInt(raw, KEY_ROWS_PER_CHUNK), readInt(raw, KEY_TOLERANCE_FACTOR)));
+        if (raw == null) throw new IllegalArgumentException("摄取配置必须是 JSON 对象");
+        if (raw.get("indexing") != null && !(raw.get("indexing") instanceof Map<?, ?>))
+            throw new IllegalArgumentException("indexing 必须是 JSON 对象");
+        Map<String, Object> budget = raw.get("budget") instanceof Map<?, ?> nested
+                ? (Map<String, Object>) nested : raw;
+        Map<String, Object> index = raw.get("indexing") instanceof Map<?, ?> nested
+                ? (Map<String, Object>) nested : raw;
+        String mode = readString(index, index.containsKey("mode") ? "mode" : "indexingMode");
+        IndexingOptions options = new IndexingOptions(mode, number(index, "parentMaxChars", 2048), number(index, "childMaxChars", 384), number(index, "childOverlapChars", 64));
+        return new IngestionSpec(IngestionSpec.CURRENT_VERSION, ParseProfile.from(readString(raw, KEY_PARSE_PROFILE)),
+                toBudget(readInt(budget, KEY_MAX_CHARS), readInt(budget, KEY_OVERLAP_CHARS),
+                        readInt(budget, KEY_ROWS_PER_CHUNK), readInt(budget, KEY_TOLERANCE_FACTOR)), options);
     }
 
     /**
@@ -141,6 +153,16 @@ public class IngestionSpecCodec {
                 overlap != null && overlap >= 0 ? overlap : ChunkBudget.defaultOverlapFor(budget),
                 rows != null && rows > 0 ? rows : defaults.rowsPerChunk(),
                 tolerance != null && tolerance > 0 ? tolerance : defaults.toleranceFactor());
+    }
+
+    private static int number(Map<String, Object> raw, String key, int fallback) {
+        if (!raw.containsKey(key)) return fallback;
+        Integer value = readInt(raw, key);
+        if (value == null) throw new IllegalArgumentException(key + " 必须是整数");
+        Object original = raw.get(key);
+        if (original instanceof Number n && n.doubleValue() != value.doubleValue())
+            throw new IllegalArgumentException(key + " 必须是整数");
+        return value;
     }
 
     private static Integer readInt(Map<String, Object> raw, String key) {
@@ -174,14 +196,14 @@ public class IngestionSpecCodec {
      * @param parseProfile 解析档位
      * @param budget       分块预算
      */
-    private record SpecWire(int version, ParseProfile parseProfile, BudgetWire budget) {
+    private record SpecWire(int version, ParseProfile parseProfile, BudgetWire budget, IndexingOptions indexing) {
 
         static SpecWire of(IngestionSpec spec) {
             ChunkBudget budget = spec.budget();
             return new SpecWire(spec.version(), spec.parseProfile(), budget.isWholeDocument()
                     ? new BudgetWire(WHOLE_DOCUMENT_SENTINEL, 0, WHOLE_DOCUMENT_SENTINEL, budget.toleranceFactor())
                     : new BudgetWire(budget.maxChars(), budget.overlapChars(),
-                    budget.rowsPerChunk(), budget.toleranceFactor()));
+                    budget.rowsPerChunk(), budget.toleranceFactor()), spec.indexing());
         }
 
         IngestionSpec toDomain() {
@@ -191,7 +213,7 @@ public class IngestionSpecCodec {
                     budget == null
                             ? ChunkBudget.defaults()
                             : toBudget(budget.maxChars(), budget.overlapChars(),
-                            budget.rowsPerChunk(), budget.toleranceFactor()));
+                            budget.rowsPerChunk(), budget.toleranceFactor()), indexing);
         }
     }
 

@@ -17,6 +17,10 @@
 
 package com.nageoffer.ai.ragent.core.chunk;
 
+import com.nageoffer.ai.ragent.core.chunk.model.IngestionChunks;
+import com.nageoffer.ai.ragent.core.chunk.text.TextSplitter;
+import com.nageoffer.ai.ragent.core.ingest.IngestionSpec;
+
 import com.nageoffer.ai.ragent.core.chunk.blockaware.BlockAwareChunkerDispatcher;
 import com.nageoffer.ai.ragent.core.chunk.model.Chunk;
 import com.nageoffer.ai.ragent.core.chunk.model.ChunkAssembler;
@@ -52,6 +56,32 @@ public class ChunkingService {
             return wholeDocument(blocks);
         }
         return blockAwareChunkerDispatcher.dispatch(blocks, budget);
+    }
+
+    public IngestionChunks chunkForIngestion(
+            List<Block> blocks, IngestionSpec spec) {
+        var options = spec.indexing();
+        if (!options.advanced()) return new IngestionChunks(
+                chunk(blocks, spec.budget()), List.of());
+        List<Chunk> parents = new java.util.ArrayList<>();
+        List<Chunk> children = new java.util.ArrayList<>();
+        // Reuse the existing structure-aware dispatcher for parent section boundaries.
+        for (Chunk source : blockAwareChunkerDispatcher.dispatch(blocks, new ChunkBudget(options.parentMaxChars(), 0,
+                spec.budget().rowsPerChunk(), 1), true)) {
+            String body = TextSplitter.normalize(source.content());
+            if (body.lines().filter(line -> !line.isBlank()).allMatch(line -> line.strip().matches("#{1,6}\\s+.*")))
+                continue; // Ancestor-only headings remain in descendant outline metadata.
+
+            Chunk parent = ChunkAssembler.assemble(source.chunkId(), parents.size(), ChunkDraft.of(body,
+                    source.metadata().withExtras(java.util.Map.of("chunk_type", "PARENT"))));
+            parents.add(parent);
+            for (String text : TextSplitter.split(
+                    body, options.childMaxChars(), options.childOverlapChars())) {
+                children.add(ChunkAssembler.assemble(children.size(), ChunkDraft.of(text,
+                        source.metadata().withExtras(java.util.Map.of("chunk_type", "CHILD", "parent_id", parent.chunkId())))));
+            }
+        }
+        return new IngestionChunks(children, parents);
     }
 
     private List<Chunk> wholeDocument(List<Block> blocks) {

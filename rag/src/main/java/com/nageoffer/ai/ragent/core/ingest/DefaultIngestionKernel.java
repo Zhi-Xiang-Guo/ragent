@@ -17,6 +17,8 @@
 
 package com.nageoffer.ai.ragent.core.ingest;
 
+import com.nageoffer.ai.ragent.core.ingest.sink.ChunkWriteBatch;
+
 import com.nageoffer.ai.ragent.core.chunk.ChunkingService;
 import com.nageoffer.ai.ragent.core.chunk.model.Chunk;
 import com.nageoffer.ai.ragent.core.chunk.model.EmbeddedChunk;
@@ -89,7 +91,8 @@ public class DefaultIngestionKernel implements IngestionKernel {
 
         // ③ chunk：Block 类型 → chunker + 预算
         long chunkStart = System.currentTimeMillis();
-        List<Chunk> chunks = chunkingService.chunk(blocks, effectiveSpec.budget());
+        var chunkBatch = chunkingService.chunkForIngestion(blocks, effectiveSpec);
+        List<Chunk> chunks = chunkBatch.searchable();
         long chunkMillis = System.currentTimeMillis() - chunkStart;
 
         if (chunks.isEmpty()) {
@@ -103,7 +106,8 @@ public class DefaultIngestionKernel implements IngestionKernel {
 
         // ⑤ index：扇出到全部落点，事务边界在写入器内
         long indexStart = System.currentTimeMillis();
-        chunkIndexWriter.replaceDocument(target, doc, embedded);
+        chunkIndexWriter.replaceDocument(target, doc,
+                new ChunkWriteBatch(embedded, chunkBatch.parents()));
         long indexMillis = System.currentTimeMillis() - indexStart;
 
         return new IngestionOutcome(mimeType, parser.getParserType(), blocks.size(), chunks,

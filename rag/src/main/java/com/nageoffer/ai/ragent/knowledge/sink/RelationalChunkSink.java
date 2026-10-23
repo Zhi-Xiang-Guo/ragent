@@ -17,6 +17,11 @@
 
 package com.nageoffer.ai.ragent.knowledge.sink;
 
+import com.nageoffer.ai.ragent.core.chunk.model.Chunk;
+import com.nageoffer.ai.ragent.core.ingest.sink.ChunkWriteBatch;
+import com.nageoffer.ai.ragent.knowledge.dao.entity.KnowledgeDocumentDO;
+import com.nageoffer.ai.ragent.knowledge.dao.mapper.KnowledgeDocumentMapper;
+
 import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.nageoffer.ai.ragent.core.chunk.model.EmbeddedChunk;
@@ -51,16 +56,30 @@ public class RelationalChunkSink implements ChunkSink {
 
     private final KnowledgeChunkMapper chunkMapper;
     private final TokenCounterService tokenCounterService;
+    private final KnowledgeDocumentMapper documentMapper;
 
     @Override
     public void replaceDocument(VectorTarget target, DocumentRef doc, List<EmbeddedChunk> chunks) {
+        replaceDocument(target, doc, new ChunkWriteBatch(chunks, List.of()));
+    }
+
+    @Override
+    public void replaceDocument(VectorTarget target, DocumentRef doc,
+                                ChunkWriteBatch batch) {
+        var document = documentMapper.selectOne(new LambdaQueryWrapper<KnowledgeDocumentDO>()
+                .eq(KnowledgeDocumentDO::getId, doc.docId()).last("FOR UPDATE"));
+        if (document == null || !Integer.valueOf(1).equals(document.getEnabled())
+                || !doc.kbId().equals(document.getKbId()))
+            throw new IllegalStateException("Document was deleted, disabled or changed during ingestion");
+        List<Chunk> chunks = new ArrayList<>(batch.parents());
+        chunks.addAll(batch.searchable().stream().map(EmbeddedChunk::chunk).toList());
         deleteDocument(target, doc);
         if (chunks.isEmpty()) {
             return;
         }
         String username = UserContext.getUsername();
         List<KnowledgeChunkDO> rows = new ArrayList<>(chunks.size());
-        for (EmbeddedChunk chunk : chunks) {
+        for (Chunk chunk : chunks) {
             String content = chunk.content();
             rows.add(KnowledgeChunkDO.builder()
                     .id(chunk.chunkId())
@@ -71,7 +90,9 @@ public class RelationalChunkSink implements ChunkSink {
                     .contentHash(SecureUtil.sha256(content))
                     .charCount(content.length())
                     .tokenCount(StringUtils.hasText(content) ? tokenCounterService.countTokens(content) : 0)
-                    .embeddingText(chunk.embeddingText())
+                    .embeddingText("PARENT".equals(chunk.metadata().extras().get("chunk_type")) ? null : chunk.embeddingText())
+                    .chunkType((String) chunk.metadata().extras().getOrDefault("chunk_type", "STANDARD"))
+                    .parentId((String) chunk.metadata().extras().get("parent_id"))
                     .enabled(1)
                     .createdBy(username)
                     .updatedBy(username)

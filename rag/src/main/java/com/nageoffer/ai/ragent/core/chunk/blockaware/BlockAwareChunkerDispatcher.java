@@ -67,20 +67,30 @@ public class BlockAwareChunkerDispatcher {
      * 把 Block 列表切分为有序块，序号从 0 单调递增
      */
     public List<Chunk> dispatch(List<Block> blocks, ChunkBudget budget) {
+        return dispatch(blocks, budget, false);
+    }
+
+    public List<Chunk> dispatch(List<Block> blocks, ChunkBudget budget, boolean preserveSections) {
         if (blocks == null || blocks.isEmpty()) {
             return List.of();
         }
 
         HeadingHandler.Outline outline = HeadingHandler.Outline.EMPTY;
         List<ChunkDraft> drafts = new ArrayList<>();
+        List<ChunkDraft> packed = new ArrayList<>();
         for (Block block : blocks) {
             if (block instanceof HeadingBlock heading) {
+                if (preserveSections && !drafts.isEmpty()) {
+                    packed.addAll(chunkPacker.pack(drafts, budget));
+                    drafts.clear();
+                }
                 outline = headingHandler.update(outline, heading);
             }
             drafts.addAll(chunkOne(block, ChunkContext.of(outline.path(), budget)));
         }
 
-        return ChunkAssembler.assembleAll(chunkPacker.pack(drafts, budget));
+        packed.addAll(chunkPacker.pack(drafts, budget));
+        return ChunkAssembler.assembleAll(packed);
     }
 
     @SuppressWarnings("unchecked")

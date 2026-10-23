@@ -89,6 +89,12 @@ public class KnowledgeChunkDO {
      */
     private String embeddingText;
 
+    /** STANDARD for existing rows; advanced roles are branch-specific. */
+    @Builder.Default
+    private String chunkType = "STANDARD";
+    /** Same-document parent identity; null for STANDARD and PARENT rows. */
+    private String parentId;
+
     /**
      * 是否启用 0：禁用 1：启用
      */

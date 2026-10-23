@@ -26,6 +26,8 @@ import java.time.LocalDateTime;
  */
 @Data
 public class KnowledgeChunkVO {
+    private String chunkType;
+    private String parentId;
 
     /**
      * ID
